@@ -22,6 +22,7 @@ public class Main extends JPanel implements Runnable, KeyListener {
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
+		System.out.println(" ur muder");
 	}
 	public void paintComponent(Graphics g) {
 		for (int i = 0; i < winHeight; i += tileSize) {
