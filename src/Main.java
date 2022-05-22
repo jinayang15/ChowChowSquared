@@ -4,8 +4,10 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Main extends JPanel implements Runnable, KeyListener {
+	
 	public static int winWidth = 520;
 	public static int winHeight = 400;
+	// 13 x 10 tiles
 	public static int tileSize = 40;
 	public Main() {
 		setPreferredSize(new Dimension(winWidth,winHeight));
