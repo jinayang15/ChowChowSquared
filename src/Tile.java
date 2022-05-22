@@ -1,6 +1,6 @@
 import java.awt.Rectangle;
 
-public class Tiles extends Rectangle {
+public class Tile extends Rectangle {
 	// if solid = true, you cannot pass thru the block
 	// if solid = false, you can pass thru the block
 	private boolean solid = true;
