@@ -13,8 +13,6 @@ public class Tile extends Rectangle {
 	public void setSolidity(boolean solidity) {
 		this.solid = solidity;
 	}
-	public void block() {
-		
-	}
+
 	
 }
