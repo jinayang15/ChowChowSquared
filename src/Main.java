@@ -4,7 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Main extends JPanel implements Runnable, KeyListener {
-	
+
+	public static Character dog = new Character();
 	public static int winWidth = 520;
 	public static int winHeight = 400;
 	// 13 x 10 tiles
@@ -14,7 +15,7 @@ public class Main extends JPanel implements Runnable, KeyListener {
 	
 	public Main() {
 		setPreferredSize(new Dimension(winWidth,winHeight));
-		setBackground(new Color(50, 250, 250));
+		setBackground(new Color(255,255,255));;
 		this.setFocusable(true);
 		addKeyListener(this);
 		try {
@@ -38,12 +39,12 @@ public class Main extends JPanel implements Runnable, KeyListener {
 		
 		Tile tile1 = new Tile();
 		tileGrid[360/40][0/40] = tile1;
-		System.out.println(tileGrid[360/40][0/40].checkSolid());
 		
-		Character dog = new Character();
 		dog.setBounds(0, 320, Images.pHDog.getWidth(), Images.pHDog.getHeight());
 	}
 	public void paintComponent(Graphics g) {
+		
+		super.paintComponent(g);
 		for (int i = 0; i < winHeight; i += tileSize) {
 			g.drawLine(0, i, winWidth, i);
 		}
@@ -51,11 +52,13 @@ public class Main extends JPanel implements Runnable, KeyListener {
 			g.drawLine(i, 0, i, winHeight);
 		}
 		g.drawImage(Images.pHTile, 0, 360, null);
-		g.drawImage(Images.pHDog, 0, 320, null);
+		g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
 	}
 	@Override
 	public void run() {
 		while(true) {
+			repaint();
+			dog.update();
 			try {
 				Thread.sleep(42);
 			}
@@ -67,12 +70,30 @@ public class Main extends JPanel implements Runnable, KeyListener {
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+		if (e.getKeyChar() == ' ') {
+			if (!dog.isJumping()) {
+				dog.setJumping(true);
+				dog.translate(0, -120);
+			}
+		}
+		if (e.getKeyChar() == 'a') {
+			dog.setLeft(true);
+			dog.moveLeft();
+		}
+		if (e.getKeyChar() == 'd') {
+			dog.setRight(true);
+			dog.moveRight();
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		if (e.getKeyChar() == 'a') {
+			dog.setLeft(false);
+		}
+		if (e.getKeyChar() == 'd') {
+			dog.setRight(false);
+		}
 		
 	}
 	

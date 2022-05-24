@@ -14,5 +14,4 @@ public class Tile extends Rectangle {
 		this.solid = solidity;
 	}
 
-	
 }
