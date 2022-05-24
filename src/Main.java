@@ -69,8 +69,9 @@ public class Main extends JPanel implements Runnable, KeyListener {
 		
 	}
 	@Override
+	// basic key controls jump, left, right
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyChar() == ' ') {
+		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
 			if (!dog.isJumping()) {
 				dog.setJumping(true);
 				dog.translate(0, -120);

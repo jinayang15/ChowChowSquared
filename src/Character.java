@@ -16,18 +16,20 @@ public class Character extends Rectangle {
 	private static int terminalVelocity = 40;
 
 	// Class Methods
-
+	// updates character model
 	public void update() {
 		this.jump();
 		this.moveLeft();
 		this.moveRight();
 	}
-
+	
+	// movement is currently incomplete, have not considered tiles yet
+	// basic mechanics are down, maybe improve jump animation
 	// check if character is jumping
 	public boolean isJumping() {
 		return jump;
 	}
-
+	// set to jumping or not jumping
 	public void setJumping(boolean bool) {
 		jump = bool;
 	}
@@ -44,15 +46,14 @@ public class Character extends Rectangle {
 			}
 		}
 	}
-
+	// check if moving left
 	public boolean isLeft() {
 		return left;
 	}
-
+	// set moving left
 	public void setLeft(boolean bool) {
 		left = bool;
 	}
-
 	public void moveLeft() {
 		if (this.isLeft()) {
 			this.translate(-20, 0);
@@ -61,15 +62,13 @@ public class Character extends Rectangle {
 			}
 		}
 	}
-
+	// same as other two
 	public boolean isRight() {
 		return right;
 	}
-
 	public void setRight(boolean bool) {
 		right = bool;
 	}
-
 	public void moveRight() {
 		if (this.isRight()) {
 			this.translate(20, 0);
