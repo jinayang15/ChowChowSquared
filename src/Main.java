@@ -10,6 +10,7 @@ public class Main extends JPanel implements Runnable, KeyListener {
 	public static int winHeight = 400;
 	// 13 x 10 tiles
 	public static int tileSize = 40;
+	public static int fps = 30;
 	// keeps track of the tiles onscreen
 	public static Tile[][] tileGrid = new Tile[winHeight/tileSize][winWidth/tileSize];
 	
@@ -36,7 +37,9 @@ public class Main extends JPanel implements Runnable, KeyListener {
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
-		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
 		Tile tile1 = new Tile();
 		tileGrid[360/40][0/40] = tile1;
 		
@@ -60,7 +63,7 @@ public class Main extends JPanel implements Runnable, KeyListener {
 			repaint();
 			dog.update();
 			try {
-				Thread.sleep(42);
+				Thread.sleep(1000/fps);
 			}
 			catch (Exception e) {
 				

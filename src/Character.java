@@ -12,14 +12,14 @@ public class Character extends Rectangle {
 	// jump = true, character is jumping
 	// jump = false, character is not jumping
 	private static boolean jump = false;
-	// how high the character will jump and fall
-	private static int gravity = 60;
+	// how high the character will jump
+	private static int gravity = 40;
 	// direction determines whether the character is jumping up or falling down
 	// -1 max jump -> 1 max fall
 	private static double direction = -1;
 	// how fast the character will jump or fall
-	private static double jumpSpeed = 0.3;
-	private static double fallSpeed = 0.1;
+	private static double jumpSpeed = 0.2;
+	private static double fallSpeed = 0.05;
 	
 
 	// Class Methods
