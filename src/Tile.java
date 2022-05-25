@@ -10,9 +10,8 @@ public class Tile extends Rectangle {
 		return this.solid;
 	}
 	// set Tile to solid or not solid with boolean
-	public void setSolidity(boolean solidity) {
+	public void setSolid(boolean solidity) {
 		this.solid = solidity;
 	}
 
-	
 }
