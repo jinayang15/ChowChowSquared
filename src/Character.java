@@ -86,6 +86,10 @@ public class Character extends Rectangle {
 	public void moveRight() {
 		if (this.isRight()) {
 			this.translate(moveX, 0);
+			// background scrolls right only
+			if (Main.bgX > -(Main.levelWidth - Main.winWidth)) {
+				Main.bgX -= moveX;
+			}
 			if (this.getX() >= Main.winWidth - Main.tileSize) {
 				this.setLocation(Main.winWidth - Main.tileSize, (int) this.getY());
 			}
