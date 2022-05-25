@@ -6,14 +6,20 @@ public class Character extends Rectangle {
 	// Class Variables
 	private static boolean left = false;
 	private static boolean right = false;
+	private static int moveX = 10;
+	
 	// jump = true, character is jumping
 	// jump = false, character is not jumping
 	private static boolean jump = false;
 	// how many pixels the character will move down
 	// in the air
-	private static int gravity = 1;
-	// max value gravity can be
-	private static int terminalVelocity = 40;
+	private static int gravity = 60;
+	// -1 for up
+	// 1 for down
+	private static double direction = -1;
+	private static double jumpSpeed = 0.3;
+	private static double fallSpeed = 0.1;
+	
 
 	// Class Methods
 	// updates character model
@@ -36,11 +42,16 @@ public class Character extends Rectangle {
 
 	// change the character's y to simulate a jump
 	public void jump() {
-		if (isJumping()) {
-			this.translate(0, gravity);
-			gravity += 2;
+		if (isJumping()) {		
+			this.translate(0, (int) (gravity*direction));
+			if(direction < 0) {
+				direction += jumpSpeed;
+			}
+			else {
+				direction += fallSpeed;
+			}
 			if (this.getY() >= 360) {
-				gravity = 1;
+				direction = -1;
 				setJumping(false);
 				this.setLocation((int) this.getX(), 360);
 			}
@@ -56,7 +67,7 @@ public class Character extends Rectangle {
 	}
 	public void moveLeft() {
 		if (this.isLeft()) {
-			this.translate(-20, 0);
+			this.translate(-moveX, 0);
 			if (this.getX() <= 0) {
 				this.setLocation(0, (int) this.getY());
 			}
@@ -71,7 +82,7 @@ public class Character extends Rectangle {
 	}
 	public void moveRight() {
 		if (this.isRight()) {
-			this.translate(20, 0);
+			this.translate(moveX, 0);
 			if (this.getX() >= 480) {
 				this.setLocation(480, (int) this.getY());
 			}

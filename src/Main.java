@@ -74,7 +74,6 @@ public class Main extends JPanel implements Runnable, KeyListener {
 		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
 			if (!dog.isJumping()) {
 				dog.setJumping(true);
-				dog.translate(0, -120);
 			}
 		}
 		if (e.getKeyChar() == 'a') {
