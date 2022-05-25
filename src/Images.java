@@ -10,8 +10,10 @@ public class Images {
 	
 	public static BufferedImage pHDog;
 	public static BufferedImage pHTile;
+	public static BufferedImage pHBG;
 	public static void importImage() throws IOException {
 		pHTile = ImageIO.read(new File("dirt1.png"));
 		pHDog = ImageIO.read(new File("pHChar.png"));
+		pHBG = ImageIO.read(new File("scrollBackground.png"));
 	}
 }

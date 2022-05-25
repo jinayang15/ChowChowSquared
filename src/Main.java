@@ -13,7 +13,7 @@ public class Main extends JPanel implements Runnable, KeyListener {
 	public static int fps = 30;
 	// keeps track of the tiles onscreen
 	public static Tile[][] tileGrid = new Tile[winHeight/tileSize][winWidth/tileSize];
-	
+	public static Tile[][] levelTileGrid = new Tile[100][100];
 	public Main() {
 		setPreferredSize(new Dimension(winWidth,winHeight));
 		setBackground(new Color(255,255,255));;
@@ -54,6 +54,7 @@ public class Main extends JPanel implements Runnable, KeyListener {
 		for (int i = 0; i < winWidth; i += tileSize) {
 			g.drawLine(i, 0, i, winHeight);
 		}
+		g.drawImage(Images.pHBG, 0, -400, null);
 		g.drawImage(Images.pHTile, 0, 360, null);
 		g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
 	}
