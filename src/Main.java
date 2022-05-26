@@ -51,7 +51,7 @@ public class Main extends JPanel implements Runnable, KeyListener {
 			g.drawLine(i, 0, i, winHeight);
 		}
 		g.drawImage(Images.pHBG, bgX, bgY, null);
-		g.drawImage(Images.pHTile, 0, 360, null);
+		GameFunctions.drawTiles(g);
 		g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
 	}
 	@Override
@@ -110,7 +110,7 @@ public class Main extends JPanel implements Runnable, KeyListener {
 		
 		currentLvl = "testerLvl.txt";
 		in = new Scanner(new File(currentLvl));
-		GameFunctions.loadGrid();
+		GameFunctions.loadGrid(in);
 		dog.setBounds(0, 320, Images.pHDog.getWidth(), Images.pHDog.getHeight());
 	}
 	
