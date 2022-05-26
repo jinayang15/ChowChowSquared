@@ -1,17 +1,18 @@
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.awt.*;
 import javax.swing.*;
 
-public class Main extends JPanel implements Runnable, KeyListener {
+public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
 
 	public static final Character dog = new Character();
 	public static final int levelWidth = 6760;
 	public static int bgX = 0;
 	public static int bgY = -400;
+	public static int mouseX;
+	public static int mouseY;
 	public static int screenNum = 1;
 	public static final int winWidth = 520;
 	public static final int winHeight = 400;
@@ -22,12 +23,18 @@ public class Main extends JPanel implements Runnable, KeyListener {
 	public static int[][] levelGrid = new int[winHeight/tileSize][winWidth/tileSize];
 	public static String currentLvl;
 	public static Scanner in;
+	// Game states:
+	// 0  --> menu
+	// 1  --> level select
+	// 2  --> in game?
+	public static int gameState = 0;
 	
 	public Main() {
 		setPreferredSize(new Dimension(winWidth,winHeight));
 		setBackground(new Color(255,255,255));;
 		this.setFocusable(true);
 		addKeyListener(this);
+		addMouseListener(this);
 		try {
 			// imports all images
 			Images.importImage();
@@ -42,17 +49,26 @@ public class Main extends JPanel implements Runnable, KeyListener {
 	}
 	
 	public void paintComponent(Graphics g) {
-		
-		super.paintComponent(g);
-		for (int i = 0; i < winHeight; i += tileSize) {
-			g.drawLine(0, i, winWidth, i);
+		if (gameState == 0) {
+			super.paintComponent(g);
+			g.drawImage(Images.menu, 0, 0, null);
+
 		}
-		for (int i = 0; i < winWidth; i += tileSize) {
-			g.drawLine(i, 0, i, winHeight);
+		else if(gameState == 1) {
+			
 		}
-		g.drawImage(Images.pHBG, bgX, bgY, null);
-		g.drawImage(Images.pHTile, 0, 360, null);
-		g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
+		else if (gameState == 2) {
+			super.paintComponent(g);
+			for (int i = 0; i < winHeight; i += tileSize) {
+				g.drawLine(0, i, winWidth, i);
+			}
+			for (int i = 0; i < winWidth; i += tileSize) {
+				g.drawLine(i, 0, i, winHeight);
+			}
+			g.drawImage(Images.pHBG, bgX, bgY, null);
+			g.drawImage(Images.pHTile, 0, 360, null);
+			g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
+		}
 	}
 	@Override
 	public void run() {
@@ -66,7 +82,6 @@ public class Main extends JPanel implements Runnable, KeyListener {
 				
 			}
 		}
-		
 	}
 	
 	@Override
@@ -98,6 +113,18 @@ public class Main extends JPanel implements Runnable, KeyListener {
 		
 	}
 	
+	@Override
+	public void mousePressed(MouseEvent e) {
+		mouseX = e.getX();
+		mouseY = e.getY();
+		if (gameState == 0) {
+			if (mouseX >= 187 && mouseX <=323 && mouseY >= 160 && mouseY <=207)
+			{
+				gameState = 2;
+			}
+		}
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException {
 		JFrame frame = new JFrame();
 		Main panel = new Main();
@@ -117,6 +144,30 @@ public class Main extends JPanel implements Runnable, KeyListener {
 	// unused
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

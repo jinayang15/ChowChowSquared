@@ -11,7 +11,7 @@ public class GameFunctions {
 	}
 	public static void loadGrid() {
 		for (int i = 0; i < Main.winHeight/Main.tileSize; i++) {
-			String[] temp = Main.in.nextLine().split("");
+			String[] temp = Main.in.nextLine().split(" ");
 			int[] input = strArrtoIntArr(temp);
 			for (int j = 0; j < input.length; j++) {
 				Main.levelGrid[i][j] = input[j];
