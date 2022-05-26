@@ -95,4 +95,12 @@ public class Character extends Rectangle {
 			}
 		}
 	}
+	public boolean checkBelow() {
+		int tileX = (int) this.getX()/Main.tileSize;
+		int tileY= (int) this.getY()/Main.tileSize;
+		if (tileY + 1 < 10){
+			return (Main.levelGrid[tileY+1][tileX] == 1)? true: false;
+		}
+		return true;
+	}
 }

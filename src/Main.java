@@ -57,6 +57,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		else if(gameState == 1) {
 			
 		}
+<<<<<<< HEAD
 		else if (gameState == 2) {
 			super.paintComponent(g);
 			for (int i = 0; i < winHeight; i += tileSize) {
@@ -69,6 +70,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.pHTile, 0, 360, null);
 			g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
 		}
+=======
+		g.drawImage(Images.pHBG, bgX, bgY, null);
+		GameFunctions.drawTiles(g);
+		g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
+>>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
 	}
 	@Override
 	public void run() {
@@ -137,7 +143,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		
 		currentLvl = "testerLvl.txt";
 		in = new Scanner(new File(currentLvl));
-		GameFunctions.loadGrid();
+		GameFunctions.loadGrid(in);
 		dog.setBounds(0, 320, Images.pHDog.getWidth(), Images.pHDog.getHeight());
 	}
 	
