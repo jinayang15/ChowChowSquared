@@ -1,5 +1,8 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.awt.*;
 import javax.swing.*;
 
@@ -16,7 +19,9 @@ public class Main extends JPanel implements Runnable, KeyListener {
 	public static final int tileSize = 40;
 	public static final int fps = 30;
 	// keeps track of the tiles onscreen
-	public static int[][] levelTileGrid = new int[levelWidth/tileSize][winHeight/tileSize];
+	public static int[][] levelGrid = new int[winHeight/tileSize][winWidth/tileSize];
+	public static String currentLvl;
+	public static Scanner in;
 	
 	public Main() {
 		setPreferredSize(new Dimension(winWidth,winHeight));
@@ -93,7 +98,7 @@ public class Main extends JPanel implements Runnable, KeyListener {
 		
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		JFrame frame = new JFrame();
 		Main panel = new Main();
 		frame.add(panel);
@@ -103,6 +108,9 @@ public class Main extends JPanel implements Runnable, KeyListener {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		
+		currentLvl = "testerLvl.txt";
+		in = new Scanner(new File(currentLvl));
+		GameFunctions.loadGrid();
 		dog.setBounds(0, 320, Images.pHDog.getWidth(), Images.pHDog.getHeight());
 	}
 	
