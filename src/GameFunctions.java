@@ -12,11 +12,7 @@ public class GameFunctions {
 	}
 	public static void loadGrid(Scanner sc) {
 		for (int i = 0; i < Main.winHeight/Main.tileSize; i++) {
-<<<<<<< HEAD
 			String[] temp = Main.in.nextLine().split(" ");
-=======
-			String[] temp = sc.nextLine().split(" ");
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
 			int[] input = strArrtoIntArr(temp);
 			for (int j = 0; j < input.length; j++) {
 				Main.levelGrid[i][j] = input[j];
@@ -32,7 +28,7 @@ public class GameFunctions {
 				if (Main.levelGrid[i][j] == 1) {
 					image = Images.pHTile;
 				}
-				if (Main.levelGrid[i][j] == 2) {
+				else if (Main.levelGrid[i][j] == 2) {
 					image = Images.grassTiles[(int) Math.random()*Images.grassTiles.length];
 				}
 				g.drawImage(image, j*Main.tileSize, i*Main.tileSize, null);
