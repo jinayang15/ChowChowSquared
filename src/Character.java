@@ -19,8 +19,8 @@ public class Character extends Rectangle {
 	// -1 max jump -> 1 max fall
 	private static double direction = 0;
 	// how fast the character will jump or fall
-	private static double jumpSpeed = 0.2;
-	private static double fallSpeed = 0.1;
+	private static double jumpSpeed = 0.1;
+	private static double fallSpeed = 0.05;
 
 	// Class Methods
 	// will add comments for the changes later
@@ -41,6 +41,7 @@ public class Character extends Rectangle {
 		this.moveRight();
 		this.refreshTile();
 		this.fixPosition();
+		this.refreshTile();
 	}
 
 	// basic mechanics are down
@@ -54,15 +55,16 @@ public class Character extends Rectangle {
 	}
 
 	public void fall() {
-		if (!checkBelow()) {
+		if (checkBelow() && !isJumping()) {
+			this.setLocation((int) this.getX(), tileY * Main.tileSize);
+			direction = 0;
+		}
+		else if (!checkBelow()) {
 			this.translate(0, (int) (gravity * direction));
 			if (direction < 1) {
 				direction += fallSpeed;
 			}
-		} else if (checkBelow() && !isJumping()) {
-			this.setLocation((int) this.getX(), tileY * Main.tileSize);
-			direction = 0;
-		}
+		} 
 	}
 
 	// check if character is jumping
@@ -78,8 +80,13 @@ public class Character extends Rectangle {
 	// change the character's y to simulate a jump
 	public void jump() {
 		if (isJumping() && direction < 0) {
-			this.translate(0, (int) (gravity * direction));
-			direction += jumpSpeed;
+			if (checkAbove()) {
+				this.setLocation((int) this.getX(), tileY*Main.tileSize);
+				direction = 0;
+			} else {
+				this.translate(0, (int) (gravity * direction));
+				direction += jumpSpeed;
+			}
 		} else {
 			setJumping(false);
 		}
@@ -123,7 +130,7 @@ public class Character extends Rectangle {
 				if (Main.bgX > -(Main.levelWidth - Main.winWidth)
 						&& this.getX() >= Main.winWidth / 2 - Main.tileSize / 2) {
 					Main.bgX -= moveX;
-					this.setLocation(Main.winWidth / 2 - Main.tileSize / 2, (int) this.getY());
+					// this.setLocation(Main.winWidth / 2 - Main.tileSize / 2, (int) this.getY());
 				}
 			}
 		}
@@ -134,12 +141,27 @@ public class Character extends Rectangle {
 	// true if at the bottom of frame
 	// false if there is no block
 	public void fixPosition() {
-		if (checkRight()) {
+		if (checkAbove() && isJumping()) {
+			this.setLocation((int) this.getX(), tileY*Main.tileSize);
+			direction = 0;
+		}
+		if (checkBelow() && !isJumping()) {
+			this.setLocation((int) this.getX(), tileY * Main.tileSize);
+			direction = 0;
+		}
+		if (checkRight() && !isLeft()) {
 			this.setLocation(tileX * Main.tileSize, (int) this.getY());
 		}
-		if (checkLeft()) {
+		if (checkLeft() && !isRight()) {
 			this.setLocation(tileX * Main.tileSize, (int) this.getY());
 		}
+	}
+
+	public boolean checkAbove() {
+		if (tileY - 1 >= 0) {
+			return (Main.levelGrid[tileY - 1][tileX] == 1) ? true : false;
+		}
+		return true;
 	}
 
 	public boolean checkBelow() {
