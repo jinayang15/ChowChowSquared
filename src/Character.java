@@ -38,6 +38,7 @@ public class Character extends Rectangle {
 		this.moveLeft();
 		this.refreshTile();
 		this.moveRight();
+		this.refreshTile();
 	}
 
 	// movement is currently incomplete, have not considered tiles yet
