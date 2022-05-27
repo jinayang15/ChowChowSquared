@@ -28,6 +28,7 @@ public class Character extends Rectangle {
 		tileX = (int) (this.getX() + Main.tileSize / 2) / Main.tileSize;
 		tileY = (int) (this.getY() + Main.tileSize / 2) / Main.tileSize;
 	}
+
 	// updates character model
 	public void update() {
 		this.refreshTile();
@@ -39,10 +40,11 @@ public class Character extends Rectangle {
 		this.refreshTile();
 		this.moveRight();
 		this.refreshTile();
+		this.fixPosition();
 	}
 
-	// movement is currently incomplete, have not considered tiles yet
 	// basic mechanics are down
+
 	public double getDirection() {
 		return direction;
 	}
@@ -57,8 +59,7 @@ public class Character extends Rectangle {
 			if (direction < 1) {
 				direction += fallSpeed;
 			}
-		}
-		else if (checkBelow() && !isJumping()) {
+		} else if (checkBelow() && !isJumping()) {
 			this.setLocation((int) this.getX(), tileY * Main.tileSize);
 			direction = 0;
 		}
@@ -119,9 +120,10 @@ public class Character extends Rectangle {
 				this.setLocation(tileX * Main.tileSize, (int) this.getY());
 			} else {
 				this.translate(moveX, 0);
-				// background scrolls right only
-				if (Main.bgX > -(Main.levelWidth - Main.winWidth) && this.getX() >= Main.winWidth - Main.tileSize * 7) {
+				if (Main.bgX > -(Main.levelWidth - Main.winWidth)
+						&& this.getX() >= Main.winWidth / 2 - Main.tileSize / 2) {
 					Main.bgX -= moveX;
+					this.setLocation(Main.winWidth / 2 - Main.tileSize / 2, (int) this.getY());
 				}
 			}
 		}
@@ -131,7 +133,15 @@ public class Character extends Rectangle {
 	// true if there is block
 	// true if at the bottom of frame
 	// false if there is no block
-	
+	public void fixPosition() {
+		if (checkRight()) {
+			this.setLocation(tileX * Main.tileSize, (int) this.getY());
+		}
+		if (checkLeft()) {
+			this.setLocation(tileX * Main.tileSize, (int) this.getY());
+		}
+	}
+
 	public boolean checkBelow() {
 		if (tileY + 1 < Main.tileHeight) {
 			return (Main.levelGrid[tileY + 1][tileX] == 1) ? true : false;

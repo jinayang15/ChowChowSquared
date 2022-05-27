@@ -35,4 +35,7 @@ public class GameFunctions {
 			}
 		}
 	}	
+	public static void sideScroll(double charX, int moveX) {
+		
+	}
 }
