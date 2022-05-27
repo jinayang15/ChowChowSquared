@@ -22,8 +22,8 @@ public class GameFunctions {
 	}
 	public static void drawTiles(Graphics g) {
 		BufferedImage image;
-		for (int i = 0; i < Main.levelGrid.length; i++) {
-			for (int j = 0; j < Main.levelGrid[0].length; j++) {
+		for (int i = 0; i < Main.tileHeight; i++) {
+			for (int j = 0; j < Main.tileWidth; j++) {
 				image = null;
 				if (Main.levelGrid[i][j] == 1) {
 					image = Images.pHTile;

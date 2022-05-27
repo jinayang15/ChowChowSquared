@@ -18,9 +18,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static final int winHeight = 400;
 	// 13 x 10 tiles
 	public static final int tileSize = 40;
+	public static final int tileWidth = winWidth/tileSize;
+	public static final int tileHeight = winHeight/tileSize;
 	public static final int fps = 30;
 	// keeps track of the tiles onscreen
-	public static int[][] levelGrid = new int[winHeight/tileSize][winWidth/tileSize];
+	public static int[][] levelGrid = new int[tileHeight][tileWidth];
 	public static String currentLvl;
 	public static Scanner in;
 	// Game states:
@@ -59,14 +61,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 		else if (gameState == 2) {
 			super.paintComponent(g);
+			
+			g.drawImage(Images.pHBG, bgX, bgY, null);
+			GameFunctions.drawTiles(g);
 			for (int i = 0; i < winHeight; i += tileSize) {
 				g.drawLine(0, i, winWidth, i);
 			}
 			for (int i = 0; i < winWidth; i += tileSize) {
 				g.drawLine(i, 0, i, winHeight);
 			}
-			g.drawImage(Images.pHBG, bgX, bgY, null);
-			GameFunctions.drawTiles(g);
 			g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
 		}
 		
@@ -75,7 +78,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public void run() {
 		while(true) {
 			repaint();
-			dog.update();
+			if (gameState == 2) {
+				dog.update();
+			}
 			try {
 				Thread.sleep(1000/fps);
 			}
@@ -89,8 +94,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// basic key controls jump, left, right
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
-			if (!dog.isJumping()) {
+			if (!dog.isJumping() && dog.checkBelow()) {
 				dog.setJumping(true);
+				dog.setDirection(-1);
 			}
 		}
 		if (e.getKeyChar() == 'a') {
@@ -139,7 +145,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		currentLvl = "testerLvl.txt";
 		in = new Scanner(new File(currentLvl));
 		GameFunctions.loadGrid(in);
-		dog.setBounds(0, 320, Images.pHDog.getWidth(), Images.pHDog.getHeight());
+		dog.setBounds(0, 0, Images.pHDog.getWidth(), Images.pHDog.getHeight());
 	}
 	
 	// unused

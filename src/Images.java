@@ -7,8 +7,8 @@ public class Images {
 	public static final BufferedImage[] dogSprites = new BufferedImage[5];
 	public static final BufferedImage[] dirtTiles = new BufferedImage[5];
 	public static final BufferedImage[] grassTiles = new BufferedImage[2];
-	
 	public static BufferedImage menu;
+	
 	public static BufferedImage pHDog;
 	public static BufferedImage pHTile;
 	public static BufferedImage pHBG;
