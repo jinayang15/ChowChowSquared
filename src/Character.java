@@ -23,15 +23,19 @@ public class Character extends Rectangle {
 	private static double fallSpeed = 0.1;
 
 	// Class Methods
-	// updates character model
-	public void update() {
+	public void refreshTile() {
 		tileX = (int) (this.getX() + Main.tileSize / 2) / Main.tileSize;
 		tileY = (int) (this.getY() + Main.tileSize / 2) / Main.tileSize;
-		System.out.println("Tile: " + tileX + " " + tileY);
-		System.out.println("Coords: " + this.getX() + " " + this.getY());
+	}
+	// updates character model
+	public void update() {
+		this.refreshTile();
 		this.fall();
+		this.refreshTile();
 		this.jump();
+		this.refreshTile();
 		this.moveLeft();
+		this.refreshTile();
 		this.moveRight();
 	}
 
@@ -51,7 +55,8 @@ public class Character extends Rectangle {
 			if (direction < 1) {
 				direction += fallSpeed;
 			}
-		} else if (checkBelow() && !isJumping()) {
+		}
+		else if (checkBelow() && !isJumping()) {
 			this.setLocation((int) this.getX(), tileY * Main.tileSize);
 			direction = 0;
 		}
@@ -124,6 +129,7 @@ public class Character extends Rectangle {
 	// true if there is block
 	// true if at the bottom of frame
 	// false if there is no block
+	
 	public boolean checkBelow() {
 		if (tileY + 1 < Main.tileHeight) {
 			return (Main.levelGrid[tileY + 1][tileX] == 1) ? true : false;
