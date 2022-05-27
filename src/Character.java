@@ -23,6 +23,7 @@ public class Character extends Rectangle {
 	private static double fallSpeed = 0.1;
 
 	// Class Methods
+	// will add comments for the changes later
 	public void refreshTile() {
 		tileX = (int) (this.getX() + Main.tileSize / 2) / Main.tileSize;
 		tileY = (int) (this.getY() + Main.tileSize / 2) / Main.tileSize;
