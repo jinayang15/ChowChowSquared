@@ -72,7 +72,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 			g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
 		}
-		
+		 
 	}
 	@Override
 	public void run() {
@@ -97,6 +97,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			if (!dog.isJumping() && dog.checkBelow()) {
 				dog.setJumping(true);
 				dog.setDirection(-1);
+				
 			}
 		}
 		if (e.getKeyChar() == 'a') {
@@ -149,34 +150,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	}
 	
 	// unused
-	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
-
-	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void mouseReleased(MouseEvent e) {	
 	}
-
-	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
-
-	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -4,10 +4,12 @@ import java.io.File;
 import java.io.IOException;
 public class Images {
 	// anything starting with "pH" is a placeholder, not final
-	public static final BufferedImage[] rightWalkDog1 = new BufferedImage[6];
+	public static final BufferedImage[] rightRunDog1 = new BufferedImage[3];
+	public static final BufferedImage[] rightWalkDog1 = new BufferedImage[3];
 	public static final BufferedImage[] rightJumpDog1 = new BufferedImage[4];
 	public static final BufferedImage[] rightIdleDog1 = new BufferedImage[9];
-	public static final BufferedImage[] lefttWalkDog1 = new BufferedImage[6];
+	public static final BufferedImage[] leftRunDog1 = new BufferedImage[3];
+	public static final BufferedImage[] lefttWalkDog1 = new BufferedImage[3];
 	public static final BufferedImage[] leftJumpDog1 = new BufferedImage[4];
 	public static final BufferedImage[] leftIdleDog1 = new BufferedImage[9];
 	public static final BufferedImage[] dirtTiles = new BufferedImage[5];
