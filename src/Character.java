@@ -180,7 +180,7 @@ public class Character extends Rectangle {
 		return true;
 	}
 
-	// tells me whether the character has crossed into another block above it
+	// tells me whether the character has crossed into block above it
 	public boolean checkTileCollisionAbove() {
 		if (checkBlockAbove()) {
 			return this.getY() < tileY * Main.tileSize;
@@ -188,17 +188,14 @@ public class Character extends Rectangle {
 		return this.getY() < 0;
 	}
 
-	// depending on the int returned, tells me if there is a block below and
-	// the height of the top of the block or tells me there is no block
-	// -1 = no block
-	// 0 -> winHeight = block
+	// checks for block below character
 	public boolean checkBlockBelow() {
 		if (tileY + 1 < Main.tileHeight) {
 			return (Main.levelGrid[tileY + 1][tileX] == 1);
 		}
 		return true;
 	}
-
+	// checks whether the character has crossed into block below it 
 	public boolean checkTileCollisionBelow() {
 		if (checkBlockBelow()) {
 			return this.getY() > tileY * Main.tileSize;
@@ -206,7 +203,7 @@ public class Character extends Rectangle {
 		return this.getY() > Main.winHeight;
 	}
 
-	// same idea
+	// checks whether there is a block to the characters right
 	public boolean checkBlockRight() {
 		if (tileX + 1 < Main.tileWidth) {
 			return Main.levelGrid[tileY][tileX + 1] == 1;
@@ -214,20 +211,21 @@ public class Character extends Rectangle {
 		return true;
 	}
 
+	// checks whether the character has crossed into block to its right
 	public boolean checkTileCollisionRight() {
 		if (checkBlockRight()) {
 			return this.getX() > tileX * Main.tileSize;
 		}
 		return this.getX() > Main.winWidth;
 	}
-
+	// checks whether there is a block to the characters left
 	public boolean checkBlockLeft() {
 		if (tileX - 1 >= 0) {
 			return Main.levelGrid[tileY][tileX - 1] == 1;
 		}
 		return true;
 	}
-
+	// checks whether the character has crossed into block to its left
 	public boolean checkTileCollisionLeft() {
 		if (checkBlockLeft()) {
 			return this.getX() < tileX * Main.tileSize;
