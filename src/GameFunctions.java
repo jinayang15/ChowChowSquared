@@ -22,20 +22,32 @@ public class GameFunctions {
 	}
 	public static void drawTiles(Graphics g) {
 		BufferedImage image;
+		int start;
+		int end;
 		for (int i = 0; i < Main.tileHeight; i++) {
-			for (int j = 0; j < Main.tileWidth; j++) {
+			if (Math.abs(Main.bgX/Main.tileSize) == 0) {
+				start = 0;
+			}
+			else {
+				start = Math.abs(Main.bgX/Main.tileSize) - 1;
+			}
+			if (start + Main.tileWidth + 2>= Main.levelTileWidth) {
+				end = Main.levelTileWidth;
+			}
+			else {
+				end = start + Main.tileWidth + 2;
+			}
+			for (int j = start; j < end; j++) {
 				image = null;
+				Main.currentGrid[i][j-start] = Main.levelGrid[i][j];
 				if (Main.levelGrid[i][j] == 1) {
 					image = Images.pHTile;
 				}
 				else if (Main.levelGrid[i][j] == 2) {
 					image = Images.grassTiles[(int) Math.random()*Images.grassTiles.length];
 				}
-				g.drawImage(image, j*Main.tileSize, i*Main.tileSize, null);
+				g.drawImage(image, (j-start)*Main.tileSize - Math.abs(Main.bgX)%Main.tileSize, i*Main.tileSize, null);
 			}
 		}
 	}	
-	public static void sideScroll(double charX, int moveX) {
-		
-	}
 }
