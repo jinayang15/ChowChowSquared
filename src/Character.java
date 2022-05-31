@@ -8,7 +8,7 @@ public class Character extends Rectangle {
 	private static boolean left = false;
 	private static boolean right = false;
 	// pixels moved left and right
-	private static int moveX = 10;
+	private static int moveX = 40;
 
 	// jump = true, character is jumping
 	// jump = false, character is not jumping
