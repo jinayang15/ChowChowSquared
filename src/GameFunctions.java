@@ -25,11 +25,11 @@ public class GameFunctions {
 		int start;
 		int end;
 		for (int i = 0; i < Main.tileHeight; i++) {
-			if ((-1*Main.bgX)/Main.tileSize == 0) {
+			if (Math.abs(Main.bgX/Main.tileSize) == 0) {
 				start = 0;
 			}
 			else {
-				start = (-1*Main.bgX)/Main.tileSize - 1;
+				start = Math.abs(Main.bgX/Main.tileSize) - 1;
 			}
 			if (start + Main.tileWidth + 2>= Main.levelTileWidth) {
 				end = Main.levelTileWidth;
@@ -46,7 +46,7 @@ public class GameFunctions {
 				else if (Main.levelGrid[i][j] == 2) {
 					image = Images.grassTiles[(int) Math.random()*Images.grassTiles.length];
 				}
-				g.drawImage(image, (j-start)*Main.tileSize, i*Main.tileSize, null);
+				g.drawImage(image, (j-start)*Main.tileSize - Math.abs(Main.bgX)%Main.tileSize, i*Main.tileSize, null);
 			}
 		}
 	}	

@@ -149,6 +149,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		in = new Scanner(new File(currentLvl));
 		GameFunctions.loadGrid(in);
 		dog.setBounds(0, 0, Images.pHDog.getWidth(), Images.pHDog.getHeight());
+		in.close();
 	}
 	
 	// unused
