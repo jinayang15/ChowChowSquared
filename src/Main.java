@@ -13,16 +13,17 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static int bgY = -400;
 	public static int mouseX;
 	public static int mouseY;
-	public static int screenNum = 1;
 	public static final int winWidth = 520;
 	public static final int winHeight = 400;
 	// 13 x 10 tiles
 	public static final int tileSize = 40;
 	public static final int tileWidth = winWidth/tileSize;
 	public static final int tileHeight = winHeight/tileSize;
+	public static final int levelTileWidth = levelWidth/tileSize;
 	public static final int fps = 30;
 	// keeps track of the tiles onscreen
-	public static int[][] levelGrid = new int[tileHeight][tileWidth];
+	public static int[][] levelGrid = new int[tileHeight][levelTileWidth];
+	public static int[][] currentGrid = new int[tileHeight][tileWidth+2];
 	public static String currentLvl;
 	public static Scanner in;
 	// Game states:
@@ -63,14 +64,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			super.paintComponent(g);
 			
 			g.drawImage(Images.pHBG, bgX, bgY, null);
-			GameFunctions.drawTiles(g);
 			for (int i = 0; i < winHeight; i += tileSize) {
 				g.drawLine(0, i, winWidth, i);
 			}
 			for (int i = 0; i < winWidth; i += tileSize) {
 				g.drawLine(i, 0, i, winHeight);
 			}
+			GameFunctions.drawTiles(g);
 			g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
+			//System.out.println(bgX);
 		}
 		 
 	}
@@ -143,7 +145,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		
-		currentLvl = "testerLvl1.txt";
+		currentLvl = "testerLvl.txt";
 		in = new Scanner(new File(currentLvl));
 		GameFunctions.loadGrid(in);
 		dog.setBounds(0, 0, Images.pHDog.getWidth(), Images.pHDog.getHeight());

@@ -147,9 +147,9 @@ public class Character extends Rectangle {
 				// - if it is not the last screen
 				// - if it is gonna move past the middle of the screen
 				// keeps the character in the middle of the screen until the last screen
-				if (Main.bgX > -(Main.levelWidth - Main.winWidth) && this.getX() >= Main.winWidth / 2) {
+				if (Main.bgX > -(Main.levelWidth - Main.winWidth) && this.getX() >= Main.winWidth / 2 - Main.tileSize/2) {
 					Main.bgX -= moveX;
-					this.setLocation(Main.winWidth / 2, (int) this.getY());
+					this.setLocation(Main.winWidth / 2 - Main.tileSize/2, (int) this.getY());
 				}
 			}
 		}
@@ -175,7 +175,7 @@ public class Character extends Rectangle {
 	// checks for block above it or the ceiling
 	public boolean checkBlockAbove() {
 		if (tileY - 1 >= 0) {
-			return (Main.levelGrid[tileY - 1][tileX] == 1);
+			return (Main.currentGrid[tileY - 1][tileX] == 1);
 		}
 		return true;
 	}
@@ -191,7 +191,7 @@ public class Character extends Rectangle {
 	// checks for block below character
 	public boolean checkBlockBelow() {
 		if (tileY + 1 < Main.tileHeight) {
-			return (Main.levelGrid[tileY + 1][tileX] == 1);
+			return (Main.currentGrid[tileY + 1][tileX] == 1);
 		}
 		return true;
 	}
@@ -206,7 +206,7 @@ public class Character extends Rectangle {
 	// checks whether there is a block to the characters right
 	public boolean checkBlockRight() {
 		if (tileX + 1 < Main.tileWidth) {
-			return Main.levelGrid[tileY][tileX + 1] == 1;
+			return Main.currentGrid[tileY][tileX + 1] == 1;
 		}
 		return true;
 	}
@@ -221,7 +221,7 @@ public class Character extends Rectangle {
 	// checks whether there is a block to the characters left
 	public boolean checkBlockLeft() {
 		if (tileX - 1 >= 0) {
-			return Main.levelGrid[tileY][tileX - 1] == 1;
+			return Main.currentGrid[tileY][tileX - 1] == 1;
 		}
 		return true;
 	}
