@@ -29,7 +29,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// Game states:
 	// 0  --> menu
 	// 1  --> level select
-	// 2  --> in game?
+	// 2  --> tutorial
+	// 3  --> lvl 1
+	// 4  --> lvl 2
+	// 5  --> boss
+	// 6  --> options
+	// 8  --> winners
 	public static int gameState = 0;
 	
 	public Main() {
@@ -58,7 +63,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 		}
 		else if(gameState == 1) {
-			
+			g.drawImage(Images.level, 0, 0, null);
 		}
 		else if (gameState == 2) {
 			super.paintComponent(g);
@@ -129,6 +134,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		mouseY = e.getY();
 		if (gameState == 0) {
 			if (mouseX >= 187 && mouseX <=323 && mouseY >= 160 && mouseY <=207)
+			{
+				gameState = 1;
+			}
+		}
+		else if (gameState == 1) {
+			if (mouseX >= 212 && mouseX <=308 && mouseY >= 144 && mouseY <=180)
 			{
 				gameState = 2;
 			}

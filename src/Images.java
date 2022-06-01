@@ -15,6 +15,7 @@ public class Images {
 	public static final BufferedImage[] dirtTiles = new BufferedImage[5];
 	public static final BufferedImage[] grassTiles = new BufferedImage[2];
 	public static BufferedImage menu;
+	public static BufferedImage level;
 	public static BufferedImage dogRight1;
 	public static BufferedImage dogLeft1;
 	public static BufferedImage pHDog;
@@ -23,6 +24,7 @@ public class Images {
 	
 	public static void importImage() throws IOException {
 		menu = ImageIO.read(new File("chowchowmenu.png"));
+		level = ImageIO.read(new File("level.png"));
 		pHTile = ImageIO.read(new File("dirt1.png"));
 		pHDog = ImageIO.read(new File("pHChar.png"));
 		pHBG = ImageIO.read(new File("scrollBackground.png"));
