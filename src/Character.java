@@ -8,7 +8,7 @@ public class Character extends Rectangle {
 	private static boolean left = false;
 	private static boolean right = false;
 	// pixels moved left and right
-	private static int moveX = 40;
+	private static int moveX = 10;
 
 	// jump = true, character is jumping
 	// jump = false, character is not jumping
@@ -148,7 +148,7 @@ public class Character extends Rectangle {
 				// - if it is gonna move past the middle of the screen
 				// keeps the character in the middle of the screen until the last screen
 				if (Main.bgX > -(Main.levelWidth - Main.winWidth) && this.getX() >= Main.winWidth / 2 - Main.tileSize/2) {
-					Main.bgX -= moveX;
+					Main.bgX -= Main.tileSize;
 					this.setLocation(Main.winWidth / 2 - Main.tileSize/2, (int) this.getY());
 				}
 			}
