@@ -35,6 +35,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 5  --> boss
 	// 6  --> options
 	// 8  --> winners
+	// 9  --> you died
 	public static int gameState = 0;
 	
 	public Main() {
