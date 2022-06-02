@@ -16,7 +16,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static final int winWidth = 520;
 	public static final int winHeight = 400;
 	// 13 x 10 tiles
-	public static final int tileSize = 40;
+	public static final int tileSize = 20;
 	public static final int tileWidth = winWidth/tileSize;
 	public static final int tileHeight = winHeight/tileSize;
 	public static final int levelTileWidth = levelWidth/tileSize;
@@ -40,7 +40,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		addMouseListener(this);
 		try {
 			// imports all images
-			Images.importImage();
+			Images.importImages();
 		}
 		catch(Exception e) {
 			
@@ -72,7 +72,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 			GameFunctions.drawTiles(g);
 			g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
-			//System.out.println(bgX);
 		}
 		 
 	}
