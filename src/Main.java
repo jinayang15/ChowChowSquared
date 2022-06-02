@@ -25,6 +25,8 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static int[][] levelGrid = new int[tileHeight][levelTileWidth];
 	public static int[][] currentGrid = new int[tileHeight][tileWidth+2];
 	public static String currentLvl;
+	public static int imageWidth;
+	public static int imageHeight;
 	public static Scanner in;
 	// Game states:
 	// 0  --> menu
@@ -159,7 +161,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		currentLvl = "testerLvl.txt";
 		in = new Scanner(new File(currentLvl));
 		GameFunctions.loadGrid(in);
-		dog.setBounds(0, 0, Images.pHDog.getWidth(), Images.pHDog.getHeight());
+		imageWidth = Images.pHDog.getWidth();
+		imageHeight = Images.pHDog.getHeight();
+		dog.setBounds(0, 0, imageWidth, imageHeight);
 		in.close();
 	}
 	

@@ -25,7 +25,7 @@ public class Images {
 	public static void importImages() throws IOException {
 		menu = ImageIO.read(new File("chowchowmenu.png"));
 		level = ImageIO.read(new File("level.png"));
-		pHTile = ImageIO.read(new File("20grassTop.png"));
+		pHTile = ImageIO.read(new File("20dirt.png"));
 		pHDog = ImageIO.read(new File("pHChar.png"));
 		pHBG = ImageIO.read(new File("scrollBackground.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));

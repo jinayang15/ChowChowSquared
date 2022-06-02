@@ -19,14 +19,15 @@ public class Character extends Rectangle {
 	// -1 max jump -> 1 max fall
 	private static double direction = 0;
 	// how fast the character will jump or fall
-	private static double jumpSpeed = 0.1;
-	private static double fallSpeed = 0.05;
+	private static double jumpSpeed = 0.05;
+	private static double fallSpeed = 0.025;
 
 	// Class Methods
 	// will add comments for the changes later
 	public void refreshTile() {
-		tileX = (int) (this.getX() + Main.tileSize / 2) / Main.tileSize;
-		tileY = (int) (this.getY() + Main.tileSize / 2) / Main.tileSize;
+		tileX = (int) (this.getX() + Main.imageWidth / 2) / Main.tileSize;
+		tileY = (int) (this.getY() + Main.imageWidth / 2) / Main.tileSize;
+		System.out.println(tileX + " " + tileY);
 	}
 
 	// updates character model
@@ -40,7 +41,7 @@ public class Character extends Rectangle {
 		this.refreshTile();
 		this.moveRight();
 		this.refreshTile();
-		this.fixPosition();
+		//this.fixPosition();
 		this.refreshTile();
 	}
 
@@ -57,7 +58,6 @@ public class Character extends Rectangle {
 		direction = num;
 	}
 
-	// magnet effect on character atm will be fixed*
 	// character will fall if there is no block below it
 	// character will be set on the ground if there is a ground tile below it
 	public void fall() {
@@ -165,10 +165,10 @@ public class Character extends Rectangle {
 			direction = 0;
 		}
 		if (checkTileCollisionRight() && !isLeft()) {
-			this.setLocation(tileX * Main.tileSize, (int) this.getY());
+			this.setLocation(tileX * Main.tileSize - Main.imageWidth, (int) this.getY());
 		}
 		if (checkTileCollisionLeft() && !isRight()) {
-			this.setLocation(tileX * Main.tileSize, (int) this.getY());
+			this.setLocation(tileX * Main.tileSize + Main.imageWidth, (int) this.getY());
 		}
 	}
 
@@ -183,7 +183,7 @@ public class Character extends Rectangle {
 	// tells me whether the character has crossed into block above it
 	public boolean checkTileCollisionAbove() {
 		if (checkBlockAbove()) {
-			return this.getY() < tileY * Main.tileSize;
+			return this.getY() - Main.imageWidth < tileY * Main.tileSize;
 		}
 		return this.getY() < 0;
 	}
@@ -198,7 +198,7 @@ public class Character extends Rectangle {
 	// checks whether the character has crossed into block below it 
 	public boolean checkTileCollisionBelow() {
 		if (checkBlockBelow()) {
-			return this.getY() > tileY * Main.tileSize;
+			return this.getY() + Main.imageWidth > tileY * Main.tileSize;
 		}
 		return this.getY() > Main.winHeight;
 	}
@@ -214,7 +214,7 @@ public class Character extends Rectangle {
 	// checks whether the character has crossed into block to its right
 	public boolean checkTileCollisionRight() {
 		if (checkBlockRight()) {
-			return this.getX() > tileX * Main.tileSize;
+			return this.getX() + Main.imageWidth > tileX * Main.tileSize;
 		}
 		return this.getX() > Main.winWidth;
 	}
@@ -228,7 +228,7 @@ public class Character extends Rectangle {
 	// checks whether the character has crossed into block to its left
 	public boolean checkTileCollisionLeft() {
 		if (checkBlockLeft()) {
-			return this.getX() < tileX * Main.tileSize;
+			return this.getX() - Main.imageWidth < tileX * Main.tileSize;
 		}
 		return this.getX() < 0;
 	}
