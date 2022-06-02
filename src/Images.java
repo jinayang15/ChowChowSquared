@@ -24,12 +24,8 @@ public class Images {
 	
 	public static void importImages() throws IOException {
 		menu = ImageIO.read(new File("chowchowmenu.png"));
-<<<<<<< Upstream, based on origin/main
 		level = ImageIO.read(new File("level.png"));
-		pHTile = ImageIO.read(new File("dirt1.png"));
-=======
 		pHTile = ImageIO.read(new File("20grassTop.png"));
->>>>>>> ffeb1fd new images
 		pHDog = ImageIO.read(new File("pHChar.png"));
 		pHBG = ImageIO.read(new File("scrollBackground.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));
