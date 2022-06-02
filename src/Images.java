@@ -24,7 +24,10 @@ public class Images {
 	
 	public static void importImages() throws IOException {
 		menu = ImageIO.read(new File("chowchowmenu.png"));
+<<<<<<< HEAD
 		level = ImageIO.read(new File("level.png"));
+=======
+>>>>>>> branch 'fix_B' of https://github.com/jinayang15/ICS3UCulminating
 		pHTile = ImageIO.read(new File("20grassTop.png"));
 		pHDog = ImageIO.read(new File("pHChar.png"));
 		pHBG = ImageIO.read(new File("scrollBackground.png"));
