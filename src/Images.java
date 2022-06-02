@@ -22,16 +22,16 @@ public class Images {
 	public static BufferedImage pHTile;
 	public static BufferedImage pHBG;
 	
-	public static void importImage() throws IOException {
+	public static void importImages() throws IOException {
 		menu = ImageIO.read(new File("chowchowmenu.png"));
 		level = ImageIO.read(new File("level.png"));
-		pHTile = ImageIO.read(new File("dirt1.png"));
+		pHTile = ImageIO.read(new File("20grassTop.png"));
 		pHDog = ImageIO.read(new File("pHChar.png"));
 		pHBG = ImageIO.read(new File("scrollBackground.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));
 		dogLeft1 = ImageIO.read(new File("whitedogleft.png"));
 		for (int i = 0; i < grassTiles.length; i++) {
-			grassTiles[i] = ImageIO.read(new File("grass" + (i+1) + ".png"));
+			grassTiles[i] = ImageIO.read(new File("20grass" + (i+1) + ".png"));
 		}
 		for (int i = rightWalkDog1.length;i >= 0; i--) {
 			rightWalkDog1[i] = grabImage(i+9,2,dogRight1);
