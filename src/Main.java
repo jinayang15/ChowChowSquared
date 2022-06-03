@@ -8,6 +8,7 @@ import javax.swing.*;
 public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
 
 	public static final Character dog = new Character();
+	public static final Enemy bug = new Enemy();
 	public static Character player2 = new Character();
 	public static final int levelWidth = 6760;
 	public static int bgX = 0;
@@ -80,6 +81,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				g.drawLine(i, 0, i, winHeight);
 			}
 			GameFunctions.drawTiles(g);
+			g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
 		}
 		 
@@ -90,6 +92,8 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			repaint();
 			if (gameState == 2) {
 				dog.update();
+				bug.update();
+				
 			}
 			try {
 				Thread.sleep(1000/fps);
