@@ -8,6 +8,7 @@ import javax.swing.*;
 public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
 
 	public static final Character dog = new Character();
+	public static Character player2 = new Character();
 	public static final int levelWidth = 6760;
 	public static int bgX = 0;
 	public static int bgY = -400;
@@ -103,7 +104,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// basic key controls jump, left, right
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
-			if (!dog.isJumping() && dog.checkBlockBelow()) {
+			if (!dog.isJumping() && dog.checkBlockBelow()[0] != -1) {
 				dog.setJumping(true);
 				dog.setDirection(-1);
 				

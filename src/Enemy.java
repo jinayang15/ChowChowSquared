@@ -1,13 +1,12 @@
 import java.awt.*;
 
 public class Enemy extends Rectangle{
-	private float x, y;
 	public int health;
 	private Rectangle bounds;
 	public int aniIndex, enemyState, enemyType;
 	public int aniSpeed = 25;
 	
-	public Enemy(float x, float y, int width, int height) {
+	public Enemy(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -15,16 +14,11 @@ public class Enemy extends Rectangle{
 		bounds = new Rectangle ((int)x, (int)y, 20, 20);
 		
 	}
+	public void setX(int x) {
+		this.x = x;
+	}
 	
-	public double getX() {
-		return x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(float y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
@@ -35,9 +29,4 @@ public class Enemy extends Rectangle{
 	public void setBounds(Rectangle bounds) {
 		this.bounds = bounds;
 	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-	
 }
