@@ -27,6 +27,7 @@ public class Enemy extends Rectangle{
 		moveLeft();
 		moveRight();
 		// do we need refresh? idk
+		// needs refresh yes
 	}
 	
 	public void setX(int x) {
