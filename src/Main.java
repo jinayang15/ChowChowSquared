@@ -104,7 +104,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// basic key controls jump, left, right
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
-			if (!dog.isJumping() && dog.checkBlockBelow()[0] != -1) {
+			if (!dog.isJumping() && dog.checkBlockBelow()[0] != Character.noCollide) {
 				dog.setJumping(true);
 				dog.setDirection(-1);
 				
