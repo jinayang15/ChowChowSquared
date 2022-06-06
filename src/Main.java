@@ -84,8 +84,10 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.rightIdleDog1[Animations.index], (int) dog.getX(),
 					(int) dog.getY(), null);
+			// image box
 			g.setColor(new Color(0, 0, 255));
 			g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
+			// hitbox
 			g.setColor(new Color(255, 255, 255));
 			g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
 		}
@@ -171,6 +173,8 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		imageWidth = Images.pHDog.getWidth();
 		imageHeight = Images.pHDog.getHeight();
 		dog.setBounds(0, 0, imageWidth, imageHeight);
+		dog.setHitbox(22, 25);
+		
 		in.close();
 	}
 

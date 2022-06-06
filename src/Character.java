@@ -6,10 +6,10 @@ import java.util.Collections;
 
 public class Character extends Rectangle {
 	// Class & Object Variables
-	public int imageAdjustX = 8;
-	public int imageAdjustY = 12;
-	public int hitboxWidth = 22;
-	public int hitboxHeight = 18;
+	public int hitboxWidth;
+	public int hitboxHeight;
+	public int imageAdjustX;
+	public int imageAdjustY;
 	private ArrayList<Integer> tilesX = new ArrayList<Integer>();
 	private ArrayList<Integer> tilesY = new ArrayList<Integer>();
 	private boolean left = false;
@@ -30,7 +30,14 @@ public class Character extends Rectangle {
 	private static double fallSpeed = 0.05;
 
 	// Class Methods
-	// will add comments for the changes later
+	// will add comments for the changes later\
+	public void setHitbox(int width, int height) {
+		this.hitboxWidth = width;
+		this.hitboxHeight = height;
+		this.imageAdjustX = (Main.imageWidth-hitboxWidth)/2;
+		this.imageAdjustY = (Main.imageHeight-hitboxHeight)/2;;
+	}
+	
 	public void refreshTile() {
 		int numX, numY;
 		ArrayList<Integer> copyX, copyY;
