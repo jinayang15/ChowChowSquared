@@ -22,6 +22,7 @@ public class Images {
 	public static BufferedImage pHBug;
 	public static BufferedImage pHTile;
 	public static BufferedImage pHBG;
+	public static BufferedImage spriteSheet;
 	
 	public static void importImages() throws IOException {
 		menu = ImageIO.read(new File("chowchowmenu.png"));

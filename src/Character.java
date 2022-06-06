@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Character extends Rectangle {
-	// jumping mechanics are currently incomplete
+	// Class & Object Variables
+	public int imageAdjustX = 8;
+	public int imageAdjustY = 12;
+	public int hitboxWidth = 22;
+	public int hitboxHeight = 18;
 	private ArrayList<Integer> tilesX = new ArrayList<Integer>();
 	private ArrayList<Integer> tilesY = new ArrayList<Integer>();
-	// Class Variables
 	private boolean left = false;
 	private boolean right = false;
 	// pixels moved left and right
@@ -46,11 +49,16 @@ public class Character extends Rectangle {
 		for (int i = 1; i < numX; i++) {
 			tilesY.addAll(copyY);
 		}
+		System.out.println("Occupies: ");
+		for (int i = 0; i < tilesX.size(); i++) {
+			System.out.println(tilesY.get(i) + " " + tilesX.get(i));
+		}
+		System.out.println();
 	}
 
 	public ArrayList<Integer> getTilesX(ArrayList<Integer> tilesX) {
-		int x1 = (int) this.getX();
-		int x2 = x1 + Main.imageWidth;
+		int x1 = (int) this.getX() + imageAdjustX;
+		int x2 = x1 + hitboxWidth;
 		int roundx1;
 		int roundx2;
 
@@ -73,13 +81,15 @@ public class Character extends Rectangle {
 		for (int i = roundx1; i < roundx2; i += Main.tileSize) {
 			tilesX.add(i / Main.tileSize);
 		}
+		System.out.println("X: " + x1 + " " + x2);
+		System.out.println("Round X: " + roundx1 + " " + roundx2);
 		return tilesX;
 
 	}
 
 	public ArrayList<Integer> getTilesY(ArrayList<Integer> tilesY) {
-		int y1 = (int) this.getY();
-		int y2 = y1 + Main.imageHeight;
+		int y1 = (int) this.getY() + imageAdjustY;
+		int y2 = y1 + hitboxHeight;
 		int roundy1;
 		int roundy2;
 		if (y1 % Main.tileSize != 0) {
@@ -101,6 +111,9 @@ public class Character extends Rectangle {
 		for (int i = roundy1; i < roundy2; i += Main.tileSize) {
 			tilesY.add(i / Main.tileSize);
 		}
+		System.out.println("Y: " + y1 + " " + y2);
+		System.out.println("Round Y: " + roundy1 + " " + roundy2);
+		System.out.println();
 		return tilesY;
 	}
 
@@ -141,7 +154,8 @@ public class Character extends Rectangle {
 		this.translate(0, (int) (gravity * direction));
 		int[] blockCollides = checkTileCollisionBelow();
 		if (blockCollides[0] != noCollide && !isJumping()) {
-			this.setLocation((int) this.getX(), blockCollides[0] * Main.tileSize - Main.imageHeight);
+			this.setLocation((int) this.getX(),
+					blockCollides[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
 			direction = 0;
 		} else if (blockCollides[0] == noCollide) {
 			if (direction < 1) {
@@ -169,7 +183,8 @@ public class Character extends Rectangle {
 			this.translate(0, (int) (gravity * direction));
 			int[] blockCollides = checkTileCollisionAbove();
 			if (blockCollides[0] != noCollide) {
-				this.setLocation((int) this.getX(), (blockCollides[0] + 1) * Main.tileSize);
+				this.setLocation((int) this.getX(),
+						(blockCollides[0] + 1) * Main.tileSize - hitboxHeight);
 				direction = 0;
 			} else {
 				direction += jumpSpeed;
@@ -198,7 +213,8 @@ public class Character extends Rectangle {
 			this.translate(-moveX, 0);
 			int[] blockCollides = checkTileCollisionLeft();
 			if (blockCollides[1] != noCollide) {
-				this.setLocation((blockCollides[1] + 1) * Main.tileSize, (int) this.getY());
+				this.setLocation((blockCollides[1] + 1) * Main.tileSize - imageAdjustX,
+						(int) this.getY());
 			}
 		}
 	}
@@ -221,7 +237,8 @@ public class Character extends Rectangle {
 			this.translate(moveX, 0);
 			int[] blockCollides = checkTileCollisionRight();
 			if (blockCollides[1] != noCollide) {
-				this.setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth, (int) this.getY());
+				this.setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth + imageAdjustX,
+						(int) this.getY());
 			} else {
 				// screen scrolls if the character is moving right:
 				// - if it is not the last screen
@@ -240,11 +257,12 @@ public class Character extends Rectangle {
 		int[] blockAboveCollide = checkTileCollisionAbove();
 		int[] blockBelowCollide = checkTileCollisionBelow();
 		if (blockAboveCollide[0] != noCollide && isJumping()) {
-			this.setLocation((int) this.getX(), (blockAboveCollide[0] + 1) * Main.tileSize);
+			this.setLocation((int) this.getX(),
+					(blockAboveCollide[0] + 1) * Main.tileSize - imageAdjustY);
 			direction = 0;
-		}
-		else if (blockBelowCollide[0] != noCollide && !isJumping()) {
-			this.setLocation((int) this.getX(), blockBelowCollide[0] * Main.tileSize - Main.imageHeight);
+		} else if (blockBelowCollide[0] != noCollide && !isJumping()) {
+			this.setLocation((int) this.getX(),
+					blockBelowCollide[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
 			direction = 0;
 		}
 	}
@@ -252,7 +270,7 @@ public class Character extends Rectangle {
 	// checks for block above it
 	public int[] checkBlockAbove() {
 		// {-1, -1} means no block above
-		int[] blockAbove = { noCollide, noCollide};
+		int[] blockAbove = { noCollide, noCollide };
 		int x, y;
 		// check all the blocks that the character is in
 		for (int i = 0; i < tilesX.size(); i++) {
@@ -268,9 +286,8 @@ public class Character extends Rectangle {
 						blockAbove[1] = x;
 					}
 				}
-			}
-			else {
-				blockAbove[0] = y-1;
+			} else {
+				blockAbove[0] = y - 1;
 				blockAbove[1] = x;
 			}
 		}
@@ -282,7 +299,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionAbove() {
 		int[] blockCollides = checkBlockAbove();
 		if (blockCollides[0] != noCollide) {
-			if (this.getY() >= (blockCollides[0] + 1) * Main.tileSize) {
+			if (this.getY() - Main.imageHeight + imageAdjustY >= (blockCollides[0] + 1) * Main.tileSize) {
 				blockCollides[0] = noCollide;
 			}
 		}
@@ -292,7 +309,7 @@ public class Character extends Rectangle {
 	// checks for block below character
 	public int[] checkBlockBelow() {
 		// {-1, -1} means no block under
-		int[] blockUnder = {noCollide, noCollide};
+		int[] blockUnder = { noCollide, noCollide };
 		int x, y;
 		// check all the blocks that the character is in
 		for (int i = 0; i < tilesX.size(); i++) {
@@ -321,7 +338,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionBelow() {
 		int[] blockCollides = checkBlockBelow();
 		if (blockCollides[0] != noCollide) {
-			if (this.getY() + Main.imageHeight <= blockCollides[0] * Main.tileSize) {
+			if (this.getY() + Main.imageHeight - imageAdjustY <= blockCollides[0] * Main.tileSize) {
 				blockCollides[0] = noCollide;
 			}
 		}
@@ -347,10 +364,9 @@ public class Character extends Rectangle {
 						blockRight[1] = x + 1;
 					}
 				}
-			}
-			else {
+			} else {
 				blockRight[0] = y;
-				blockRight[1] = x+1;
+				blockRight[1] = x + 1;
 			}
 		}
 		// return tile coords
@@ -361,7 +377,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionRight() {
 		int[] blockCollides = checkBlockRight();
 		if (blockCollides[1] != noCollide) {
-			if (this.getX() + Main.imageWidth <= blockCollides[1] * Main.tileSize) {
+			if (this.getX() + imageAdjustX + hitboxWidth <= blockCollides[1] * Main.tileSize) {
 				blockCollides[1] = noCollide;
 			}
 		}
@@ -371,7 +387,7 @@ public class Character extends Rectangle {
 	// checks whether there is a block to the characters left
 	public int[] checkBlockLeft() {
 		// {-1, -1} means no block left
-		int[] blockLeft = {noCollide, noCollide};
+		int[] blockLeft = { noCollide, noCollide };
 		int x, y;
 		// check all the blocks that the character is in
 		for (int i = 0; i < tilesX.size(); i++) {
@@ -386,10 +402,9 @@ public class Character extends Rectangle {
 						blockLeft[1] = x - 1;
 					}
 				}
-			}
-			else {
+			} else {
 				blockLeft[0] = y;
-				blockLeft[1] = x-1;
+				blockLeft[1] = x - 1;
 			}
 		}
 		// return tile coords
@@ -400,7 +415,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionLeft() {
 		int[] blockCollides = checkBlockLeft();
 		if (blockCollides[1] != noCollide) {
-			if (this.getX() >= (blockCollides[1] + 1) * Main.tileSize) {
+			if (this.getX() - imageAdjustX >= (blockCollides[1] + 1) * Main.tileSize) {
 				blockCollides[1] = noCollide;
 			}
 		}
