@@ -73,6 +73,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		else if (gameState == 2) {
 			super.paintComponent(g);
 			
+			Animations.updateAnimation();
 			g.drawImage(Images.pHBG, bgX, bgY, null);
 			for (int i = 0; i < winHeight; i += tileSize) {
 				g.drawLine(0, i, winWidth, i);
@@ -82,7 +83,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 			GameFunctions.drawTiles(g);
 			g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
-			g.drawImage(Images.pHDog, (int) dog.getX(), (int) dog.getY(), null);
+			g.drawImage(Images.rightIdleDog1[Animations.index], (int) dog.getX(), (int) dog.getY(), null);
 		}
 		 
 	}
