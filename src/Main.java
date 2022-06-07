@@ -12,7 +12,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static Character player2 = new Character();
 	public static final int levelWidth = 6760;
 	public static int bgX = 0;
-	public static int bgY = -400;
+	public static int bgY = 0;
 	public static int mouseX;
 	public static int mouseY;
 	public static final int winWidth = 520;
@@ -72,7 +72,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			super.paintComponent(g);
 
 			Animations.updateAnimation();
-			g.drawImage(Images.pHBG, bgX, bgY, null);
+			g.drawImage(Images.skyBG, bgX, bgY, null);
 			// g.drawImage(Images.dogRight1, 0, 0, null);
 			for (int i = 0; i < winHeight; i += tileSize) {
 				g.drawLine(0, i, winWidth, i);

@@ -31,7 +31,7 @@ public class Images {
 		pHTile = ImageIO.read(new File("20dirt.png"));
 		pHDog = ImageIO.read(new File("pHChar.png"));
 		pHBug = ImageIO.read(new File("mad.png"));
-		pHBG = ImageIO.read(new File("basiclevelbg.png"));
+		skyBG = ImageIO.read(new File("basiclevelbg.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));
 		dogLeft1 = ImageIO.read(new File("whitedogleft.png"));
 		for (int i = 0; i < grassTiles.length; i++) {
