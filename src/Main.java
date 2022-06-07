@@ -71,7 +71,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		} else if (gameState == 2) {
 			super.paintComponent(g);
 
-			Animations.updateAnimation();
+			Animations.updateAnimationIdle();
 			g.drawImage(Images.skyBG, bgX, bgY, null);
 			// g.drawImage(Images.dogRight1, 0, 0, null);
 			for (int i = 0; i < winHeight; i += tileSize) {
@@ -82,7 +82,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 			GameFunctions.drawTiles(g);
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
-			g.drawImage(Images.rightIdleDog1[Animations.index], (int) dog.getX(),
+			g.drawImage(Images.rightIdleDog1[Animations.idleIndex], (int) dog.getX(),
 					(int) dog.getY(), null);
 			// image box
 			g.setColor(new Color(0, 0, 255));
@@ -128,6 +128,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (e.getKeyChar() == 'd') {
 			dog.setRight(true);
 			dog.moveRight();
+			Animations.updateAnimationRun();
 		}
 	}
 

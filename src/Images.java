@@ -40,11 +40,11 @@ public class Images {
 		for (int i = 0; i < rightIdleDog1.length; i++) {
 			rightIdleDog1[i] = dogRight1.getSubimage(i*40,0,40, 40);
 		}
+		for (int i = 0; i < rightRunDog1.length; i++) {
+			rightRunDog1[i] = dogRight1.getSubimage((i+7)*40,40,40,40);
+		}
 //		for (int i = 0;i < rightWalkDog1.length; i++) {
 //			rightWalkDog1[i] = grabImage(i+7,2,dogRight1);
-//		}
-//		for (int i = 0; i < rightRunDog1.length; i++) {
-//			rightRunDog1[i] = grabImage(i+10,2,dogRight1);
 //		}
 //		rightJumpDog1[0] = grabImage(10,2,dogRight1);
 //		for (int i = 1;i < rightJumpDog1.length; i++) {
