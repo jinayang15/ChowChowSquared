@@ -191,7 +191,7 @@ public class Character extends Rectangle {
 			int[] blockCollides = checkTileCollisionAbove();
 			if (blockCollides[0] != noCollide) {
 				this.setLocation((int) this.getX(),
-						(blockCollides[0] + 1) * Main.tileSize - hitboxHeight);
+						(blockCollides[0] + 1) * Main.tileSize - imageAdjustY);
 				direction = 0;
 			} else {
 				direction += jumpSpeed;

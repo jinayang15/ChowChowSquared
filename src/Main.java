@@ -173,7 +173,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		imageWidth = Images.pHDog.getWidth();
 		imageHeight = Images.pHDog.getHeight();
 		dog.setBounds(0, 0, imageWidth, imageHeight);
-		dog.setHitbox(22, 25);
+		dog.setHitbox(22, 20);
 		
 		in.close();
 	}
