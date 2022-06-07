@@ -100,19 +100,19 @@ public class Character extends Rectangle {
 		int roundy1;
 		int roundy2;
 		if (y1 % Main.tileSize != 0) {
-			roundy1 = y1 - y1 % Main.tileSize;
+			roundy1 = y1 - Math.abs(y1 % Main.tileSize);
 		} else {
 			roundy1 = y1;
 		}
 		if (y2 % Main.tileSize != 0) {
-			roundy2 = y2 - y2 % Main.tileSize;
+			roundy2 = y2 - y1 % Math.abs(y2 % Main.tileSize);
 		} else {
 			roundy2 = y2;
 		}
-		if (y1 - roundy1 >= Main.tileSize / 2) {
+		if (Math.abs(y1 - roundy1) >= Main.tileSize / 2) {
 			roundy1 += Main.tileSize;
 		}
-		if (y2 - roundy2 >= Main.tileSize / 2) {
+		if (Math.abs(y2 - roundy2) >= Main.tileSize / 2) {
 			roundy2 += Main.tileSize;
 		}
 		for (int i = roundy1; i < roundy2; i += Main.tileSize) {
@@ -306,7 +306,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionAbove() {
 		int[] blockCollides = checkBlockAbove();
 		if (blockCollides[0] != noCollide) {
-			if (this.getY() - Main.imageHeight + imageAdjustY >= (blockCollides[0] + 1) * Main.tileSize) {
+			if (this.getY() - imageAdjustY >= (blockCollides[0] + 1) * Main.tileSize) {
 				blockCollides[0] = noCollide;
 			}
 		}
