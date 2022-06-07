@@ -5,6 +5,7 @@ public class Animations {
 	public static int jumpTick, jumpIndex, jumpSpeed = 30;
 	public static String direction = "right";
 	
+	// the update methods loops through the image arrays at a set speed
 	public static void updateAnimationIdle() {
 		idleTick++;
 		if(idleTick >= idleSpeed) {
