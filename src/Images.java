@@ -22,6 +22,7 @@ public class Images {
 	public static BufferedImage pHBug;
 	public static BufferedImage pHTile;
 	public static BufferedImage pHBG;
+	public static BufferedImage skyBG;
 	public static BufferedImage spriteSheet;
 	
 	public static void importImages() throws IOException {
@@ -30,7 +31,7 @@ public class Images {
 		pHTile = ImageIO.read(new File("20dirt.png"));
 		pHDog = ImageIO.read(new File("pHChar.png"));
 		pHBug = ImageIO.read(new File("mad.png"));
-		pHBG = ImageIO.read(new File("scrollBackground.png"));
+		pHBG = ImageIO.read(new File("basiclevelbg.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));
 		dogLeft1 = ImageIO.read(new File("whitedogleft.png"));
 		for (int i = 0; i < grassTiles.length; i++) {
