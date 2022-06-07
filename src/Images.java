@@ -41,14 +41,21 @@ public class Images {
 			rightIdleDog1[i] = dogRight1.getSubimage(i*40,0,40, 40);
 		}
 		for (int i = 0; i < rightRunDog1.length; i++) {
-			rightRunDog1[i] = dogRight1.getSubimage((i+7)*40,40,40,40);
+			rightRunDog1[i] = dogRight1.getSubimage((i+7)*40, 40, 40, 40);
 		}
+		rightJumpDog1[0] = dogRight1.getSubimage(10*40, 40, 40, 40);
+		for (int i = 1; i < rightJumpDog1.length; i++) {
+			rightJumpDog1[i] = dogRight1.getSubimage((i+9)*40, 0, 40, 40);
+		}
+//		for (int i = 0; i < leftRunDog1.length; i++) {
+//			leftRunDog1[i] = dogLeft1.getSubimage(i*40, 40, 40, 40);
+//		}
+//		leftJumpDog1[0] = dogLeft1.getSubimage(2*40, 40, 40, 40);
+//		for (int i = 3; i >= 0; i--) {
+//			leftJumpDog1[i] = dogLeft1.getSubimage(i*40, 0, 40, 40);
+//		}
 //		for (int i = 0;i < rightWalkDog1.length; i++) {
 //			rightWalkDog1[i] = grabImage(i+7,2,dogRight1);
-//		}
-//		rightJumpDog1[0] = grabImage(10,2,dogRight1);
-//		for (int i = 1;i < rightJumpDog1.length; i++) {
-//			rightJumpDog1[i] = grabImage(i+9,1,dogRight1);
 //		}
 //		for (int i = 0; i < rightIdleDog1.length; i++) {
 //			rightIdleDog1[i] = dogRight1.getSubimage(i*40,0,40, 40);
@@ -56,19 +63,8 @@ public class Images {
 //		for (int i = 0; i < rightWalkDog1.length; i++) {
 //			lefttWalkDog1[i] = grabImage(i,2,dogLeft1);
 //		}
-//		for (int i = 0; i < rightWalkDog1.length; i++) {
-//			leftRunDog1[i] = grabImage(i*3,2,dogLeft1);
-//		}
-//		leftJumpDog1[0] = grabImage(2,1,dogLeft1);
-//		for (int i = rightJumpDog1.length; i >= 1; i--) {
-//			leftJumpDog1[i] = grabImage(i+3,1,dogLeft1);
-//		}
 //		for (int i = 0; i < rightIdleDog1.length; i++) {
 //			leftIdleDog1[i] = grabImage(i+11,1,dogLeft1);
 //		}
-	}
-	public static BufferedImage grabImage(int col, int row, BufferedImage img) {
-		BufferedImage image = img.getSubimage(col*40, row*40, 40, 40);
-		return image;
 	}
 }

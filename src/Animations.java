@@ -2,6 +2,7 @@
 public class Animations {
 	public static int idleTick, idleIndex, idleSpeed = 30;
 	public static int runTick, runIndex, runSpeed = 30;
+	public static int jumpTick, jumpIndex, jumpSpeed = 30;
 	public static String direction = "right";
 	
 	public static void updateAnimationIdle() {
@@ -19,9 +20,20 @@ public class Animations {
 		runTick++;
 		if(runTick >= runSpeed) {
 			runTick = 0;
-			idleIndex++;
+			runIndex++;
 			if(runIndex >= Images.rightRunDog1.length) {
 				runIndex = 0;
+			}
+		}
+	}
+	
+	public static void updateAnimationJump() {
+		jumpTick++;
+		if(jumpTick >= jumpSpeed) {
+			jumpTick = 0;
+			jumpIndex++;
+			if(jumpIndex >= Images.rightRunDog1.length) {
+				jumpIndex = 0;
 			}
 		}
 	}

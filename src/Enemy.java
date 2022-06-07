@@ -4,10 +4,18 @@ import java.util.ArrayList;
 public class Enemy extends Rectangle{
 	private ArrayList<Integer> tilesX = new ArrayList<Integer>();
 	private ArrayList<Integer> tilesY = new ArrayList<Integer>();
+	public int hitboxWidth;
+	public int hitboxHeight;
+	public int imageAdjustX;
+	public int imageAdjustY;
 	private boolean left = false;
 	private boolean right = false;
 	public int health = 1;
-	private int moveX = 10;
+	
+	// pixels moved left and right
+	private static int moveX = 10;
+	public static int noCollide = -100;
+	
 	private Rectangle bounds;
 	public int aniIndex, enemyState, enemyType;
 	public int aniSpeed = 25;
@@ -78,10 +86,88 @@ public class Enemy extends Rectangle{
 		left = bool;
 	}
 	
-	// checks whether there is a block to the characters right
+	// checks for block above it
+		public int[] checkBlockAbove() {
+			// {-1, -1} means no block above
+			int[] blockAbove = { noCollide, noCollide };
+			int x, y;
+			// check all the blocks that the character is in
+			for (int i = 0; i < tilesX.size(); i++) {
+				x = tilesX.get(i);
+				y = tilesY.get(i);
+				// make sure we are checking within the grid
+				if (y - 1 >= 0) {
+					// check if the blockAbove is a tile
+					// if it is set blockAbove to the tile coords
+					if (Main.currentGrid[y - 1][x] == 1) {
+						if (blockAbove[0] == noCollide || y - 1 > blockAbove[0]) {
+							blockAbove[0] = y - 1;
+							blockAbove[1] = x;
+						}
+					}
+				} else {
+					blockAbove[0] = y - 1;
+					blockAbove[1] = x;
+				}
+			}
+			// return tile coords
+			return blockAbove;
+		}
+
+		// tells me whether the character has crossed into block above it
+		public int[] checkTileCollisionAbove() {
+			int[] blockCollides = checkBlockAbove();
+			if (blockCollides[0] != noCollide) {
+				if (this.getY() - imageAdjustY >= (blockCollides[0] + 1) * Main.tileSize) {
+					blockCollides[0] = noCollide;
+				}
+			}
+			return blockCollides;
+		}
+
+		// checks for block below character
+		public int[] checkBlockBelow() {
+			// {-1, -1} means no block under
+			int[] blockUnder = { noCollide, noCollide };
+			int x, y;
+			// check all the blocks that the character is in
+			for (int i = 0; i < tilesX.size(); i++) {
+				x = tilesX.get(i);
+				y = tilesY.get(i);
+				// make sure we are checking within the grid
+				if (y + 1 < Main.tileHeight) {
+					// check if the blockUnder is a tile
+					// if it is set blockUnder to the tile coords
+					if (Main.currentGrid[y + 1][x] == 1) {
+						if (blockUnder[0] == noCollide || y + 1 < blockUnder[0]) {
+							blockUnder[0] = y + 1;
+							blockUnder[1] = x;
+						}
+					}
+				} else {
+					blockUnder[0] = y + 1;
+					blockUnder[1] = x;
+				}
+			}
+			// return tile coords
+			return blockUnder;
+		}
+
+		// checks whether the character has crossed into block below it
+		public int[] checkTileCollisionBelow() {
+			int[] blockCollides = checkBlockBelow();
+			if (blockCollides[0] != noCollide) {
+				if (this.getY() + Main.imageHeight - imageAdjustY <= blockCollides[0] * Main.tileSize) {
+					blockCollides[0] = noCollide;
+				}
+			}
+			return blockCollides;
+		}
+
+		// checks whether there is a block to the characters right
 		public int[] checkBlockRight() {
 			// {-1, -1} means no block right
-			int[] blockRight = { -1, -1 };
+			int[] blockRight = { noCollide, noCollide };
 			int x, y;
 			// check all the blocks that the character is in
 			for (int i = 0; i < tilesX.size(); i++) {
@@ -92,10 +178,14 @@ public class Enemy extends Rectangle{
 					// check if the blockRight is a tile
 					// if it is set blockRight to the tile coords
 					if (Main.currentGrid[y][x + 1] == 1) {
-						blockRight[0] = y;
-						blockRight[1] = x + 1;
-						break;
+						if (blockRight[0] == noCollide || x + 1 < blockRight[0]) {
+							blockRight[0] = y;
+							blockRight[1] = x + 1;
+						}
 					}
+				} else {
+					blockRight[0] = y;
+					blockRight[1] = x + 1;
 				}
 			}
 			// return tile coords
@@ -105,9 +195,9 @@ public class Enemy extends Rectangle{
 		// checks whether the character has crossed into block to its right
 		public int[] checkTileCollisionRight() {
 			int[] blockCollides = checkBlockRight();
-			if (blockCollides[1] != -1) {
-				if (this.getX() + Main.imageWidth <= blockCollides[1] * Main.tileSize) {
-					blockCollides[1] = -1;
+			if (blockCollides[1] != noCollide) {
+				if (this.getX() + imageAdjustX + hitboxWidth <= blockCollides[1] * Main.tileSize) {
+					blockCollides[1] = noCollide;
 				}
 			}
 			return blockCollides;
@@ -116,21 +206,24 @@ public class Enemy extends Rectangle{
 		// checks whether there is a block to the characters left
 		public int[] checkBlockLeft() {
 			// {-1, -1} means no block left
-			int[] blockLeft = { -1, -1 };
+			int[] blockLeft = { noCollide, noCollide };
 			int x, y;
 			// check all the blocks that the character is in
 			for (int i = 0; i < tilesX.size(); i++) {
 				x = tilesX.get(i);
-				y = tilesY.get(i);
-				// make sure we are checking within the grid
+				y = tilesY.get(i); // make sure we are checking within the grid
 				if (x - 1 >= 0) {
 					// check if the blockLeft is a tile
 					// if it is set blockLeft to the tile coords
 					if (Main.currentGrid[y][x - 1] == 1) {
-						blockLeft[0] = y;
-						blockLeft[1] = x - 1;
-						break;
+						if (blockLeft[0] == noCollide || x - 1 > blockLeft[0]) {
+							blockLeft[0] = y;
+							blockLeft[1] = x - 1;
+						}
 					}
+				} else {
+					blockLeft[0] = y;
+					blockLeft[1] = x - 1;
 				}
 			}
 			// return tile coords
@@ -140,9 +233,9 @@ public class Enemy extends Rectangle{
 		// checks whether the character has crossed into block to its left
 		public int[] checkTileCollisionLeft() {
 			int[] blockCollides = checkBlockLeft();
-			if (blockCollides[1] != -1) {
-				if (this.getX() >= (blockCollides[1] + 1) * Main.tileSize) {
-					blockCollides[1] = -1;
+			if (blockCollides[1] != noCollide) {
+				if (this.getX() - imageAdjustX >= (blockCollides[1] + 1) * Main.tileSize) {
+					blockCollides[1] = noCollide;
 				}
 			}
 			return blockCollides;

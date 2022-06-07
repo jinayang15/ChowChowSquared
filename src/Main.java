@@ -36,7 +36,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 2 --> tutorial
 	// 3 --> lvl 1
 	// 4 --> lvl 2
-	// 5 --> boss
+	// 5 --> lvl 3 boss
 	// 6 --> options
 	// 8 --> winners
 	// 9 --> you died
@@ -65,6 +65,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (gameState == 0) {
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
+			g.drawImage(Images.leftJumpDog1[3], 0, 0, null);
 
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
