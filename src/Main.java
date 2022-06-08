@@ -36,10 +36,10 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 2 --> tutorial
 	// 3 --> lvl 1
 	// 4 --> lvl 2
-	// 5 --> boss
+	// 5 --> lvl 3 boss
 	// 6 --> options
-	// 8 --> winners
-	// 9 --> you died
+	// 7 --> winners
+	// 8 --> you died
 	public static int gameState = 0;
 
 	public Main() {
@@ -65,9 +65,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (gameState == 0) {
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
+			g.drawImage(Images.leftJumpDog1[3], 0, 0, null);
 
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
+			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
 			super.paintComponent(g);
 
@@ -91,6 +93,18 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.setColor(new Color(255, 255, 255));
 			g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
 		}
+		else if (gameState == 6) {
+			super.paintComponent(g);
+			g.drawImage(Images.options, 0, 0, null);
+			g.drawImage(Images.back, 450, 340, null);
+		
+		}
+		else if (gameState == 7) {
+			super.paintComponent(g);
+			g.drawImage(Images.winners, 0, 0, null);
+		
+		}
+		
 
 	}
 
@@ -151,10 +165,16 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			if (mouseX >= 187 && mouseX <= 323 && mouseY >= 160 && mouseY <= 207) {
 				gameState = 1;
 			}
+			else if (mouseX >= 187 && mouseX <= 323 && mouseY >= 220 && mouseY <= 266) {
+				gameState = 6;
+			}
+			else if (mouseX >= 187 && mouseX <= 323 && mouseY >= 279 && mouseY <= 328) {
+				gameState = 7;
+			}
 		} else if (gameState == 1) {
 			if (mouseX >= 212 && mouseX <= 308 && mouseY >= 144 && mouseY <= 180) {
 				gameState = 2;
-			}
+			} 
 		}
 	}
 
