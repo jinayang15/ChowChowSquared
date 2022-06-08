@@ -14,8 +14,12 @@ public class Images {
 	public static final BufferedImage[] leftIdleDog1 = new BufferedImage[2];
 	public static final BufferedImage[] dirtTiles = new BufferedImage[5];
 	public static final BufferedImage[] grassTiles = new BufferedImage[2];
+	public static final BufferedImage[] newDirtTiles = new BufferedImage[5];
 	public static BufferedImage menu;
 	public static BufferedImage level;
+	public static BufferedImage options;
+	public static BufferedImage winners;
+	public static BufferedImage back;
 	public static BufferedImage dogRight1;
 	public static BufferedImage dogLeft1;
 	public static BufferedImage pHDog;
@@ -28,6 +32,9 @@ public class Images {
 	public static void importImages() throws IOException {
 		menu = ImageIO.read(new File("chowchowmenu.png"));
 		level = ImageIO.read(new File("level.png"));
+		options = ImageIO.read(new File("options.png"));
+		winners = ImageIO.read(new File("winners.png"));
+		back = ImageIO.read(new File("back.png"));
 		pHTile = ImageIO.read(new File("20dirt.png"));
 		pHDog = ImageIO.read(new File("pHChar.png"));
 		pHBug = ImageIO.read(new File("mad.png"));
@@ -37,6 +44,11 @@ public class Images {
 		for (int i = 0; i < grassTiles.length; i++) {
 			grassTiles[i] = ImageIO.read(new File("20grass" + (i+1) + ".png"));
 		}
+//		for (int i = 0; i < newDirtTiles.length; i++) {
+//			for (int j = 0; i < 4; j++) {
+//				newDirtTiles[i] = ImageIO.read(new File("newgrass" + (i+1) + "_" + (j+1) + ".png"));
+//			}
+//		}
 		for (int i = 0; i < rightIdleDog1.length; i++) {
 			rightIdleDog1[i] = dogRight1.getSubimage(i*40,0,40, 40);
 		}

@@ -69,6 +69,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
+			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
 			super.paintComponent(g);
 
@@ -94,10 +95,13 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 		else if (gameState == 6) {
 			super.paintComponent(g);
+			g.drawImage(Images.options, 0, 0, null);
+			g.drawImage(Images.back, 450, 340, null);
 		
 		}
 		else if (gameState == 7) {
 			super.paintComponent(g);
+			g.drawImage(Images.winners, 0, 0, null);
 		
 		}
 		
