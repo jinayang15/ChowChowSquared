@@ -14,6 +14,7 @@ public class Images {
 	public static final BufferedImage[] leftIdleDog1 = new BufferedImage[2];
 	public static final BufferedImage[] dirtTiles = new BufferedImage[5];
 	public static final BufferedImage[] grassTiles = new BufferedImage[2];
+	public static BufferedImage currentDogImage;
 	public static BufferedImage menu;
 	public static BufferedImage level;
 	public static BufferedImage dogRight1;

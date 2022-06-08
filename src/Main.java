@@ -82,7 +82,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 			GameFunctions.drawTiles(g);
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
-			g.drawImage(Images.rightIdleDog1[Animations.idleIndex], (int) dog.getX(),
+			g.drawImage(Images.currentDogImage, (int) dog.getX(),
 					(int) dog.getY(), null);
 			// image box
 			g.setColor(new Color(0, 0, 255));
@@ -100,6 +100,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			repaint();
 			if (gameState == 2) {
 				dog.update();
+				Animations.updateAnimationRun();
 				bug.update();
 
 			}
@@ -117,7 +118,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
 			if (!dog.isJumping() && dog.checkBlockBelow()[0] != Character.noCollide) {
 				dog.setJumping(true);
-				dog.setDirection(-1);
+				dog.setVerticalDirection(-1);
 
 			}
 		}
@@ -128,7 +129,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (e.getKeyChar() == 'd') {
 			dog.setRight(true);
 			dog.moveRight();
-			Animations.updateAnimationRun();
 		}
 	}
 
@@ -171,8 +171,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		currentLvl = "testerLvl.txt";
 		in = new Scanner(new File(currentLvl));
 		GameFunctions.loadGrid(in);
-		imageWidth = Images.pHDog.getWidth();
-		imageHeight = Images.pHDog.getHeight();
+		Images.currentDogImage = Images.rightIdleDog1[0];
+		imageWidth = Images.currentDogImage.getWidth();
+		imageHeight = Images.currentDogImage.getHeight();
 		dog.setBounds(0, 0, imageWidth, imageHeight);
 		dog.setHitbox(22, 20);
 		
