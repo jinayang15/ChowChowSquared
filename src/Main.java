@@ -72,8 +72,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
 			super.paintComponent(g);
-
-			Animations.updateAnimationIdle();
 			g.drawImage(Images.skyBG, bgX, bgY, null);
 			// g.drawImage(Images.dogRight1, 0, 0, null);
 			for (int i = 0; i < winHeight; i += tileSize) {
@@ -83,6 +81,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				g.drawLine(i, 0, i, winHeight);
 			}
 			GameFunctions.drawTiles(g);
+			for (int i = 0; i < Images.leftIdleDog1.length;i++) {
+				g.drawImage(Images.leftIdleDog1[i], i*40, 0, null);
+			}
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(),
 					(int) dog.getY(), null);
@@ -114,7 +115,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			repaint();
 			if (gameState == 2) {
 				dog.update();
-				Animations.updateAnimationRun();
 				bug.update();
 
 			}
@@ -139,10 +139,14 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (e.getKeyChar() == 'a') {
 			dog.setLeft(true);
 			dog.moveLeft();
+			dog.setHorizontalDirection(-1);
+			Images.currentDogImage = Images.leftIdleDog1[0];
 		}
 		if (e.getKeyChar() == 'd') {
 			dog.setRight(true);
 			dog.moveRight();
+			dog.setHorizontalDirection(1);
+			Images.currentDogImage = Images.rightIdleDog1[1];
 		}
 	}
 
@@ -191,7 +195,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		currentLvl = "testerLvl.txt";
 		in = new Scanner(new File(currentLvl));
 		GameFunctions.loadGrid(in);
-		Images.currentDogImage = Images.rightIdleDog1[0];
+		Images.currentDogImage = Images.rightIdleDog1[1];
 		imageWidth = Images.currentDogImage.getWidth();
 		imageHeight = Images.currentDogImage.getHeight();
 		dog.setBounds(0, 0, imageWidth, imageHeight);

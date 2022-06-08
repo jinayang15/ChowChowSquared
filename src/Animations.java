@@ -1,12 +1,12 @@
 
 public class Animations {
-	public static int idleTick, idleIndex, idleSpeed = 30;
+	public static int idleIndex = 1;
+	public static int idleTick, idleSpeed = 30;
 	public static int runTick, runIndex, runSpeed = 30;
 	public static int jumpTick, jumpIndex, jumpSpeed = 30;
-	public static String direction = "right";
 	
 	// the update methods loops through the image arrays at a set speed
-	public static void updateAnimationIdle() {
+	public static void updateAnimationIdleRight() {
 		idleTick++;
 		if(idleTick >= idleSpeed) {
 			idleTick = 0;
@@ -33,7 +33,7 @@ public class Animations {
 		if(jumpTick >= jumpSpeed) {
 			jumpTick = 0;
 			jumpIndex++;
-			if(jumpIndex >= Images.rightRunDog1.length) {
+			if(jumpIndex >= Images.rightJumpDog1.length) {
 				jumpIndex = 0;
 			}
 		}

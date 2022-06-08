@@ -27,7 +27,8 @@ public class Character extends Rectangle {
 	// verticalDirection determines whether the character is jumping up or falling down (only vertical)
 	// -1 max jump -> 1 max fall
 	private double verticalDirection = 0;
-	private int horizontalDirection = 0;
+	// -1 = left -> 1 = right
+	private int horizontalDirection = 1;
 	// how fast the character will jump or fall
 	private static double jumpSpeed = 0.2;
 	private static double fallSpeed = 0.05;
@@ -149,7 +150,15 @@ public class Character extends Rectangle {
 	public void setVerticalDirection(int num) {
 		verticalDirection = num;
 	}
+	public double getHorizontalDirection() {
+		return horizontalDirection;
+	}
 
+	// sets verticalDirection to specific value
+	// default 0
+	public void setHorizontalDirection(int num) {
+		horizontalDirection = num;
+	}
 	// character will fall if there is no block below it
 	// character will be set on the ground if there is a ground tile below it
 	public boolean isIdleRight() {
@@ -163,10 +172,15 @@ public class Character extends Rectangle {
 	public void chanceIdle() {
 		if (verticalDirection == 0) {
 			if (!isLeft() && !isRight()) {
-				double chance = Math.random() * 100;
+				double chance = Math.random() * 4;
 				System.out.println(chance);
 				if (chance <= 1) {
-					setIdleRight(true);
+					if (getHorizontalDirection() == 1 && !isIdleRight()) {
+						setIdleRight(true);
+					}
+					if (getHorizontalDirection() == -1) {
+						//setIdleLeft(true);
+					}
 				}
 			}
 		}
@@ -174,7 +188,8 @@ public class Character extends Rectangle {
 	public void idleRight() {
 		if (isIdleRight()) {
 			Images.currentDogImage = Images.rightIdleDog1[Animations.idleIndex];
-			if (Animations.idleIndex == 0) {
+			Animations.updateAnimationIdleRight();
+			if (Animations.idleIndex == 1) {
 				setIdleRight(false);
 			}
 		}

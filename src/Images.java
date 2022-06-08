@@ -14,11 +14,9 @@ public class Images {
 	public static final BufferedImage[] leftIdleDog1 = new BufferedImage[2];
 	public static final BufferedImage[] dirtTiles = new BufferedImage[5];
 	public static final BufferedImage[] grassTiles = new BufferedImage[2];
-<<<<<<< HEAD
-	public static BufferedImage currentDogImage;
-=======
 	public static final BufferedImage[] newDirtTiles = new BufferedImage[5];
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
+	public static BufferedImage currentDogImage;
+	
 	public static BufferedImage menu;
 	public static BufferedImage level;
 	public static BufferedImage options;
@@ -26,12 +24,14 @@ public class Images {
 	public static BufferedImage back;
 	public static BufferedImage dogRight1;
 	public static BufferedImage dogLeft1;
+	public static BufferedImage skyBG;
+	public static BufferedImage spriteSheet;
+	
 	public static BufferedImage pHDog;
 	public static BufferedImage pHBug;
 	public static BufferedImage pHTile;
 	public static BufferedImage pHBG;
-	public static BufferedImage skyBG;
-	public static BufferedImage spriteSheet;
+	
 	
 	public static void importImages() throws IOException {
 		menu = ImageIO.read(new File("chowchowmenu.png"));
@@ -63,6 +63,9 @@ public class Images {
 		for (int i = 1; i < rightJumpDog1.length; i++) {
 			rightJumpDog1[i] = dogRight1.getSubimage((i+9)*40, 0, 40, 40);
 		}
+		for (int i = 0; i < leftIdleDog1.length; i++) {
+			leftIdleDog1[i] = dogLeft1.getSubimage((i+11)*40,0,40,40);
+		}
 //		for (int i = 0; i < leftRunDog1.length; i++) {
 //			leftRunDog1[i] = dogLeft1.getSubimage(i*40, 40, 40, 40);
 //		}
@@ -73,14 +76,8 @@ public class Images {
 //		for (int i = 0;i < rightWalkDog1.length; i++) {
 //			rightWalkDog1[i] = grabImage(i+7,2,dogRight1);
 //		}
-//		for (int i = 0; i < rightIdleDog1.length; i++) {
-//			rightIdleDog1[i] = dogRight1.getSubimage(i*40,0,40, 40);
-//		}
 //		for (int i = 0; i < rightWalkDog1.length; i++) {
 //			lefttWalkDog1[i] = grabImage(i,2,dogLeft1);
-//		}
-//		for (int i = 0; i < rightIdleDog1.length; i++) {
-//			leftIdleDog1[i] = grabImage(i+11,1,dogLeft1);
 //		}
 	}
 }
