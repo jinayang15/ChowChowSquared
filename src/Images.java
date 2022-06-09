@@ -46,7 +46,7 @@ public class Images {
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));
 		dogLeft1 = ImageIO.read(new File("whitedogleft.png"));
 		defaultRightImage = dogRight1.getSubimage(40, 0, 40, 40);
-		defaultLeftImage = dogLeft1.getSubimage(400,0,40,40);
+		defaultLeftImage = dogLeft1.getSubimage(440,0,40,40);
 		for (int i = 0; i < grassTiles.length; i++) {
 			grassTiles[i] = ImageIO.read(new File("20grass" + (i+1) + ".png"));
 		}

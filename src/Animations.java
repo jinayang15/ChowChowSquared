@@ -5,7 +5,7 @@ public class Animations {
 	public static int idleTick, idleSpeed = 30;
 	public static int runLeftIndex = Images.leftRunDog1.length-1;
 	public static int runRightIndex = 0;
-	public static int runTick, runSpeed = 15;
+	public static int runTick, runSpeed = 5;
 	public static int jumpTick, jumpIndex, jumpSpeed = 30;
 	
 	// the update methods loops through the image arrays at a set speed

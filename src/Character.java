@@ -17,7 +17,7 @@ public class Character extends Rectangle {
 	private boolean idleLeft = false;
 	private boolean idleRight = false;
 	// pixels moved left and right
-	private static int moveX = 10;
+	private static int moveX = 5;
 	public static int noCollide = -100;
 	// jump = true, character is jumping
 	// jump = false, character is not jumping
@@ -39,7 +39,7 @@ public class Character extends Rectangle {
 		this.hitboxWidth = width;
 		this.hitboxHeight = height;
 		this.imageAdjustX = (Main.imageWidth-hitboxWidth)/2;
-		this.imageAdjustY = (Main.imageHeight-hitboxHeight)/2;
+		this.imageAdjustY = (Main.imageWidth-hitboxHeight)/2;
 	}
 	
 	public void refreshTile() {

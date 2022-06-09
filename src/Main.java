@@ -80,15 +80,24 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				g.drawLine(i, 0, i, winHeight);
 			}
 			GameFunctions.drawTiles(g);
+			for (int i = 0; i < Images.leftRunDog1.length; i++) {
+				g.drawImage(Images.leftRunDog1[i], i*40, 0, null);
+			}
+			for (int i = 0; i < Images.leftIdleDog1.length; i++) {
+				g.drawImage(Images.leftIdleDog1[i], i*40, 40, null);
+			}
+			for (int i = 0; i < Images.leftJumpDog1.length; i++) {
+				g.drawImage(Images.leftJumpDog1[i], i*40, 80, null);
+			}
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(),
 					(int) dog.getY(), null);
 			// image box
-			//g.setColor(new Color(0, 0, 255));
-			//g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
+//			g.setColor(new Color(0, 0, 255));
+//			g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
 			// hitbox
-			//g.setColor(new Color(255, 255, 255));
-			//g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
+//			g.setColor(new Color(255, 255, 255));
+//			g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
 		}
 		else if (gameState == 6) {
 			super.paintComponent(g);
