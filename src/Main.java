@@ -45,7 +45,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public Main() {
 		setPreferredSize(new Dimension(winWidth, winHeight));
 		setBackground(new Color(255, 255, 255));
-		;
 		this.setFocusable(true);
 		addKeyListener(this);
 		addMouseListener(this);
@@ -85,11 +84,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.currentDogImage, (int) dog.getX(),
 					(int) dog.getY(), null);
 			// image box
-			g.setColor(new Color(0, 0, 255));
-			g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
+			//g.setColor(new Color(0, 0, 255));
+			//g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
 			// hitbox
-			g.setColor(new Color(255, 255, 255));
-			g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
+			//g.setColor(new Color(255, 255, 255));
+			//g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
 		}
 		else if (gameState == 6) {
 			super.paintComponent(g);
@@ -134,13 +133,13 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 		}
 		if (e.getKeyChar() == 'a') {
-			dog.setLeft(true);
+			dog.setMovingLeft(true);
 			dog.moveLeft();
 			dog.setHorizontalDirection(-1);
 			Images.currentDogImage = Images.leftIdleDog1[0];
 		}
 		if (e.getKeyChar() == 'd') {
-			dog.setRight(true);
+			dog.setMovingRight(true);
 			dog.moveRight();
 			dog.setHorizontalDirection(1);
 			Images.currentDogImage = Images.rightIdleDog1[1];
@@ -150,12 +149,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyChar() == 'a') {
-			dog.setLeft(false);
+			dog.setMovingLeft(false);
+			Animations.runLeftIndex = Images.leftRunDog1.length-1;
+			Images.currentDogImage = Images.defaultLeftImage;
 		}
 		if (e.getKeyChar() == 'd') {
-			dog.setRight(false);
+			dog.setMovingRight(false);
+			Animations.runRightIndex = 0;
+			Images.currentDogImage = Images.defaultRightImage;
 		}
-
 	}
 
 	@Override

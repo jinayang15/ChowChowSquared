@@ -16,7 +16,7 @@ public class Character extends Rectangle {
 	private boolean right = false;
 	private boolean idleLeft = false;
 	private boolean idleRight = false;
-	// pixels m oved left and right
+	// pixels moved left and right
 	private static int moveX = 10;
 	public static int noCollide = -100;
 	// jump = true, character is jumping
@@ -181,7 +181,7 @@ public class Character extends Rectangle {
 	
 	public void chanceIdle() {
 		if (verticalDirection == 0) {
-			if (!isLeft() && !isRight()) {
+			if (!isMovingLeft() && !isMovingRight()) {
 				double chance = Math.random() * 4;
 				if (chance <= 1) {
 					if (getHorizontalDirection() == 1 && !isIdleRight()) {
@@ -197,7 +197,7 @@ public class Character extends Rectangle {
 	public void idleRight() {
 		if (isIdleRight()) {
 			Images.currentDogImage = Images.rightIdleDog1[Animations.idleRightIndex];
-			Animations.updateAnimationIdle();
+			Animations.updateAnimationIdle(this);
 			if (Animations.idleRightIndex == 1) {
 				setIdleRight(false);
 			}
@@ -206,7 +206,7 @@ public class Character extends Rectangle {
 	public void idleLeft() {
 		if (isIdleLeft()) {
 			Images.currentDogImage = Images.leftIdleDog1[Animations.idleLeftIndex];
-			Animations.updateAnimationIdle();
+			Animations.updateAnimationIdle(this);
 			if (Animations.idleLeftIndex == 0) {
 				setIdleLeft(false);
 			}
@@ -258,12 +258,12 @@ public class Character extends Rectangle {
 	}
 
 	// check if moving left
-	public boolean isLeft() {
+	public boolean isMovingLeft() {
 		return left;
 	}
 
 	// set moving left
-	public void setLeft(boolean bool) {
+	public void setMovingLeft(boolean bool) {
 		left = bool;
 	}
 
@@ -272,8 +272,10 @@ public class Character extends Rectangle {
 	// - it is not moving right
 	// - there is nothing blocking it left
 	public void moveLeft() {
-		if (this.isLeft() && !this.isRight()) {
+		if (this.isMovingLeft() && !this.isMovingRight()) {
 			this.translate(-moveX, 0);
+			Images.currentDogImage = Images.leftRunDog1[Animations.runLeftIndex];
+			Animations.updateAnimationRun(this);
 			int[] blockCollides = checkTileCollisionLeft();
 			if (blockCollides[1] != noCollide) {
 				this.setLocation((blockCollides[1] + 1) * Main.tileSize - imageAdjustX,
@@ -283,11 +285,11 @@ public class Character extends Rectangle {
 	}
 
 	// same as other two
-	public boolean isRight() {
+	public boolean isMovingRight() {
 		return right;
 	}
 
-	public void setRight(boolean bool) {
+	public void setMovingRight(boolean bool) {
 		right = bool;
 	}
 
@@ -296,8 +298,10 @@ public class Character extends Rectangle {
 	// - it is not moving left
 	// - there is nothing blocking it right
 	public void moveRight() {
-		if (this.isRight() && !this.isLeft()) {
+		if (this.isMovingRight() && !this.isMovingLeft()) {
 			this.translate(moveX, 0);
+			Images.currentDogImage = Images.rightRunDog1[Animations.runRightIndex];
+			Animations.updateAnimationRun(this);
 			int[] blockCollides = checkTileCollisionRight();
 			if (blockCollides[1] != noCollide) {
 				this.setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth + imageAdjustX,
@@ -319,6 +323,8 @@ public class Character extends Rectangle {
 	public void fixPosition() {
 		int[] blockAboveCollide = checkTileCollisionAbove();
 		int[] blockBelowCollide = checkTileCollisionBelow();
+		int[] blockLeftCollide = checkTileCollisionLeft();
+		int[] blockRightCollide = checkTileCollisionRight();
 		if (blockAboveCollide[0] != noCollide && isJumping()) {
 			this.setLocation((int) this.getX(),
 					(blockAboveCollide[0] + 1) * Main.tileSize - imageAdjustY);
@@ -327,6 +333,14 @@ public class Character extends Rectangle {
 			this.setLocation((int) this.getX(),
 					blockBelowCollide[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
 			setVerticalDirection(0);
+		}
+		if (blockLeftCollide[1] != noCollide && !isMovingRight()) {
+			this.setLocation((blockLeftCollide[1] + 1) * Main.tileSize - imageAdjustX,
+					(int) this.getY());
+		}
+		else if (blockRightCollide[1] != noCollide && !isMovingLeft()) {
+			this.setLocation(blockRightCollide[1] * Main.tileSize - Main.imageWidth + imageAdjustX,
+					(int) this.getY());
 		}
 	}
 

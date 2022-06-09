@@ -1,23 +1,25 @@
 
 public class Animations {
 	public static int idleLeftIndex = 0;
-	public static int idleRightIndex = 1;
+	public static int idleRightIndex = Images.rightIdleDog1.length-1;
 	public static int idleTick, idleSpeed = 30;
-	public static int runTick, runIndex, runSpeed = 30;
+	public static int runLeftIndex = Images.leftRunDog1.length-1;
+	public static int runRightIndex = 0;
+	public static int runTick, runSpeed = 15;
 	public static int jumpTick, jumpIndex, jumpSpeed = 30;
 	
 	// the update methods loops through the image arrays at a set speed
-	public static void updateAnimationIdle() {
+	public static void updateAnimationIdle(Character dog) {
 		idleTick++;
 		if(idleTick >= idleSpeed) {
 			idleTick = 0;
-			if (Main.dog.getHorizontalDirection() == 1) {
+			if (dog.getHorizontalDirection() == 1) {
 				idleRightIndex++;
 				if(idleRightIndex >= Images.rightIdleDog1.length) {
 					idleRightIndex = 0;
 				}
 			}
-			if (Main.dog.getHorizontalDirection() == -1) {
+			else if (dog.getHorizontalDirection() == -1) {
 				idleLeftIndex++;
 				if(idleLeftIndex >= Images.leftIdleDog1.length) {
 					idleLeftIndex = 0;
@@ -26,13 +28,21 @@ public class Animations {
 		}
 	}
 	
-	public static void updateAnimationRun() {
+	public static void updateAnimationRun(Character dog) {
 		runTick++;
 		if(runTick >= runSpeed) {
 			runTick = 0;
-			runIndex++;
-			if(runIndex >= Images.rightRunDog1.length) {
-				runIndex = 0;
+			if (dog.getHorizontalDirection() == 1) {
+				runRightIndex++;
+				if(runRightIndex >= Images.rightRunDog1.length) {
+					runRightIndex = 0;
+				}
+			}
+			else if (dog.getHorizontalDirection() == -1) {
+				runLeftIndex--;
+				if(runLeftIndex <= 0) {
+					runLeftIndex = Images.leftRunDog1.length-1;
+				}
 			}
 		}
 	}
