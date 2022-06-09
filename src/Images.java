@@ -48,24 +48,24 @@ public class Images {
 		for (int i = 0; i < grassTiles.length; i++) {
 			grassTiles[i] = ImageIO.read(new File("20grass" + (i+1) + ".png"));
 		}
-//		for (int i = 0; i < newDirtTiles.length; i++) {
-//			for (int j = 0; i < 4; j++) {
-//				newDirtTiles[i] = ImageIO.read(new File("newgrass" + (i+1) + "_" + (j+1) + ".png"));
-//			}
-//		}
 		for (int i = 0; i < rightIdleDog1.length; i++) {
 			rightIdleDog1[i] = dogRight1.getSubimage(i*40,0,40, 40);
 		}
 		for (int i = 0; i < rightRunDog1.length; i++) {
 			rightRunDog1[i] = dogRight1.getSubimage((i+7)*40, 40, 40, 40);
 		}
-		rightJumpDog1[0] = dogRight1.getSubimage(10*40, 40, 40, 40);
 		for (int i = 1; i < rightJumpDog1.length; i++) {
-			rightJumpDog1[i] = dogRight1.getSubimage((i+9)*40, 0, 40, 40);
+			rightJumpDog1[i] = dogRight1.getSubimage((i+8)*40, 0, 40, 40);
 		}
 		for (int i = 0; i < leftIdleDog1.length; i++) {
 			leftIdleDog1[i] = dogLeft1.getSubimage((i+11)*40,0,40,40);
 		}
+//		for (int i = 0; i < newDirtTiles.length; i++) {
+//			for (int j = 0; i < 4; j++) {
+//				newDirtTiles[i] = ImageIO.read(new File("newgrass" + (i+1) + "_" + (j+1) + ".png"));
+//			}
+//		}
+		
 //		for (int i = 0; i < leftRunDog1.length; i++) {
 //			leftRunDog1[i] = dogLeft1.getSubimage(i*40, 40, 40, 40);
 //		}
@@ -79,5 +79,6 @@ public class Images {
 //		for (int i = 0; i < rightWalkDog1.length; i++) {
 //			lefttWalkDog1[i] = grabImage(i,2,dogLeft1);
 //		}
+		rightJumpDog1[0] = dogRight1.getSubimage(10*40, 40, 40, 40);
 	}
 }

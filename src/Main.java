@@ -53,7 +53,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			// imports all images
 			Images.importImages();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 
 		Thread thread = new Thread(this);
@@ -81,9 +81,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				g.drawLine(i, 0, i, winHeight);
 			}
 			GameFunctions.drawTiles(g);
-			for (int i = 0; i < Images.leftIdleDog1.length;i++) {
-				g.drawImage(Images.leftIdleDog1[i], i*40, 0, null);
-			}
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(),
 					(int) dog.getY(), null);
