@@ -57,6 +57,7 @@ public class Images {
 		for (int i = 1; i < rightJumpDog1.length; i++) {
 			rightJumpDog1[i] = dogRight1.getSubimage((i+8)*40, 0, 40, 40);
 		}
+		rightJumpDog1[0] = dogRight1.getSubimage(10*40, 40, 40, 40);
 		for (int i = 0; i < leftIdleDog1.length; i++) {
 			leftIdleDog1[i] = dogLeft1.getSubimage((i+11)*40,0,40,40);
 		}
@@ -79,6 +80,5 @@ public class Images {
 //		for (int i = 0; i < rightWalkDog1.length; i++) {
 //			lefttWalkDog1[i] = grabImage(i,2,dogLeft1);
 //		}
-		rightJumpDog1[0] = dogRight1.getSubimage(10*40, 40, 40, 40);
 	}
 }

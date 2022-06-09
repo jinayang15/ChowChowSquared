@@ -136,6 +136,7 @@ public class Character extends Rectangle {
 		this.fixPosition();
 		this.chanceIdle();
 		this.idleRight();
+		this.idleLeft();
 	}
 
 	// basic mechanics are down
@@ -168,18 +169,24 @@ public class Character extends Rectangle {
 	public void setIdleRight(boolean bool) {
 		idleRight = bool;
 	}
+	public boolean isIdleLeft() {
+		return idleLeft;
+	}
+	
+	public void setIdleLeft(boolean bool) {
+		idleLeft = bool;
+	}
 	
 	public void chanceIdle() {
 		if (verticalDirection == 0) {
 			if (!isLeft() && !isRight()) {
 				double chance = Math.random() * 4;
-				System.out.println(chance);
 				if (chance <= 1) {
 					if (getHorizontalDirection() == 1 && !isIdleRight()) {
 						setIdleRight(true);
 					}
-					if (getHorizontalDirection() == -1) {
-						//setIdleLeft(true);
+					else if (getHorizontalDirection() == -1 && !isIdleLeft()) {
+						setIdleLeft(true);
 					}
 				}
 			}
@@ -187,10 +194,19 @@ public class Character extends Rectangle {
 	}
 	public void idleRight() {
 		if (isIdleRight()) {
-			Images.currentDogImage = Images.rightIdleDog1[Animations.idleIndex];
-			Animations.updateAnimationIdleRight();
-			if (Animations.idleIndex == 1) {
+			Images.currentDogImage = Images.rightIdleDog1[Animations.idleRightIndex];
+			Animations.updateAnimationIdle();
+			if (Animations.idleRightIndex == 1) {
 				setIdleRight(false);
+			}
+		}
+	}
+	public void idleLeft() {
+		if (isIdleLeft()) {
+			Images.currentDogImage = Images.leftIdleDog1[Animations.idleLeftIndex];
+			Animations.updateAnimationIdle();
+			if (Animations.idleLeftIndex == 0) {
+				setIdleLeft(false);
 			}
 		}
 	}
