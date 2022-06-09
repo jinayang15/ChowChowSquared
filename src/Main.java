@@ -45,7 +45,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public Main() {
 		setPreferredSize(new Dimension(winWidth, winHeight));
 		setBackground(new Color(255, 255, 255));
-		;
 		this.setFocusable(true);
 		addKeyListener(this);
 		addMouseListener(this);
@@ -65,7 +64,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (gameState == 0) {
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
-			g.drawImage(Images.leftJumpDog1[3], 0, 0, null);
+			g.drawImage(Images.newDirtTiles[3], 0, 0, null);
 
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
@@ -100,6 +99,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		else if (gameState == 7) {
 			super.paintComponent(g);
 			g.drawImage(Images.winners, 0, 0, null);
+			g.drawImage(Images.back, 450, 340, null);
 		
 		}
 		
@@ -176,7 +176,19 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			if (mouseX >= 212 && mouseX <= 308 && mouseY >= 144 && mouseY <= 180) {
 				gameState = 2;
 			} 
+			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
+				gameState = 0;
+			} 
+		} else if (gameState == 6) {
+			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
+				gameState = 0;
+			} 
+		} else if (gameState == 7) {
+			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
+				gameState = 0;
+			} 
 		}
+		
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {

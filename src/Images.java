@@ -14,7 +14,7 @@ public class Images {
 	public static final BufferedImage[] leftIdleDog1 = new BufferedImage[2];
 	public static final BufferedImage[] dirtTiles = new BufferedImage[5];
 	public static final BufferedImage[] grassTiles = new BufferedImage[2];
-	public static final BufferedImage[] newDirtTiles = new BufferedImage[5];
+	public static final BufferedImage[] newDirtTiles = new BufferedImage[16];
 	public static BufferedImage currentDogImage;
 	
 	public static BufferedImage menu;
@@ -60,11 +60,11 @@ public class Images {
 		for (int i = 0; i < leftIdleDog1.length; i++) {
 			leftIdleDog1[i] = dogLeft1.getSubimage((i+11)*40,0,40,40);
 		}
-//		for (int i = 0; i < newDirtTiles.length; i++) {
-//			for (int j = 0; i < 4; j++) {
-//				newDirtTiles[i] = ImageIO.read(new File("newgrass" + (i+1) + "_" + (j+1) + ".png"));
-//			}
-//		}
+		for (int i = 0; i < newDirtTiles.length; i++) {
+			for (int j = 0; i < 4; j++) {
+				newDirtTiles[i] = ImageIO.read(new File("newgrass" + (i+1) + "_" + (j+1) + ".png"));
+			}
+		}
 		
 //		for (int i = 0; i < leftRunDog1.length; i++) {
 //			leftRunDog1[i] = dogLeft1.getSubimage(i*40, 40, 40, 40);
@@ -79,6 +79,6 @@ public class Images {
 //		for (int i = 0; i < rightWalkDog1.length; i++) {
 //			lefttWalkDog1[i] = grabImage(i,2,dogLeft1);
 //		}
-		rightJumpDog1[0] = dogRight1.getSubimage(10*40, 40, 40, 40);
+//		rightJumpDog1[0] = dogRight1.getSubimage(10*40, 40, 40, 40);
 	}
 }
