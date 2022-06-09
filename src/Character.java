@@ -16,7 +16,7 @@ public class Character extends Rectangle {
 	private boolean right = false;
 	private boolean idleLeft = false;
 	private boolean idleRight = false;
-	// pixels moved left and right
+	// pixels m oved left and right
 	private static int moveX = 10;
 	public static int noCollide = -100;
 	// jump = true, character is jumping
@@ -124,6 +124,7 @@ public class Character extends Rectangle {
 
 	// updates character model
 	public void update() {
+		// char position
 		this.refreshTile();
 		this.fall();
 		this.refreshTile();
@@ -134,6 +135,7 @@ public class Character extends Rectangle {
 		this.moveRight();
 		this.refreshTile();
 		this.fixPosition();
+		// animations 
 		this.chanceIdle();
 		this.idleRight();
 		this.idleLeft();
