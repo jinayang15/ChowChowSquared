@@ -35,7 +35,7 @@ public class Character extends Rectangle {
 		this.hitboxWidth = width;
 		this.hitboxHeight = height;
 		this.imageAdjustX = (Main.imageWidth-hitboxWidth)/2;
-		this.imageAdjustY = (Main.imageHeight-hitboxHeight)/2;;
+		this.imageAdjustY = (Main.imageHeight-hitboxHeight)/2;
 	}
 	
 	public void refreshTile() {
