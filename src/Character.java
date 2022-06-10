@@ -436,7 +436,10 @@ public class Character extends Rectangle {
 		int[] blockCollides = checkBlockBelow();
 		if (blockCollides[0] != noCollide) {
 			// System.out.println(this.getY() + Main.imageHeight - imageAdjustY);
-			if (this.getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {
+			if (this.getY() + Main.imageHeight >= 400) {
+				Main.gameState = 8;
+			}
+			else if (this.getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {
 				blockCollides[0] = noCollide;
 			}
 		}

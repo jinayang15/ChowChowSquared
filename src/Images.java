@@ -21,6 +21,10 @@ public class Images {
 	public static BufferedImage options;
 	public static BufferedImage winners;
 	public static BufferedImage back;
+	public static BufferedImage retry;
+	public static BufferedImage icon;
+	public static BufferedImage gameOver;
+
 	public static BufferedImage dogRight1;
 	public static BufferedImage dogLeft1;
 	public static BufferedImage skyBG;
@@ -35,11 +39,14 @@ public class Images {
 	
 	
 	public static void importImages() throws IOException {
+		icon = ImageIO.read(new File("icon.png"));
 		menu = ImageIO.read(new File("chowchowmenu.png"));
 		level = ImageIO.read(new File("level.png"));
 		options = ImageIO.read(new File("options.png"));
 		winners = ImageIO.read(new File("winners.png"));
 		back = ImageIO.read(new File("back.png"));
+		retry = ImageIO.read(new File("retry.png"));
+		gameOver = ImageIO.read(new File("gameover.png"));
 		pHTile = ImageIO.read(new File("20dirt.png"));
 		pHDog = ImageIO.read(new File("pHChar.png"));
 		pHBug = ImageIO.read(new File("mad.png"));

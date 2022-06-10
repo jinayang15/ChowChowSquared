@@ -35,8 +35,8 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 1 --> level select
 	// 2 --> tutorial
 	// 3 --> lvl 1
-	// 4 --> lvl 2
-	// 5 --> lvl 3 boss
+	// 4 --> 
+	// 5 --> you won (enter name)
 	// 6 --> options
 	// 7 --> winners
 	// 8 --> you died
@@ -109,6 +109,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.winners, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 		
+		}
+		else if (gameState == 8) {
+			g.drawImage(Images.gameOver, 0, 0, null);
+			g.drawImage(Images.retry, 170, 240, null);
+			g.drawImage(Images.back, 300, 240, null);
 		}
 		
 
@@ -198,6 +203,13 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
 			} 
+		} else if (gameState == 8) {
+			if (mouseX >= 170 && mouseX <= 220 && mouseY >= 240 && mouseY <= 287) {
+				gameState = 2;
+			} 
+			else if (mouseX >= 300 && mouseX <= 350 && mouseY >= 240 && mouseY <= 287) {
+				gameState = 0;
+			} 
 		}
 		
 	}
@@ -207,6 +219,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		Main panel = new Main();
 		frame.add(panel);
 		frame.pack();
+		frame.setIconImage(Images.icon);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
