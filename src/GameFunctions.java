@@ -51,3 +51,7 @@ public class GameFunctions {
 		}
 	}	
 }
+	// tiles in 40lvl1
+	// grass = 1 (random generate)
+	// dirt = 2
+	//
