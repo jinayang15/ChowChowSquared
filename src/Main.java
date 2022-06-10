@@ -184,7 +184,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameState = 7;
 			}
 		} else if (gameState == 1) {
-			if (mouseX >= 212 && mouseX <= 308 && mouseY >= 144 && mouseY <= 180) {
+			if (mouseX >= 198 && mouseX <= 323 && mouseY >= 146 && mouseY <= 194) {
 				gameState = 2;
 			} 
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
