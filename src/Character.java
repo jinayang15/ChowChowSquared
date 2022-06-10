@@ -234,11 +234,13 @@ public class Character extends Rectangle {
 		if (!isIdleRight() && !isIdleLeft()) {
 			if (!isJumping() && !isFalling()) {
 				if (!isMovingLeft() && !isMovingRight()) {
-					double chance = Math.random() * 4;
+					double chance = Math.random() * 100;
 					if (chance <= 1) {
 						if (getHorizontalDirection() == 1) {
+							System.out.println("here1");
 							setIdleRight(true);
 						} else if (getHorizontalDirection() == -1) {
+							System.out.println("here2");
 							setIdleLeft(true);
 						}
 					}
@@ -268,7 +270,8 @@ public class Character extends Rectangle {
 			if (horizontalDirection == 1 && !(isIdleRight() || isIdleLeft())) {
 				Images.currentDogImage = Images.defaultRightImage;
 			}
-			else if (!(isIdleRight() || isIdleLeft())){
+			else if (horizontalDirection == -1 && !(isIdleRight() || isIdleLeft())){
+			
 				Images.currentDogImage = Images.defaultLeftImage;
 			}
 		} else if (blockCollides[0] == noCollide) {

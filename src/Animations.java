@@ -1,6 +1,6 @@
 
 public class Animations {
-	public static int idleLeftIndex = 0;
+	public static int idleLeftIndex = 1;
 	public static int idleRightIndex = 0;
 	public static int idleTick, idleSpeed = 30;
 	public static int runLeftIndex = Images.leftRunDog1.length - 1;
@@ -23,16 +23,15 @@ public class Animations {
 					if (dog.getHorizontalDirection() == 1) {
 						Images.currentDogImage = Images.rightIdleDog1[Animations.idleRightIndex];
 						idleRightIndex++;
-						System.out.println(idleRightIndex);
 						if (idleRightIndex >= Images.rightIdleDog1.length) {
 							idleRightIndex = 0;
 							dog.stopIdle();
 						}
 					} else if (dog.getHorizontalDirection() == -1) {
 						Images.currentDogImage = Images.leftIdleDog1[Animations.idleLeftIndex];
-						idleLeftIndex++;
-						if (idleLeftIndex >= Images.leftIdleDog1.length) {
-							idleLeftIndex = 0;
+						idleLeftIndex--;
+						if (idleLeftIndex < 0) {
+							idleLeftIndex = 1;
 							dog.stopIdle();
 						}
 					}
