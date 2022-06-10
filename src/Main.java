@@ -64,7 +64,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (gameState == 0) {
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
-			g.drawImage(Images.newDirtTiles[3], 0, 0, null);
+			g.drawImage(Images.newDirtTiles1[3], 0, 0, null);
 
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
