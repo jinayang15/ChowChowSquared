@@ -17,14 +17,15 @@ public class Character extends Rectangle {
 	private boolean idleLeft = false;
 	private boolean idleRight = false;
 	// pixels moved left and right
-	private static int moveX = 10;
+	private static int moveX = 5;
 	public static int noCollide = -100;
 	// jump = true, character is jumping
 	// jump = false, character is not jumping
 	private boolean jump = false;
 	// how high the character will jump
 	private static int gravity = 30;
-	// verticalDirection determines whether the character is jumping up or falling down (only vertical)
+	// verticalDirection determines whether the character is jumping up or falling
+	// down (only vertical)
 	// -1 max jump -> 1 max fall
 	private double verticalDirection = 0;
 	// -1 = left -> 1 = right
@@ -38,10 +39,10 @@ public class Character extends Rectangle {
 	public void setHitbox(int width, int height) {
 		this.hitboxWidth = width;
 		this.hitboxHeight = height;
-		this.imageAdjustX = (Main.imageWidth-hitboxWidth)/2;
-		this.imageAdjustY = (Main.imageHeight-hitboxHeight)/2;;
+		this.imageAdjustX = (Main.imageWidth - hitboxWidth) / 2;
+		this.imageAdjustY = (Main.imageWidth - hitboxHeight) / 2;
 	}
-	
+
 	public void refreshTile() {
 		int numX, numY;
 		ArrayList<Integer> copyX, copyY;
@@ -60,11 +61,18 @@ public class Character extends Rectangle {
 		for (int i = 1; i < numX; i++) {
 			tilesY.addAll(copyY);
 		}
+
+//		System.out.println("Occupies: ");
+//		for (int i = 0; i < tilesX.size(); i++) {
+//			System.out.println(tilesX.get(i) + " " + tilesY.get(i));
+//		}
+//		System.out.println();
 	}
 
 	public ArrayList<Integer> getTilesX(ArrayList<Integer> tilesX) {
 		int x1 = (int) this.getX() + imageAdjustX;
 		int x2 = x1 + hitboxWidth;
+//		System.out.println("X: " + x1 + " " + x2);
 		int roundx1;
 		int roundx2;
 
@@ -94,6 +102,7 @@ public class Character extends Rectangle {
 	public ArrayList<Integer> getTilesY(ArrayList<Integer> tilesY) {
 		int y1 = (int) this.getY() + imageAdjustY;
 		int y2 = y1 + hitboxHeight;
+		// System.out.println("Y: " + y1 + " " + y2);
 		int roundy1;
 		int roundy2;
 		if (y1 % Main.tileSize != 0) {
@@ -124,18 +133,21 @@ public class Character extends Rectangle {
 
 	// updates character model
 	public void update() {
-		this.refreshTile();
-		this.fall();
-		this.refreshTile();
-		this.jump();
-		this.refreshTile();
-		this.moveLeft();
-		this.refreshTile();
-		this.moveRight();
-		this.refreshTile();
-		this.fixPosition();
-		this.chanceIdle();
-		this.idleRight();
+		// char position
+		refreshTile();
+		fall();
+		refreshTile();
+		jump();
+		refreshTile();
+		moveLeft();
+		refreshTile();
+		moveRight();
+		refreshTile();
+		fixPosition();
+		// animations
+		chanceIdle();
+		idleRight();
+		idleLeft();
 	}
 
 	// basic mechanics are down
@@ -150,6 +162,7 @@ public class Character extends Rectangle {
 	public void setVerticalDirection(int num) {
 		verticalDirection = num;
 	}
+
 	public double getHorizontalDirection() {
 		return horizontalDirection;
 	}
@@ -158,55 +171,6 @@ public class Character extends Rectangle {
 	// default 0
 	public void setHorizontalDirection(int num) {
 		horizontalDirection = num;
-	}
-	// character will fall if there is no block below it
-	// character will be set on the ground if there is a ground tile below it
-	public boolean isIdleRight() {
-		return idleRight;
-	}
-	
-	public void setIdleRight(boolean bool) {
-		idleRight = bool;
-	}
-	
-	public void chanceIdle() {
-		if (verticalDirection == 0) {
-			if (!isLeft() && !isRight()) {
-				double chance = Math.random() * 4;
-				System.out.println(chance);
-				if (chance <= 1) {
-					if (getHorizontalDirection() == 1 && !isIdleRight()) {
-						setIdleRight(true);
-					}
-					if (getHorizontalDirection() == -1) {
-						//setIdleLeft(true);
-					}
-				}
-			}
-		}
-	}
-	public void idleRight() {
-		if (isIdleRight()) {
-			Images.currentDogImage = Images.rightIdleDog1[Animations.idleIndex];
-			Animations.updateAnimationIdleRight();
-			if (Animations.idleIndex == 1) {
-				setIdleRight(false);
-			}
-		}
-	}
-	
-	public void fall() {
-		this.translate(0, (int) (gravity * verticalDirection));
-		int[] blockCollides = checkTileCollisionBelow();
-		if (blockCollides[0] != noCollide && !isJumping()) {
-			this.setLocation((int) this.getX(),
-					blockCollides[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
-			setVerticalDirection(0);
-		} else if (blockCollides[0] == noCollide) {
-			if (verticalDirection < 1) {
-				verticalDirection += fallSpeed;
-			}
-		}
 	}
 
 	// check if character is jumping based on true or false
@@ -219,17 +183,115 @@ public class Character extends Rectangle {
 		jump = bool;
 	}
 
+	public boolean isFalling() {
+		return verticalDirection > 0;
+	}
+
+	// character will fall if there is no block below it
+	// character will be set on the ground if there is a ground tile below it
+	// check if moving left
+	public boolean isMovingLeft() {
+		return left;
+	}
+
+	// set moving left
+	public void setMovingLeft(boolean bool) {
+		left = bool;
+	}
+
+	// same as other two
+	public boolean isMovingRight() {
+		return right;
+	}
+
+	public void setMovingRight(boolean bool) {
+		right = bool;
+	}
+
+	public boolean isIdleRight() {
+		return idleRight;
+	}
+
+	public void setIdleRight(boolean bool) {
+		idleRight = bool;
+	}
+
+	public boolean isIdleLeft() {
+		return idleLeft;
+	}
+
+	public void setIdleLeft(boolean bool) {
+		idleLeft = bool;
+	}
+
+	public void stopIdle() {
+		setIdleRight(false);
+		setIdleLeft(false);
+		Animations.idleTick = 0;
+	}
+
+	public void chanceIdle() {
+		if (!isIdleRight() && !isIdleLeft()) {
+			if (!isJumping() && !isFalling()) {
+				if (!isMovingLeft() && !isMovingRight()) {
+					double chance = Math.random() * 4;
+					if (chance <= 1) {
+						if (getHorizontalDirection() == 1) {
+							setIdleRight(true);
+						} else if (getHorizontalDirection() == -1) {
+							setIdleLeft(true);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void idleRight() {
+		if (isIdleRight()) {
+			Animations.updateAnimationIdle(this);
+		}
+	}
+
+	public void idleLeft() {
+		if (isIdleLeft()) {
+			Animations.updateAnimationIdle(this);
+		}
+	}
+
+	public void fall() {
+		this.translate(0, (int) (gravity * verticalDirection));
+		int[] blockCollides = checkTileCollisionBelow();
+		if (blockCollides[0] != noCollide && !isJumping()) {
+			this.setLocation((int) this.getX(), blockCollides[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
+			setVerticalDirection(0);
+			if (horizontalDirection == 1 && !(isIdleRight() || isIdleLeft())) {
+				Images.currentDogImage = Images.defaultRightImage;
+			}
+			else if (!(isIdleRight() || isIdleLeft())){
+				Images.currentDogImage = Images.defaultLeftImage;
+			}
+		} else if (blockCollides[0] == noCollide) {
+			stopIdle();
+			Animations.updateAnimationFall(this);
+			if (verticalDirection < 1) {
+				verticalDirection += fallSpeed;
+			}
+		}
+	}
+
 	// change the character's y to simulate a jump if:
 	// - it is supposed to be jumping
 	// - verticalDirection is set to jumping
 	// - there is no block above it
 	public void jump() {
 		if (isJumping() && verticalDirection < 0) {
+			stopIdle();
 			this.translate(0, (int) (gravity * verticalDirection));
+			Animations.updateAnimationJump(this);
 			int[] blockCollides = checkTileCollisionAbove();
 			if (blockCollides[0] != noCollide) {
-				this.setLocation((int) this.getX(),
-						(blockCollides[0] + 1) * Main.tileSize - imageAdjustY);
+				this.setLocation((int) this.getX(), (blockCollides[0] + 1) * Main.tileSize - imageAdjustY);
 				setVerticalDirection(0);
 			} else {
 				verticalDirection += jumpSpeed;
@@ -239,38 +301,21 @@ public class Character extends Rectangle {
 		}
 	}
 
-	// check if moving left
-	public boolean isLeft() {
-		return left;
-	}
-
-	// set moving left
-	public void setLeft(boolean bool) {
-		left = bool;
-	}
-
 	// move left if:
 	// - it is supposed to be moving left
 	// - it is not moving right
 	// - there is nothing blocking it left
 	public void moveLeft() {
-		if (this.isLeft() && !this.isRight()) {
+		if (this.isMovingLeft() && !this.isMovingRight()) {
+			stopIdle();
 			this.translate(-moveX, 0);
+			Images.currentDogImage = Images.leftRunDog1[Animations.runLeftIndex];
+			Animations.updateAnimationRun(this);
 			int[] blockCollides = checkTileCollisionLeft();
 			if (blockCollides[1] != noCollide) {
-				this.setLocation((blockCollides[1] + 1) * Main.tileSize - imageAdjustX,
-						(int) this.getY());
+				this.setLocation((blockCollides[1] + 1) * Main.tileSize - imageAdjustX, (int) this.getY());
 			}
 		}
-	}
-
-	// same as other two
-	public boolean isRight() {
-		return right;
-	}
-
-	public void setRight(boolean bool) {
-		right = bool;
 	}
 
 	// move right if:
@@ -278,12 +323,14 @@ public class Character extends Rectangle {
 	// - it is not moving left
 	// - there is nothing blocking it right
 	public void moveRight() {
-		if (this.isRight() && !this.isLeft()) {
+		if (this.isMovingRight() && !this.isMovingLeft()) {
+			stopIdle();
 			this.translate(moveX, 0);
+			Images.currentDogImage = Images.rightRunDog1[Animations.runRightIndex];
+			Animations.updateAnimationRun(this);
 			int[] blockCollides = checkTileCollisionRight();
 			if (blockCollides[1] != noCollide) {
-				this.setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth + imageAdjustX,
-						(int) this.getY());
+				this.setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth + imageAdjustX, (int) this.getY());
 			} else {
 				// screen scrolls if the character is moving right:
 				// - if it is not the last screen
@@ -301,14 +348,19 @@ public class Character extends Rectangle {
 	public void fixPosition() {
 		int[] blockAboveCollide = checkTileCollisionAbove();
 		int[] blockBelowCollide = checkTileCollisionBelow();
+		int[] blockLeftCollide = checkTileCollisionLeft();
+		int[] blockRightCollide = checkTileCollisionRight();
 		if (blockAboveCollide[0] != noCollide && isJumping()) {
-			this.setLocation((int) this.getX(),
-					(blockAboveCollide[0] + 1) * Main.tileSize - imageAdjustY);
+			this.setLocation((int) this.getX(), (blockAboveCollide[0] + 1) * Main.tileSize - imageAdjustY);
 			setVerticalDirection(0);
 		} else if (blockBelowCollide[0] != noCollide && !isJumping()) {
-			this.setLocation((int) this.getX(),
-					blockBelowCollide[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
+			this.setLocation((int) this.getX(), blockBelowCollide[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
 			setVerticalDirection(0);
+		}
+		if (blockLeftCollide[1] != noCollide && !isMovingRight()) {
+			this.setLocation((blockLeftCollide[1] + 1) * Main.tileSize - imageAdjustX, (int) this.getY());
+		} else if (blockRightCollide[1] != noCollide && !isMovingLeft()) {
+			this.setLocation(blockRightCollide[1] * Main.tileSize - Main.imageWidth + imageAdjustX, (int) this.getY());
 		}
 	}
 
@@ -344,7 +396,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionAbove() {
 		int[] blockCollides = checkBlockAbove();
 		if (blockCollides[0] != noCollide) {
-			if (this.getY() - imageAdjustY >= (blockCollides[0] + 1) * Main.tileSize) {
+			if (this.getY() - imageAdjustY > (blockCollides[0] + 1) * Main.tileSize) {
 				blockCollides[0] = noCollide;
 			}
 		}
@@ -383,7 +435,8 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionBelow() {
 		int[] blockCollides = checkBlockBelow();
 		if (blockCollides[0] != noCollide) {
-			if (this.getY() + Main.imageHeight - imageAdjustY <= blockCollides[0] * Main.tileSize) {
+			// System.out.println(this.getY() + Main.imageHeight - imageAdjustY);
+			if (this.getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {
 				blockCollides[0] = noCollide;
 			}
 		}
@@ -422,7 +475,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionRight() {
 		int[] blockCollides = checkBlockRight();
 		if (blockCollides[1] != noCollide) {
-			if (this.getX() + imageAdjustX + hitboxWidth <= blockCollides[1] * Main.tileSize) {
+			if (this.getX() + imageAdjustX + hitboxWidth < blockCollides[1] * Main.tileSize) {
 				blockCollides[1] = noCollide;
 			}
 		}
@@ -460,7 +513,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionLeft() {
 		int[] blockCollides = checkBlockLeft();
 		if (blockCollides[1] != noCollide) {
-			if (this.getX() - imageAdjustX >= (blockCollides[1] + 1) * Main.tileSize) {
+			if (this.getX() - imageAdjustX > (blockCollides[1] + 1) * Main.tileSize) {
 				blockCollides[1] = noCollide;
 			}
 		}

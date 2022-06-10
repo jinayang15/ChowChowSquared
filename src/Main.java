@@ -80,15 +80,24 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				g.drawLine(i, 0, i, winHeight);
 			}
 			GameFunctions.drawTiles(g);
+//			for (int i = 0; i < Images.leftRunDog1.length; i++) {
+//				g.drawImage(Images.leftRunDog1[i], i*40, 0, null);
+//			}
+//			for (int i = 0; i < Images.leftIdleDog1.length; i++) {
+//				g.drawImage(Images.leftIdleDog1[i], i*40, 40, null);
+//			}
+//			for (int i = 0; i < Images.leftJumpDog1.length; i++) {
+//				g.drawImage(Images.leftJumpDog1[i], i*40, 80, null);
+//			}
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(),
 					(int) dog.getY(), null);
 			// image box
-			g.setColor(new Color(0, 0, 255));
-			g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
+			//g.setColor(new Color(0, 0, 255));
+			//g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
 			// hitbox
-			g.setColor(new Color(255, 255, 255));
-			g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
+			//g.setColor(new Color(255, 255, 255));
+			//g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
 		}
 		else if (gameState == 6) {
 			super.paintComponent(g);
@@ -134,13 +143,13 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 		}
 		if (e.getKeyChar() == 'a') {
-			dog.setLeft(true);
+			dog.setMovingLeft(true);
 			dog.moveLeft();
 			dog.setHorizontalDirection(-1);
 			Images.currentDogImage = Images.leftIdleDog1[0];
 		}
 		if (e.getKeyChar() == 'd') {
-			dog.setRight(true);
+			dog.setMovingRight(true);
 			dog.moveRight();
 			dog.setHorizontalDirection(1);
 			Images.currentDogImage = Images.rightIdleDog1[1];
@@ -150,12 +159,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyChar() == 'a') {
-			dog.setLeft(false);
+			dog.setMovingLeft(false);
+			Animations.runLeftIndex = Images.leftRunDog1.length-1;
+			Images.currentDogImage = Images.defaultLeftImage;
 		}
 		if (e.getKeyChar() == 'd') {
-			dog.setRight(false);
+			dog.setMovingRight(false);
+			Animations.runRightIndex = 0;
+			Images.currentDogImage = Images.defaultRightImage;
 		}
-
 	}
 
 	@Override
@@ -208,7 +220,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		imageWidth = Images.currentDogImage.getWidth();
 		imageHeight = Images.currentDogImage.getHeight();
 		dog.setBounds(0, 0, imageWidth, imageHeight);
-		dog.setHitbox(22, 20);
+		dog.setHitbox(20, 20);
 		
 		in.close();
 	}
