@@ -136,6 +136,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		
 		}
 		else if (gameState == 8) {
+			gameBGM.stop();
 			dieSFX.start();
 			g.drawImage(Images.gameOver, 0, 0, null);
 			g.drawImage(Images.retry, 170, 240, null);
