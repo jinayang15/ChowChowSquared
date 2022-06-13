@@ -57,6 +57,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		try {
 			// imports all images
 			Images.importImages();
+			// import all sounds
 			AudioInputStream sound = AudioSystem.getAudioInputStream(new File("menumusic.wav"));
 			menuBGM = AudioSystem.getClip();
 			menuBGM.open(sound);
