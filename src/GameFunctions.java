@@ -11,7 +11,7 @@ public class GameFunctions {
 		return out;
 	}
 	public static void loadGrid(Scanner sc) {
-		for (int i = 0; i < Main.winHeight/Main.tileSize; i++) {
+		for (int i = 0; i < Main.tileHeight; i++) {
 			String[] temp = Main.in.nextLine().split(" ");
 			int[] input = strArrtoIntArr(temp);
 			for (int j = 0; j < input.length; j++) {
@@ -19,6 +19,18 @@ public class GameFunctions {
 			}
 		}
 		
+	}
+	public static void load40Grid(Scanner sc) {
+		for (int i = 0; i < Main.tileHeight; i++) {
+			String[] temp = Main.in.nextLine().split(" ");
+			int[] input = strArrtoIntArr(temp);
+			for (int j = 0; j < input.length; j++) {
+				Main.levelGrid[i*2][j*2] = input[j];
+				Main.levelGrid[i*2][j*2+1] = input[j];
+				Main.levelGrid[i*2+1][j*2] = input[j];
+				Main.levelGrid[i*2+1][j*2+1] = input[j];
+			}
+		}
 	}
 	public static void drawTiles(Graphics g) {
 		BufferedImage image;
