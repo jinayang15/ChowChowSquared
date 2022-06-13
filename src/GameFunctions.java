@@ -49,6 +49,6 @@ public class GameFunctions {
 				g.drawImage(image, (j-start)*Main.tileSize - Math.abs(Main.bgX)%Main.tileSize, i*Main.tileSize, null);
 			}
 		}
-	}	
+	}
 }
 	
