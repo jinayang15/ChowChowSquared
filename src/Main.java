@@ -12,9 +12,6 @@ import javax.swing.*;
 
 public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
 
-	public static final Character dog = new Character();
-	public static final Enemy bug = new Enemy();
-	public static Character player2 = new Character();
 	public static final int levelWidth = 6760;
 	public static int bgX = 0;
 	public static int bgY = 0;
@@ -29,12 +26,16 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static final int levelTileWidth = levelWidth / tileSize;
 	public static final int fps = 30;
 	// keeps track of the tiles onscreen
-	public static int[][] levelGrid = new int[tileHeight][levelTileWidth];
+	public static int[][] levelGrid40 = new int[tileHeight/2][levelTileWidth/2];
+	public static int[][] levelGrid20 = new int[tileHeight][levelTileWidth];
 	public static int[][] currentGrid = new int[tileHeight][tileWidth + 2];
 	public static String currentLvl;
-	public static int imageWidth;
-	public static int imageHeight;
+	public static int imageWidth = 40;
+	public static int imageHeight = 40;
 	public static Scanner in;
+	
+	public static Character dog = new Character();
+	public static Enemy bug = new Enemy();
 	// Game states:
 	// 0 --> menu
 	// 1 --> level select
@@ -96,32 +97,22 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			menuBGM.stop();
 			gameBGM.start();
 			g.drawImage(Images.skyBG, bgX, bgY, null);
-			// g.drawImage(Images.dogRight1, 0, 0, null);
-			for (int i = 0; i < winHeight; i += tileSize) {
-				g.drawLine(0, i, winWidth, i);
-			}
-			for (int i = 0; i < winWidth; i += tileSize) {
-				g.drawLine(i, 0, i, winHeight);
-			}
-			GameFunctions.drawTiles(g);
-//			for (int i = 0; i < Images.leftRunDog1.length; i++) {
-//				g.drawImage(Images.leftRunDog1[i], i*40, 0, null);
+			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
+//			for (int i = 0; i < winHeight; i += tileSize) {
+//				g.drawLine(0, i, winWidth, i);
 //			}
-//			for (int i = 0; i < Images.leftIdleDog1.length; i++) {
-//				g.drawImage(Images.leftIdleDog1[i], i*40, 40, null);
-//			}
-//			for (int i = 0; i < Images.leftJumpDog1.length; i++) {
-//				g.drawImage(Images.leftJumpDog1[i], i*40, 80, null);
+//			for (int i = 0; i < winWidth; i += tileSize) {
+//				g.drawLine(i, 0, i, winHeight);
 //			}
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(),
 					(int) dog.getY(), null);
 			// image box
-			//g.setColor(new Color(0, 0, 255));
-			//g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
+//			g.setColor(new Color(0, 0, 255));
+//			g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
 			// hitbox
-			//g.setColor(new Color(255, 255, 255));
-			//g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
+//			g.setColor(new Color(255, 255, 255));
+//			g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
 		}
 		else if (gameState == 6) {
 			super.paintComponent(g);
@@ -227,10 +218,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameState = 0;
 			} 
 		} else if (gameState == 8) {
+			GameFunctions.restartGame();
 			if (mouseX >= 170 && mouseX <= 220 && mouseY >= 240 && mouseY <= 287) {
 				gameState = 2;
 			} 
 			else if (mouseX >= 300 && mouseX <= 350 && mouseY >= 240 && mouseY <= 287) {
+				
 				gameState = 0;
 			} 
 		}
@@ -248,14 +241,20 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 
-		currentLvl = "testerLvl.txt";
+		currentLvl = "40lvl1.txt";
 		in = new Scanner(new File(currentLvl));
-		GameFunctions.loadGrid(in);
+		GameFunctions.load40Grid(in);
+		GameFunctions.load20Grid();
+//		for (int i = 0; i < levelGrid20.length; i++) {
+//			for (int k = 0; k < levelGrid20[0].length; k++) {
+//				System.out.print(levelGrid20[i][k]);
+//			}
+//			System.out.println();
+//		}
+//		
 		Images.currentDogImage = Images.rightIdleDog1[1];
-		imageWidth = Images.currentDogImage.getWidth();
-		imageHeight = Images.currentDogImage.getHeight();
-		dog.setBounds(0, 0, imageWidth, imageHeight);
-		dog.setHitbox(20, 20);
+//		dog.setBounds(0, 0, imageWidth, imageHeight);
+//		dog.setHitbox(20, 20);
 		
 		in.close();
 	}
