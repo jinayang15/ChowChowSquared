@@ -1,8 +1,13 @@
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.awt.*;
+
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
 
 public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
@@ -41,6 +46,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 7 --> winners
 	// 8 --> you died
 	public static int gameState = 0;
+	Clip menuBGM, gameBGM, jumpSFX, dieSFX, attackSFX;
 
 	public Main() {
 		setPreferredSize(new Dimension(winWidth, winHeight));
@@ -51,6 +57,22 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		try {
 			// imports all images
 			Images.importImages();
+			AudioInputStream sound = AudioSystem.getAudioInputStream(new File("menumusic.wav"));
+			menuBGM = AudioSystem.getClip();
+			menuBGM.open(sound);
+			sound = AudioSystem.getAudioInputStream(new File("gamemusic.wav"));
+			gameBGM = AudioSystem.getClip();
+			gameBGM.open(sound);
+			sound = AudioSystem.getAudioInputStream(new File("jump.wav"));
+			jumpSFX = AudioSystem.getClip();
+			jumpSFX.open(sound);
+			sound = AudioSystem.getAudioInputStream(new File("die.wav"));
+			dieSFX = AudioSystem.getClip();
+			dieSFX.open(sound);
+//			sound = AudioSystem.getAudioInputStream(new File("attack.wav"));
+//			attackSFX = AudioSystem.getClip();
+//			attackSFX.open(sound);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,12 +86,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (gameState == 0) {
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
+			menuBGM.start();
 
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
 			super.paintComponent(g);
+			menuBGM.stop();
+			gameBGM.start();
 			g.drawImage(Images.skyBG, bgX, bgY, null);
 			// g.drawImage(Images.dogRight1, 0, 0, null);
 			for (int i = 0; i < winHeight; i += tileSize) {
@@ -111,6 +136,8 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		
 		}
 		else if (gameState == 8) {
+			gameBGM.stop();
+			dieSFX.start();
 			g.drawImage(Images.gameOver, 0, 0, null);
 			g.drawImage(Images.retry, 170, 240, null);
 			g.drawImage(Images.back, 300, 240, null);
@@ -136,14 +163,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 	}
 
-	@Override
 	// basic key controls jump, left, right
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
 			if (!dog.isJumping() && dog.checkBlockBelow()[0] != Character.noCollide) {
 				dog.setJumping(true);
 				dog.setVerticalDirection(-1);
-
 			}
 		}
 		if (e.getKeyChar() == 'a') {
@@ -160,7 +185,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 	}
 
-	@Override
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyChar() == 'a') {
 			dog.setMovingLeft(false);
@@ -174,7 +198,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 	}
 
-	@Override
 	public void mousePressed(MouseEvent e) {
 		mouseX = e.getX();
 		mouseY = e.getY();
