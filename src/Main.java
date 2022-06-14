@@ -85,17 +85,21 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 	public void paintComponent(Graphics g) {
 		if (gameState == 0) {
+			dieSFX.stop();
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
 			menuBGM.start();
+			menuBGM.loop(Clip.LOOP_CONTINUOUSLY);
 
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
+			dieSFX.stop();
 			super.paintComponent(g);
 			menuBGM.stop();
 			gameBGM.start();
+			gameBGM.loop(Clip.LOOP_CONTINUOUSLY);
 			g.drawImage(Images.skyBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
 //			for (int i = 0; i < winHeight; i += tileSize) {
@@ -128,6 +132,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 		else if (gameState == 8) {
 			gameBGM.stop();
+			dieSFX.setMicrosecondPosition(0);
 			dieSFX.start();
 			g.drawImage(Images.gameOver, 0, 0, null);
 			g.drawImage(Images.retry, 170, 240, null);
