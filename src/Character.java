@@ -8,8 +8,8 @@ public class Character extends Rectangle {
 	// Class & Object Variables
 	public int hitboxWidth;
 	public int hitboxHeight;
-	public int imageAdjustX;
-	public int imageAdjustY;
+	public int imageAdjustX = 10;
+	public int imageAdjustY = 10;
 	private ArrayList<Integer> tilesX = new ArrayList<Integer>();
 	private ArrayList<Integer> tilesY = new ArrayList<Integer>();
 	private boolean left = false;
@@ -36,6 +36,11 @@ public class Character extends Rectangle {
 
 	// Class Methods
 	// will add comments for the changes later
+	public Character() {
+		this.setBounds(20, 280, Main.imageWidth, Main.imageHeight);
+		this.setHitbox(20, 20);
+	}
+
 	public void setHitbox(int width, int height) {
 		this.hitboxWidth = width;
 		this.hitboxHeight = height;
@@ -148,6 +153,13 @@ public class Character extends Rectangle {
 		chanceIdle();
 		idleRight();
 		idleLeft();
+		checkDeath();
+	}
+
+	public void checkDeath() {
+		if (this.getY() + Main.imageHeight >= 400) {
+			Main.gameState = 8;
+		}
 	}
 
 	// basic mechanics are down
@@ -269,9 +281,8 @@ public class Character extends Rectangle {
 			setVerticalDirection(0);
 			if (horizontalDirection == 1 && !(isIdleRight() || isIdleLeft())) {
 				Images.currentDogImage = Images.defaultRightImage;
-			}
-			else if (horizontalDirection == -1 && !(isIdleRight() || isIdleLeft())){
-			
+			} else if (horizontalDirection == -1 && !(isIdleRight() || isIdleLeft())) {
+
 				Images.currentDogImage = Images.defaultLeftImage;
 			}
 		} else if (blockCollides[0] == noCollide) {
@@ -409,7 +420,7 @@ public class Character extends Rectangle {
 	// checks for block below character
 	public int[] checkBlockBelow() {
 		// {-1, -1} means no block under
-		int[] blockUnder = { noCollide, noCollide };
+		int[] blockUnder = {noCollide, noCollide };
 		int x, y;
 		// check all the blocks that the character is in
 		for (int i = 0; i < tilesX.size(); i++) {
@@ -438,11 +449,10 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionBelow() {
 		int[] blockCollides = checkBlockBelow();
 		if (blockCollides[0] != noCollide) {
-			// System.out.println(this.getY() + Main.imageHeight - imageAdjustY);
-			if (this.getY() + Main.imageHeight >= 400) {
+			if (blockCollides[0] == 21) {
 				Main.gameState = 8;
 			}
-			else if (this.getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {
+			if (this.getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {
 				blockCollides[0] = noCollide;
 			}
 		}

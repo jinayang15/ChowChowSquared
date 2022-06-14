@@ -1,5 +1,8 @@
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+
 import java.io.File;
 import java.io.IOException;
 public class Images {
@@ -14,7 +17,7 @@ public class Images {
 	public static final BufferedImage[] leftFallDog1 = new BufferedImage[3];
 	public static final BufferedImage[] dirtTiles = new BufferedImage[5];
 	public static final BufferedImage[] grassTiles = new BufferedImage[2];
-	public static final BufferedImage[] newGrassTiles1 = new BufferedImage[16];
+	public static final BufferedImage[] newGrassTiles1 = new BufferedImage[4];
 
 	public static BufferedImage menu;
 	public static BufferedImage level;
@@ -83,9 +86,8 @@ public class Images {
 			leftFallDog1[i] = dogLeft1.getSubimage((i+1)*40, 0, 40, 40);
 		}
 		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				newGrassTiles1[i] = ImageIO.read(new File("newgrass" + (i+1) + "_" + (j+1) + ".png"));
-			}
+			newGrassTiles1[i] = ImageIO.read(new File("newgrass" + (i+1) + ".png"));
+	
 		}
 		
 //		for (int i = 0; i < leftRunDog1.length; i++) {
@@ -109,4 +111,5 @@ public class Images {
 //			}
 //		}
 	}
+
 }
