@@ -32,7 +32,7 @@ public class Character extends Rectangle {
 	private int horizontalDirection = 1;
 	// how fast the character will jump or fall
 	private static double jumpSpeed = 0.2;
-	private static double fallSpeed = 0.05;
+	private static double fallSpeed = 0.03;
 
 	// Class Methods
 	// will add comments for the changes later
@@ -153,7 +153,7 @@ public class Character extends Rectangle {
 		chanceIdle();
 		idleRight();
 		idleLeft();
-		checkDeath();
+		// checkDeath();
 	}
 
 	public void checkDeath() {
@@ -249,10 +249,8 @@ public class Character extends Rectangle {
 					double chance = Math.random() * 100;
 					if (chance <= 1) {
 						if (getHorizontalDirection() == 1) {
-							System.out.println("here1");
 							setIdleRight(true);
 						} else if (getHorizontalDirection() == -1) {
-							System.out.println("here2");
 							setIdleLeft(true);
 						}
 					}
@@ -279,10 +277,10 @@ public class Character extends Rectangle {
 		if (blockCollides[0] != noCollide && !isJumping()) {
 			this.setLocation((int) this.getX(), blockCollides[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
 			setVerticalDirection(0);
+			Animations.resetFallAnimation();
 			if (horizontalDirection == 1 && !(isIdleRight() || isIdleLeft())) {
 				Images.currentDogImage = Images.defaultRightImage;
 			} else if (horizontalDirection == -1 && !(isIdleRight() || isIdleLeft())) {
-
 				Images.currentDogImage = Images.defaultLeftImage;
 			}
 		} else if (blockCollides[0] == noCollide) {
@@ -312,6 +310,7 @@ public class Character extends Rectangle {
 			}
 		} else {
 			setJumping(false);
+			Animations.resetJumpAnimation();
 		}
 	}
 
@@ -328,6 +327,8 @@ public class Character extends Rectangle {
 			int[] blockCollides = checkTileCollisionLeft();
 			if (blockCollides[1] != noCollide) {
 				this.setLocation((blockCollides[1] + 1) * Main.tileSize - imageAdjustX, (int) this.getY());
+				Animations.resetRunAnimation();
+				Images.currentDogImage = Images.defaultLeftImage;
 			}
 		}
 	}
@@ -345,6 +346,8 @@ public class Character extends Rectangle {
 			int[] blockCollides = checkTileCollisionRight();
 			if (blockCollides[1] != noCollide) {
 				this.setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth + imageAdjustX, (int) this.getY());
+				Animations.resetRunAnimation();
+				Images.currentDogImage = Images.defaultRightImage;
 			} else {
 				// screen scrolls if the character is moving right:
 				// - if it is not the last screen
@@ -380,7 +383,7 @@ public class Character extends Rectangle {
 
 	// checks for block above it
 	public int[] checkBlockAbove() {
-		// {-1, -1} means no block above
+		// {noCollide, noCollide} means no block above
 		int[] blockAbove = { noCollide, noCollide };
 		int x, y;
 		// check all the blocks that the character is in
@@ -449,7 +452,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionBelow() {
 		int[] blockCollides = checkBlockBelow();
 		if (blockCollides[0] != noCollide) {
-			if (blockCollides[0] == 21) {
+			if (blockCollides[0] >= Main.tileHeight) {
 				Main.gameState = 8;
 			}
 			if (this.getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {
@@ -469,7 +472,7 @@ public class Character extends Rectangle {
 			x = tilesX.get(i);
 			y = tilesY.get(i);
 			// make sure we are checking within the grid
-			if (x + 1 < Main.tileWidth) {
+			if (x + 1 < Main.tileWidth && y < Main.tileHeight) {
 				// check if the blockRight is a tile
 				// if it is set blockRight to the tile coords
 				if (Main.currentGrid[y][x + 1] == 1) {
@@ -507,7 +510,7 @@ public class Character extends Rectangle {
 		for (int i = 0; i < tilesX.size(); i++) {
 			x = tilesX.get(i);
 			y = tilesY.get(i); // make sure we are checking within the grid
-			if (x - 1 >= 0) {
+			if (x - 1 >= 0 && y < Main.tileHeight) {
 				// check if the blockLeft is a tile
 				// if it is set blockLeft to the tile coords
 				if (Main.currentGrid[y][x - 1] == 1) {
