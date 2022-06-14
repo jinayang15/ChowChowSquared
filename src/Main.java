@@ -13,6 +13,7 @@ import javax.swing.*;
 public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
 
 	public static final int levelWidth = 6760;
+	public static int prevBGX = -40;
 	public static int bgX = 0;
 	public static int bgY = 0;
 	public static int mouseX;
