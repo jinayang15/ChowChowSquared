@@ -18,6 +18,9 @@ public class Images {
 	public static BufferedImage options;
 	public static BufferedImage winners;
 	public static BufferedImage back;
+	public static BufferedImage empty;
+	public static BufferedImage gameMusic;
+	public static BufferedImage menuMusic;
 	public static BufferedImage retry;
 	public static BufferedImage icon;
 	public static BufferedImage gameOver;
@@ -44,7 +47,10 @@ public class Images {
 		options = ImageIO.read(new File("options.png"));
 		winners = ImageIO.read(new File("winners.png"));
 		back = ImageIO.read(new File("back.png"));
+		empty = ImageIO.read(new File("empty.png"));
 		retry = ImageIO.read(new File("retry.png"));
+		gameMusic = ImageIO.read(new File("gamemusic.png"));
+		menuMusic = ImageIO.read(new File("menumusic.png"));
 		gameOver = ImageIO.read(new File("gameover.png"));
 		pHBug = ImageIO.read(new File("mad.png"));
 		skyBG = ImageIO.read(new File("basiclevelbg.png"));

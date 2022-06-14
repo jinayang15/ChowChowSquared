@@ -153,7 +153,7 @@ public class Character extends Rectangle {
 		chanceIdle();
 		idleRight();
 		idleLeft();
-		checkDeath();
+		// checkDeath();
 	}
 
 	public void checkDeath() {
