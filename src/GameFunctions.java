@@ -64,7 +64,7 @@ public class GameFunctions {
 			for (int j = start; j < start + Main.tileWidth/2+1; j++) {
 				image = null;
 				if (Main.levelGrid40[i][j] == 1) {
-					image = Images.newGrassTiles1[(int) Math.random() * Images.grassTiles.length];
+					image = Images.grassTile;
 				} else if (Main.levelGrid40[i][j] == 2) {
 					image = Images.dirtTile;
 				}

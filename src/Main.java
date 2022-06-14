@@ -13,6 +13,7 @@ import javax.swing.*;
 public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
 
 	public static final int levelWidth = 6760;
+	public static int prevBGX = -40;
 	public static int bgX = 0;
 	public static int bgY = 0;
 	public static int mouseX;
@@ -48,6 +49,8 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 8 --> you died
 	public static int gameState = 0;
 	Clip menuBGM, gameBGM, jumpSFX, dieSFX, attackSFX;
+	public static boolean muteMenu = false;
+	public static boolean muteGame = false;
 
 	public Main() {
 		setPreferredSize(new Dimension(winWidth, winHeight));
@@ -64,15 +67,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			sound = AudioSystem.getAudioInputStream(new File("gamemusic.wav"));
 			gameBGM = AudioSystem.getClip();
 			gameBGM.open(sound);
-			sound = AudioSystem.getAudioInputStream(new File("jump.wav"));
-			jumpSFX = AudioSystem.getClip();
-			jumpSFX.open(sound);
-			sound = AudioSystem.getAudioInputStream(new File("die.wav"));
-			dieSFX = AudioSystem.getClip();
-			dieSFX.open(sound);
-//			sound = AudioSystem.getAudioInputStream(new File("attack.wav"));
-//			attackSFX = AudioSystem.getClip();
-//			attackSFX.open(sound);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,21 +79,31 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 	public void paintComponent(Graphics g) {
 		if (gameState == 0) {
-			dieSFX.stop();
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
-			menuBGM.start();
-			menuBGM.loop(Clip.LOOP_CONTINUOUSLY);
+			if(!muteMenu) {
+				menuBGM.start();
+				menuBGM.loop(Clip.LOOP_CONTINUOUSLY);
+			}
+			else {
+				menuBGM.stop();
+				gameBGM.stop();
+			}
 
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
-			dieSFX.stop();
 			super.paintComponent(g);
-			menuBGM.stop();
-			gameBGM.start();
-			gameBGM.loop(Clip.LOOP_CONTINUOUSLY);
+			if(!muteGame) {
+				menuBGM.stop();
+				gameBGM.start();
+				gameBGM.loop(Clip.LOOP_CONTINUOUSLY);
+			}
+			else {
+				menuBGM.stop();
+				gameBGM.stop();
+			}
 			g.drawImage(Images.skyBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
 //			for (int i = 0; i < winHeight; i += tileSize) {
@@ -122,6 +126,23 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			super.paintComponent(g);
 			g.drawImage(Images.options, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
+			g.drawImage(Images.menuMusic, 100, 160, null);
+			g.drawImage(Images.gameMusic , 100, 215, null);
+			if (!muteMenu) {
+				menuBGM.start();
+				g.drawImage(Images.empty, 330, 144, null);
+			}
+			if (muteMenu) {
+				menuBGM.stop();
+				g.drawImage(Images.back, 330, 144, null);
+			}
+			if (!muteGame) {
+				g.drawImage(Images.empty, 330, 200, null);
+			}
+			if (muteGame) {
+				gameBGM.stop();
+				g.drawImage(Images.back, 330, 200, null);
+			}
 		
 		}
 		else if (gameState == 7) {
@@ -132,8 +153,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 		else if (gameState == 8) {
 			gameBGM.stop();
-			dieSFX.setMicrosecondPosition(0);
-			dieSFX.start();
 			g.drawImage(Images.gameOver, 0, 0, null);
 			g.drawImage(Images.retry, 170, 240, null);
 			g.drawImage(Images.back, 300, 240, null);
@@ -218,6 +237,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
 			} 
+			if (mouseX >= 330 && mouseX <= 380 && mouseY >= 144 && mouseY <= 187) {
+				muteMenu = !muteMenu;
+			} 
+			if (mouseX >= 330 && mouseX <= 380 && mouseY >= 200 && mouseY <= 247) {
+				muteGame = !muteGame;
+			}
 		} else if (gameState == 7) {
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
@@ -263,6 +288,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		
 		in.close();
 	}
+	
 
 	// unused
 	public void keyTyped(KeyEvent e) {

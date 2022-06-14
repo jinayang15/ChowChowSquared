@@ -153,7 +153,7 @@ public class Character extends Rectangle {
 		chanceIdle();
 		idleRight();
 		idleLeft();
-		checkDeath();
+		// checkDeath();
 	}
 
 	public void checkDeath() {
@@ -449,7 +449,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionBelow() {
 		int[] blockCollides = checkBlockBelow();
 		if (blockCollides[0] != noCollide) {
-			if (blockCollides[0] == 21) {
+			if (blockCollides[0] == Main.tileHeight) {
 				Main.gameState = 8;
 			}
 			if (this.getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {

@@ -12,15 +12,15 @@ public class Images {
 	public static final BufferedImage[] leftRunDog1 = new BufferedImage[6];
 	public static final BufferedImage[] leftJumpDog1 = new BufferedImage[5];
 	public static final BufferedImage[] leftFallDog1 = new BufferedImage[3];
-	public static final BufferedImage[] dirtTiles = new BufferedImage[5];
-	public static final BufferedImage[] grassTiles = new BufferedImage[2];
-	public static final BufferedImage[] newGrassTiles1 = new BufferedImage[4];
 
 	public static BufferedImage menu;
 	public static BufferedImage level;
 	public static BufferedImage options;
 	public static BufferedImage winners;
 	public static BufferedImage back;
+	public static BufferedImage empty;
+	public static BufferedImage gameMusic;
+	public static BufferedImage menuMusic;
 	public static BufferedImage retry;
 	public static BufferedImage icon;
 	public static BufferedImage gameOver;
@@ -32,6 +32,7 @@ public class Images {
 	public static BufferedImage defaultRightImage;
 	public static BufferedImage defaultLeftImage;
 	public static BufferedImage dirtTile;
+	public static BufferedImage grassTile;
 	
 	public static BufferedImage pHDog;
 	public static BufferedImage pHBug;
@@ -46,18 +47,19 @@ public class Images {
 		options = ImageIO.read(new File("options.png"));
 		winners = ImageIO.read(new File("winners.png"));
 		back = ImageIO.read(new File("back.png"));
+		empty = ImageIO.read(new File("empty.png"));
 		retry = ImageIO.read(new File("retry.png"));
+		gameMusic = ImageIO.read(new File("gamemusic.png"));
+		menuMusic = ImageIO.read(new File("menumusic.png"));
 		gameOver = ImageIO.read(new File("gameover.png"));
 		pHBug = ImageIO.read(new File("mad.png"));
 		skyBG = ImageIO.read(new File("basiclevelbg.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));
 		dogLeft1 = ImageIO.read(new File("whitedogleft.png"));
 		dirtTile = ImageIO.read(new File("newdirt.png"));
+		grassTile = ImageIO.read(new File("newgrass.png"));
 		defaultRightImage = dogRight1.getSubimage(40, 0, 40, 40);
 		defaultLeftImage = dogLeft1.getSubimage(440,0,40,40);
-		for (int i = 0; i < grassTiles.length; i++) {
-			grassTiles[i] = ImageIO.read(new File("20grass" + (i+1) + ".png"));
-		}
 		for (int i = 0; i < rightIdleDog1.length; i++) {
 			rightIdleDog1[i] = dogRight1.getSubimage(i*40,0,40, 40);
 		}
@@ -82,29 +84,5 @@ public class Images {
 		for (int i = 0; i < leftFallDog1.length; i++) {
 			leftFallDog1[i] = dogLeft1.getSubimage((i+1)*40, 0, 40, 40);
 		}
-		for (int i = 0; i < newGrassTiles1.length; i++) {
-			newGrassTiles1[i] = ImageIO.read(new File("newgrass" + (i+1) + ".png"));
-		}
-		
-//		for (int i = 0; i < leftRunDog1.length; i++) {
-//			leftRunDog1[i] = dogLeft1.getSubimage(i*40, 40, 40, 40);
-//		}
-//		leftJumpDog1[0] = dogLeft1.getSubimage(2*40, 40, 40, 40);
-//		for (int i = 3; i >= 0; i--) {
-//			leftJumpDog1[i] = dogLeft1.getSubimage(i*40, 0, 40, 40);
-//		}
-//		for (int i = 0;i < rightWalkDog1.length; i++) {
-//			rightWalkDog1[i] = grabImage(i+7,2,dogRight1);
-//		}
-//		for (int i = 0; i < rightWalkDog1.length; i++) {
-//			lefttWalkDog1[i] = grabImage(i,2,dogLeft1);
-//		}
-//		rightJumpDog1[0] = dogRight1.getSubimage(10*40, 40, 40, 40);
-		
-//		for (int i = 0; i < newDirtTiles.length; i++) {
-//			for (int j = 0; i < 4; j++) {
-//				newDirtTiles[i] = ImageIO.read(new File("newgrass" + (i+1) + "_" + (j+1) + ".png"));
-//			}
-//		}
 	}
 }
