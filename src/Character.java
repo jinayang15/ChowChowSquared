@@ -51,8 +51,8 @@ public class Character extends Rectangle {
 	public void refreshTile() {
 		int numX, numY;
 		ArrayList<Integer> copyX, copyY;
-		tilesX.clear();
-		tilesY.clear();
+		tilesX = new ArrayList<Integer>();
+		tilesY = new ArrayList<Integer>();
 		tilesX = getTilesX(tilesX);
 		tilesY = getTilesY(tilesY);
 		copyX = (ArrayList<Integer>) tilesX.clone();
@@ -236,11 +236,6 @@ public class Character extends Rectangle {
 		idleLeft = bool;
 	}
 
-	public void stopIdle() {
-		setIdleRight(false);
-		setIdleLeft(false);
-		Animations.idleTick = 0;
-	}
 
 	public void chanceIdle() {
 		if (!isIdleRight() && !isIdleLeft()) {
@@ -284,7 +279,7 @@ public class Character extends Rectangle {
 				Images.currentDogImage = Images.defaultLeftImage;
 			}
 		} else if (blockCollides[0] == noCollide) {
-			stopIdle();
+			Animations.stopIdle(this);
 			Animations.updateAnimationFall(this);
 			if (verticalDirection < 1) {
 				verticalDirection += fallSpeed;
@@ -298,7 +293,7 @@ public class Character extends Rectangle {
 	// - there is no block above it
 	public void jump() {
 		if (isJumping() && verticalDirection < 0) {
-			stopIdle();
+			Animations.stopIdle(this);
 			this.translate(0, (int) (gravity * verticalDirection));
 			Animations.updateAnimationJump(this);
 			int[] blockCollides = checkTileCollisionAbove();
@@ -320,7 +315,7 @@ public class Character extends Rectangle {
 	// - there is nothing blocking it left
 	public void moveLeft() {
 		if (this.isMovingLeft() && !this.isMovingRight()) {
-			stopIdle();
+			Animations.stopIdle(this);
 			this.translate(-moveX, 0);
 			Images.currentDogImage = Images.leftRunDog1[Animations.runLeftIndex];
 			Animations.updateAnimationRun(this);
@@ -339,7 +334,7 @@ public class Character extends Rectangle {
 	// - there is nothing blocking it right
 	public void moveRight() {
 		if (this.isMovingRight() && !this.isMovingLeft()) {
-			stopIdle();
+			Animations.stopIdle(this);
 			this.translate(moveX, 0);
 			Images.currentDogImage = Images.rightRunDog1[Animations.runRightIndex];
 			Animations.updateAnimationRun(this);
@@ -394,7 +389,7 @@ public class Character extends Rectangle {
 			if (y - 1 >= 0) {
 				// check if the blockAbove is a tile
 				// if it is set blockAbove to the tile coords
-				if (Main.currentGrid[y - 1][x] == 1) {
+				if (Main.currentGrid[y - 1][x] > 0) {
 					if (blockAbove[0] == noCollide || y - 1 > blockAbove[0]) {
 						blockAbove[0] = y - 1;
 						blockAbove[1] = x;
@@ -433,7 +428,7 @@ public class Character extends Rectangle {
 			if (y + 1 < Main.tileHeight) {
 				// check if the blockUnder is a tile
 				// if it is set blockUnder to the tile coords
-				if (Main.currentGrid[y + 1][x] == 1) {
+				if (Main.currentGrid[y + 1][x] > 0) {
 					if (blockUnder[0] == noCollide || y + 1 < blockUnder[0]) {
 						blockUnder[0] = y + 1;
 						blockUnder[1] = x;
@@ -475,7 +470,7 @@ public class Character extends Rectangle {
 			if (x + 1 < Main.tileWidth && y < Main.tileHeight) {
 				// check if the blockRight is a tile
 				// if it is set blockRight to the tile coords
-				if (Main.currentGrid[y][x + 1] == 1) {
+				if (Main.currentGrid[y][x + 1] > 0) {
 					if (blockRight[0] == noCollide || x + 1 < blockRight[0]) {
 						blockRight[0] = y;
 						blockRight[1] = x + 1;
@@ -513,7 +508,7 @@ public class Character extends Rectangle {
 			if (x - 1 >= 0 && y < Main.tileHeight) {
 				// check if the blockLeft is a tile
 				// if it is set blockLeft to the tile coords
-				if (Main.currentGrid[y][x - 1] == 1) {
+				if (Main.currentGrid[y][x - 1] > 0) {
 					if (blockLeft[0] == noCollide || x - 1 > blockLeft[0]) {
 						blockLeft[0] = y;
 						blockLeft[1] = x - 1;

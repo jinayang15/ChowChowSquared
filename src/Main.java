@@ -106,15 +106,21 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 			g.drawImage(Images.skyBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
-//			for (int i = 0; i < winHeight; i += tileSize) {
-//				g.drawLine(0, i, winWidth, i);
-//			}
-//			for (int i = 0; i < winWidth; i += tileSize) {
-//				g.drawLine(i, 0, i, winHeight);
-//			}
+			for (int i = 0; i < winHeight; i += tileSize) {
+				g.drawLine(0, i, winWidth, i);
+			}
+			for (int i = 0; i < winWidth; i += tileSize) {
+				g.drawLine(i, 0, i, winHeight);
+			}
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(),
 					(int) dog.getY(), null);
+//			for (int i = 0; i < currentGrid.length; i++) {
+//				for (int k = 0; k < currentGrid[0].length; k++) {
+//					System.out.print(currentGrid[i][k]);
+//				}
+//				System.out.println();
+//			}
 			// image box
 //			g.setColor(new Color(0, 0, 255));
 //			g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);

@@ -11,7 +11,7 @@ public class Images {
 	public static final BufferedImage[] rightFallDog1 = new BufferedImage[3];
 	public static final BufferedImage[] leftIdleDog1 = new BufferedImage[2];
 	public static final BufferedImage[] leftRunDog1 = new BufferedImage[6];
-	public static final BufferedImage[] leftJumpDog1 = new BufferedImage[5];
+	public static final BufferedImage[] leftJumpDog1 = new BufferedImage[2];
 	public static final BufferedImage[] leftFallDog1 = new BufferedImage[3];
 
 	public static BufferedImage menu;
@@ -55,8 +55,6 @@ public class Images {
 		gameMusic = ImageIO.read(new File("gamemusic.png"));
 		menuMusic = ImageIO.read(new File("menumusic.png"));
 		gameOver = ImageIO.read(new File("gameover.png"));
-		pHTile = ImageIO.read(new File("20dirt.png"));
-		pHDog = ImageIO.read(new File("pHChar.png"));
 		pHBug = ImageIO.read(new File("mad.png"));
 		skyBG = ImageIO.read(new File("basiclevelbg.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));
