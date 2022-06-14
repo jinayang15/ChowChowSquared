@@ -61,6 +61,12 @@ public class Animations {
 			}
 		}
 	}
+	public static void resetRunAnimation() {
+		runLeftIndex = Images.leftRunDog1.length - 1;
+		runRightIndex = 0;
+		runTick = 0;
+		runSpeed = 5;
+	}
 
 	public static void updateAnimationJump(Character dog) {
 		jumpTick++;
@@ -81,6 +87,12 @@ public class Animations {
 			}
 		}
 	}
+	public static void resetJumpAnimation() {
+		jumpRightIndex = 0;
+		jumpLeftIndex = Images.leftJumpDog1.length - 1;
+		jumpTick = 0;
+		jumpSpeed = 3;
+	}
 
 	public static void updateAnimationFall(Character dog) {
 		fallTick++;
@@ -100,5 +112,11 @@ public class Animations {
 				}
 			}
 		}
+	}
+	public static void resetFallAnimation() {
+		fallRightIndex = 0;
+		fallLeftIndex = Images.leftFallDog1.length - 1;
+		fallTick = 0;
+		fallSpeed = 10;
 	}
 }
