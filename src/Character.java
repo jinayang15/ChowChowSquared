@@ -249,10 +249,8 @@ public class Character extends Rectangle {
 					double chance = Math.random() * 100;
 					if (chance <= 1) {
 						if (getHorizontalDirection() == 1) {
-							System.out.println("here1");
 							setIdleRight(true);
 						} else if (getHorizontalDirection() == -1) {
-							System.out.println("here2");
 							setIdleLeft(true);
 						}
 					}
@@ -449,7 +447,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionBelow() {
 		int[] blockCollides = checkBlockBelow();
 		if (blockCollides[0] != noCollide) {
-			if (blockCollides[0] == 21) {
+			if (blockCollides[0] >= Main.tileHeight) {
 				Main.gameState = 8;
 			}
 			if (this.getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {
@@ -510,6 +508,7 @@ public class Character extends Rectangle {
 			if (x - 1 >= 0) {
 				// check if the blockLeft is a tile
 				// if it is set blockLeft to the tile coords
+				System.out.println(x-1);
 				if (Main.currentGrid[y][x - 1] == 1) {
 					if (blockLeft[0] == noCollide || x - 1 > blockLeft[0]) {
 						blockLeft[0] = y;
