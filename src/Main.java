@@ -39,15 +39,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// Game states:
 	// 0 --> menu
 	// 1 --> level select
-	// 2 --> tutorial
-	// 3 --> lvl 1
+	// 2 --> lvl 1
+	// 3 --> tutorial
 	// 4 --> 
 	// 5 --> you won (enter name)
 	// 6 --> options
 	// 7 --> winners
 	// 8 --> you died
 	public static int gameState = 0;
-	Clip menuBGM, gameBGM, jumpSFX, dieSFX, attackSFX;
+	Clip menuBGM, gameBGM;
 	public static boolean muteMenu = false;
 	public static boolean muteGame = false;
 
