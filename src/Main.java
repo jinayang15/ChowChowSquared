@@ -26,14 +26,14 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static final int levelTileWidth = levelWidth / tileSize;
 	public static final int fps = 30;
 	// keeps track of the tiles onscreen
-	public static int[][] levelGrid40 = new int[tileHeight/2][levelTileWidth/2];
+	public static int[][] levelGrid40 = new int[tileHeight / 2][levelTileWidth / 2];
 	public static int[][] levelGrid20 = new int[tileHeight][levelTileWidth];
 	public static int[][] currentGrid = new int[tileHeight][tileWidth + 2];
 	public static String currentLvl;
 	public static int imageWidth = 40;
 	public static int imageHeight = 40;
 	public static Scanner in;
-	
+
 	public static Character dog = new Character();
 	public static Enemy bug = new Enemy();
 	// Game states:
@@ -41,7 +41,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 1 --> level select
 	// 2 --> tutorial
 	// 3 --> lvl 1
-	// 4 --> 
+	// 4 -->
 	// 5 --> you won (enter name)
 	// 6 --> options
 	// 7 --> winners
@@ -67,7 +67,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			sound = AudioSystem.getAudioInputStream(new File("gamemusic.wav"));
 			gameBGM = AudioSystem.getClip();
 			gameBGM.open(sound);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -81,11 +81,10 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (gameState == 0) {
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
-			if(!muteMenu) {
+			if (!muteMenu) {
 				menuBGM.start();
 				menuBGM.loop(Clip.LOOP_CONTINUOUSLY);
-			}
-			else {
+			} else {
 				menuBGM.stop();
 				gameBGM.stop();
 			}
@@ -95,12 +94,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
 			super.paintComponent(g);
-			if(!muteGame) {
+			if (!muteGame) {
 				menuBGM.stop();
 				gameBGM.start();
 				gameBGM.loop(Clip.LOOP_CONTINUOUSLY);
-			}
-			else {
+			} else {
 				menuBGM.stop();
 				gameBGM.stop();
 			}
@@ -113,8 +111,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				g.drawLine(i, 0, i, winHeight);
 			}
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
-			g.drawImage(Images.currentDogImage, (int) dog.getX(),
-					(int) dog.getY(), null);
+			g.drawImage(Images.currentDogImage, (int) dog.getX(), (int) dog.getY(), null);
 //			for (int i = 0; i < currentGrid.length; i++) {
 //				for (int k = 0; k < currentGrid[0].length; k++) {
 //					System.out.print(currentGrid[i][k]);
@@ -125,15 +122,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 //			g.setColor(new Color(0, 0, 255));
 //			g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
 			// hitbox
-//			g.setColor(new Color(255, 255, 255));
-//			g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth, dog.hitboxHeight);
-		}
-		else if (gameState == 6) {
+			g.setColor(new Color(255, 255, 255));
+			g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth,
+					dog.hitboxHeight);
+		} else if (gameState == 6) {
 			super.paintComponent(g);
 			g.drawImage(Images.options, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 			g.drawImage(Images.menuMusic, 100, 160, null);
-			g.drawImage(Images.gameMusic , 100, 215, null);
+			g.drawImage(Images.gameMusic, 100, 215, null);
 			if (!muteMenu) {
 				menuBGM.start();
 				g.drawImage(Images.empty, 330, 144, null);
@@ -149,21 +146,18 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameBGM.stop();
 				g.drawImage(Images.back, 330, 200, null);
 			}
-		
-		}
-		else if (gameState == 7) {
+
+		} else if (gameState == 7) {
 			super.paintComponent(g);
 			g.drawImage(Images.winners, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
-		
-		}
-		else if (gameState == 8) {
+
+		} else if (gameState == 8) {
 			gameBGM.stop();
 			g.drawImage(Images.gameOver, 0, 0, null);
 			g.drawImage(Images.retry, 170, 240, null);
 			g.drawImage(Images.back, 300, 240, null);
 		}
-		
 
 	}
 
@@ -187,9 +181,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// basic key controls jump, left, right
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
-			if (!dog.isJumping() && dog.checkBlockBelow()[0] != Character.noCollide) {
-				dog.setJumping(true);
-				dog.setVerticalDirection(-1);
+			if (!dog.getJumpCD()) {
+				if (!dog.isJumping() && dog.checkBlockBelow()[0] != Character.noCollide) {
+					dog.setJumping(true);
+					dog.setVerticalDirection(-1);
+					dog.setJumpCD(true);
+				}
 			}
 		}
 		if (e.getKeyChar() == 'a') {
@@ -209,14 +206,13 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyChar() == 'a') {
 			dog.setMovingLeft(false);
-			Animations.runLeftIndex = Images.leftRunDog1.length-1;
 			Images.currentDogImage = Images.defaultLeftImage;
 		}
 		if (e.getKeyChar() == 'd') {
 			dog.setMovingRight(false);
-			Animations.runRightIndex = 0;
 			Images.currentDogImage = Images.defaultRightImage;
 		}
+		Animations.resetRunAnimation();
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -225,45 +221,42 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (gameState == 0) {
 			if (mouseX >= 187 && mouseX <= 323 && mouseY >= 160 && mouseY <= 207) {
 				gameState = 1;
-			}
-			else if (mouseX >= 187 && mouseX <= 323 && mouseY >= 220 && mouseY <= 266) {
+			} else if (mouseX >= 187 && mouseX <= 323 && mouseY >= 220 && mouseY <= 266) {
 				gameState = 6;
-			}
-			else if (mouseX >= 187 && mouseX <= 323 && mouseY >= 279 && mouseY <= 328) {
+			} else if (mouseX >= 187 && mouseX <= 323 && mouseY >= 279 && mouseY <= 328) {
 				gameState = 7;
 			}
 		} else if (gameState == 1) {
 			if (mouseX >= 198 && mouseX <= 323 && mouseY >= 146 && mouseY <= 194) {
 				gameState = 2;
-			} 
+			}
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
-			} 
+			}
 		} else if (gameState == 6) {
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
-			} 
+			}
 			if (mouseX >= 330 && mouseX <= 380 && mouseY >= 144 && mouseY <= 187) {
 				muteMenu = !muteMenu;
-			} 
+			}
 			if (mouseX >= 330 && mouseX <= 380 && mouseY >= 200 && mouseY <= 247) {
 				muteGame = !muteGame;
 			}
 		} else if (gameState == 7) {
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
-			} 
+			}
 		} else if (gameState == 8) {
 			GameFunctions.restartGame();
 			if (mouseX >= 170 && mouseX <= 220 && mouseY >= 240 && mouseY <= 287) {
 				gameState = 2;
-			} 
-			else if (mouseX >= 300 && mouseX <= 350 && mouseY >= 240 && mouseY <= 287) {
-				
+			} else if (mouseX >= 300 && mouseX <= 350 && mouseY >= 240 && mouseY <= 287) {
+
 				gameState = 0;
-			} 
+			}
 		}
-		
+
 	}
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -291,10 +284,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		Images.currentDogImage = Images.rightIdleDog1[1];
 //		dog.setBounds(0, 0, imageWidth, imageHeight);
 //		dog.setHitbox(20, 20);
-		
+
 		in.close();
 	}
-	
 
 	// unused
 	public void keyTyped(KeyEvent e) {

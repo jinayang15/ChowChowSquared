@@ -22,6 +22,7 @@ public class Character extends Rectangle {
 	// jump = true, character is jumping
 	// jump = false, character is not jumping
 	private boolean jump = false;
+	private boolean jumpCD = false;
 	// how high the character will jump
 	private static int gravity = 30;
 	// verticalDirection determines whether the character is jumping up or falling
@@ -38,7 +39,7 @@ public class Character extends Rectangle {
 	// will add comments for the changes later
 	public Character() {
 		this.setBounds(20, 280, Main.imageWidth, Main.imageHeight);
-		this.setHitbox(20, 20);
+		this.setHitbox(22, 20);
 	}
 
 	public void setHitbox(int width, int height) {
@@ -67,11 +68,11 @@ public class Character extends Rectangle {
 			tilesY.addAll(copyY);
 		}
 
-//		System.out.println("Occupies: ");
-//		for (int i = 0; i < tilesX.size(); i++) {
-//			System.out.println(tilesX.get(i) + " " + tilesY.get(i));
-//		}
-//		System.out.println();
+		System.out.println("Occupies: ");
+		for (int i = 0; i < tilesX.size(); i++) {
+			System.out.println(tilesY.get(i) + " " + tilesX.get(i));
+		}
+		System.out.println();
 	}
 
 	public ArrayList<Integer> getTilesX(ArrayList<Integer> tilesX) {
@@ -194,6 +195,12 @@ public class Character extends Rectangle {
 	public void setJumping(boolean bool) {
 		jump = bool;
 	}
+	public boolean getJumpCD() {
+		return jumpCD;
+	}
+	public void setJumpCD(boolean bool) {
+		jumpCD = bool;
+	}
 
 	public boolean isFalling() {
 		return verticalDirection > 0;
@@ -273,6 +280,7 @@ public class Character extends Rectangle {
 			this.setLocation((int) this.getX(), blockCollides[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
 			setVerticalDirection(0);
 			Animations.resetFallAnimation();
+			this.setJumpCD(false);
 			if (horizontalDirection == 1 && !(isIdleRight() || isIdleLeft())) {
 				Images.currentDogImage = Images.defaultRightImage;
 			} else if (horizontalDirection == -1 && !(isIdleRight() || isIdleLeft())) {
@@ -379,13 +387,18 @@ public class Character extends Rectangle {
 	// checks for block above it
 	public int[] checkBlockAbove() {
 		// {noCollide, noCollide} means no block above
-		int[] blockAbove = { noCollide, noCollide };
+		int[] blockAbove = {noCollide, noCollide};
 		int x, y;
 		// check all the blocks that the character is in
 		for (int i = 0; i < tilesX.size(); i++) {
 			x = tilesX.get(i);
 			y = tilesY.get(i);
 			// make sure we are checking within the grid
+			if (Main.currentGrid[y][x] > 0) {
+				blockAbove[0] = y;
+				blockAbove[1] = x;
+				return blockAbove;
+			}
 			if (y - 1 >= 0) {
 				// check if the blockAbove is a tile
 				// if it is set blockAbove to the tile coords
@@ -424,6 +437,11 @@ public class Character extends Rectangle {
 		for (int i = 0; i < tilesX.size(); i++) {
 			x = tilesX.get(i);
 			y = tilesY.get(i);
+			if (Main.currentGrid[y][x] > 0) {
+				blockUnder[0] = y;
+				blockUnder[1] = x;
+				return blockUnder;
+			}
 			// make sure we are checking within the grid
 			if (y + 1 < Main.tileHeight) {
 				// check if the blockUnder is a tile
@@ -450,7 +468,7 @@ public class Character extends Rectangle {
 			if (blockCollides[0] >= Main.tileHeight) {
 				Main.gameState = 8;
 			}
-			if (this.getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {
+			else if (this.getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {
 				blockCollides[0] = noCollide;
 			}
 		}
@@ -504,7 +522,8 @@ public class Character extends Rectangle {
 		// check all the blocks that the character is in
 		for (int i = 0; i < tilesX.size(); i++) {
 			x = tilesX.get(i);
-			y = tilesY.get(i); // make sure we are checking within the grid
+			y = tilesY.get(i);
+			// check within grid
 			if (x - 1 >= 0 && y < Main.tileHeight) {
 				// check if the blockLeft is a tile
 				// if it is set blockLeft to the tile coords
