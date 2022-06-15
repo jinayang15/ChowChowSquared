@@ -33,6 +33,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static int imageWidth = 40;
 	public static int imageHeight = 40;
 	public static Scanner in;
+	public static long lastLeftPress = 0;
+	public static long lastRightPress = 0;
+	public static int inputDelay = 1000;
 
 	public static Character dog = new Character();
 	public static Enemy bug = new Enemy();
@@ -170,7 +173,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			repaint();
 			if (gameState == 2) {
 				dog.update();
-				bug.update();
+				//bug.update();
 
 			}
 			try {
@@ -183,6 +186,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 	// basic key controls jump, left, right
 	public void keyPressed(KeyEvent e) {
+		
 		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
 			if (!dog.getJumpCD()) {
 				if (!dog.isJumping() && dog.checkBlockBelow()[0] != Character.noCollide) {
@@ -193,16 +197,23 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 		}
 		if (e.getKeyChar() == 'a') {
-			dog.setMovingLeft(true);
-			dog.moveLeft();
-			dog.setHorizontalDirection(-1);
-			Images.currentDogImage = Images.leftIdleDog1[0];
+			if(System.currentTimeMillis() - lastLeftPress > inputDelay) {
+				dog.setMovingLeft(true);
+				dog.moveLeft();
+				dog.setHorizontalDirection(-1);
+				Images.currentDogImage = Images.leftIdleDog1[0];
+	            lastLeftPress = System.currentTimeMillis();
+	        }
+			
 		}
 		if (e.getKeyChar() == 'd') {
-			dog.setMovingRight(true);
-			dog.moveRight();
-			dog.setHorizontalDirection(1);
-			Images.currentDogImage = Images.rightIdleDog1[1];
+			if(System.currentTimeMillis() - lastRightPress > inputDelay) {
+				dog.setMovingRight(true);
+				dog.moveRight();
+				dog.setHorizontalDirection(1);
+				Images.currentDogImage = Images.rightIdleDog1[1];
+				lastRightPress = System.currentTimeMillis();
+			}
 		}
 	}
 
@@ -210,10 +221,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		if (e.getKeyChar() == 'a') {
 			dog.setMovingLeft(false);
 			Images.currentDogImage = Images.defaultLeftImage;
+			lastLeftPress = 0;
 		}
 		if (e.getKeyChar() == 'd') {
 			dog.setMovingRight(false);
 			Images.currentDogImage = Images.defaultRightImage;
+			lastRightPress = 0;
 		}
 		Animations.resetRunAnimation();
 	}
