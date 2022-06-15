@@ -41,7 +41,7 @@ public class GameFunctions {
 			start = Math.abs(Main.bgX / Main.tileSize) - 1;
 		}
 		if (start + Main.tileWidth + 2 >= Main.levelTileWidth) {
-			end = Main.levelTileWidth;
+			end = Main.levelTileWidth-1;
 		} else {
 			end = start + Main.tileWidth+1;
 		}

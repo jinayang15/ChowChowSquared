@@ -25,19 +25,24 @@ public class Animations {
 						idleRightIndex++;
 						if (idleRightIndex >= Images.rightIdleDog1.length) {
 							idleRightIndex = 0;
-							dog.stopIdle();
+							stopIdle(Main.dog);
 						}
 					} else if (dog.getHorizontalDirection() == -1) {
 						Images.currentDogImage = Images.leftIdleDog1[Animations.idleLeftIndex];
 						idleLeftIndex--;
 						if (idleLeftIndex < 0) {
 							idleLeftIndex = 1;
-							dog.stopIdle();
+							stopIdle(Main.dog);
 						}
 					}
 				}
 			}
 		}
+	}
+	public static void stopIdle(Character dog) {
+		dog.setIdleRight(false);
+		dog.setIdleLeft(false);
+		Animations.idleTick = 0;
 	}
 
 	public static void updateAnimationRun(Character dog) {
