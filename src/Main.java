@@ -35,7 +35,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static Scanner in;
 	public static long lastLeftPress = 0;
 	public static long lastRightPress = 0;
-	public static int inputDelay = 1000;
+	public static int inputDelay = 500;
 
 	public static Character dog = new Character();
 	public static Enemy bug = new Enemy();
@@ -44,7 +44,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 1 --> level select
 	// 2 --> lvl 1
 	// 3 --> tutorial
-	// 4 --> 
+	// 4 -->
 	// 5 --> you won (enter name)
 	// 6 --> options
 	// 7 --> winners
@@ -92,22 +92,19 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameBGM.stop();
 			}
 
-		} else if (gameState == 3) {
-			super.paintComponent(g);
-			if (!muteGame) {
-				menuBGM.stop();
-				gameBGM.start();
-				gameBGM.loop(Clip.LOOP_CONTINUOUSLY);
-			} else {
-				menuBGM.stop();
-				gameBGM.stop();
-			}
-			g.drawImage(Images.tutorialBG, bgX, bgY, null);
-			
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
+			currentLvl = "enemies.txt";
+			try {
+				in = new Scanner(new File(currentLvl));
+				GameFunctions.load40Grid(in);
+				GameFunctions.load20Grid();
+				in.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 			super.paintComponent(g);
 			if (!muteGame) {
 				menuBGM.stop();
@@ -119,13 +116,14 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 			g.drawImage(Images.skyBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
+			g.setColor(new Color(0,0,0));
 			for (int i = 0; i < winHeight; i += tileSize) {
 				g.drawLine(0, i, winWidth, i);
 			}
 			for (int i = 0; i < winWidth; i += tileSize) {
 				g.drawLine(i, 0, i, winHeight);
 			}
-			g.drawImage(Images.spike, 0, 0, null);
+			Enemy.loadOnScreenEnemies(g, GameFunctions.genCurrentGrid());
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(), (int) dog.getY(), null);
 //			for (int i = 0; i < currentGrid.length; i++) {
@@ -139,8 +137,37 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 //			g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
 			// hitbox
 			g.setColor(new Color(255, 255, 255));
-			g.drawRect((int) dog.getX() + dog.imageAdjustX, (int) dog.getY() + dog.imageAdjustY, dog.hitboxWidth,
+			g.drawRect((int) dog.getX() + dog.imageAdjustXLeft, (int) dog.getY() + dog.imageAdjustYTop, dog.hitboxWidth,
 					dog.hitboxHeight);
+		} else if (gameState == 3) {
+			currentLvl = "40tutorial.txt";
+			try {
+				in = new Scanner(new File(currentLvl));
+				GameFunctions.load40Grid(in);
+				GameFunctions.load20Grid();
+				in.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			super.paintComponent(g);
+			if (!muteGame) {
+				menuBGM.stop();
+				gameBGM.start();
+				gameBGM.loop(Clip.LOOP_CONTINUOUSLY);
+			} else {
+				menuBGM.stop();
+				gameBGM.stop();
+			}
+			g.drawImage(Images.tutorialBG, bgX, bgY, null);
+			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
+			for (int i = 0; i < currentGrid.length; i++) {
+				for (int k = 0; k < currentGrid[0].length; k++) {
+					System.out.print(currentGrid[i][k]);
+				}
+				System.out.println();
+			}
+			System.out.println();
+			g.drawImage(Images.currentDogImage, (int) dog.getX(), (int) dog.getY(), null);
 		} else if (gameState == 6) {
 			super.paintComponent(g);
 			g.drawImage(Images.options, 0, 0, null);
@@ -181,9 +208,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public void run() {
 		while (true) {
 			repaint();
-			if (gameState == 2) {
+			if (gameState == 2 || gameState == 3) {
 				dog.update();
-				//bug.update();
+				// bug.update();
 
 			}
 			try {
@@ -196,7 +223,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 	// basic key controls jump, left, right
 	public void keyPressed(KeyEvent e) {
-		
 		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
 			if (!dog.getJumpCD()) {
 				if (!dog.isJumping() && dog.checkBlockBelow()[0] != Character.noCollide) {
@@ -207,22 +233,28 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 		}
 		if (e.getKeyChar() == 'a') {
-			if(System.currentTimeMillis() - lastLeftPress > inputDelay) {
+			if (System.currentTimeMillis() - lastLeftPress > inputDelay) {
 				dog.setMovingLeft(true);
 				dog.moveLeft();
 				dog.setHorizontalDirection(-1);
 				Images.currentDogImage = Images.leftIdleDog1[0];
-	            lastLeftPress = System.currentTimeMillis();
-	        }
-			
+				lastLeftPress = System.currentTimeMillis();
+			}
+
 		}
 		if (e.getKeyChar() == 'd') {
-			if(System.currentTimeMillis() - lastRightPress > inputDelay) {
+			if (System.currentTimeMillis() - lastRightPress > inputDelay) {
 				dog.setMovingRight(true);
 				dog.moveRight();
 				dog.setHorizontalDirection(1);
 				Images.currentDogImage = Images.rightIdleDog1[1];
 				lastRightPress = System.currentTimeMillis();
+			}
+		}
+		if (e.getKeyChar() == 'x') {
+			if (gameState == 3) {
+				GameFunctions.restartGame();
+				gameState = 1;
 			}
 		}
 	}
@@ -255,11 +287,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		} else if (gameState == 1) {
 			if (mouseX >= 198 && mouseX <= 323 && mouseY >= 146 && mouseY <= 194) {
 				gameState = 3;
-			}
-			else if (mouseX >= 198 && mouseX <= 323 && mouseY >= 248 && mouseY <= 296) {
+			} else if (mouseX >= 198 && mouseX <= 323 && mouseY >= 248 && mouseY <= 296) {
 				gameState = 2;
-			}
-			else if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
+			} else if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
 			}
 		} else if (gameState == 6) {
@@ -279,7 +309,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		} else if (gameState == 8) {
 			GameFunctions.restartGame();
 			if (mouseX >= 170 && mouseX <= 220 && mouseY >= 240 && mouseY <= 287) {
-				gameState = 2;
+				if (currentLvl.equals("40lvl1.txt") || currentLvl.equals("enemies.txt")) {
+					gameState = 2;
+				}
+				else if (currentLvl.equals("40tutorial.txt")) {
+					gameState = 3;
+				}
 			} else if (mouseX >= 300 && mouseX <= 350 && mouseY >= 240 && mouseY <= 287) {
 
 				gameState = 0;
@@ -299,10 +334,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 
-		currentLvl = "40lvl1.txt";
-		in = new Scanner(new File(currentLvl));
-		GameFunctions.load40Grid(in);
-		GameFunctions.load20Grid();
 //		for (int i = 0; i < levelGrid20.length; i++) {
 //			for (int k = 0; k < levelGrid20[0].length; k++) {
 //				System.out.print(levelGrid20[i][k]);
@@ -313,8 +344,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		Images.currentDogImage = Images.rightIdleDog1[1];
 //		dog.setBounds(0, 0, imageWidth, imageHeight);
 //		dog.setHitbox(20, 20);
-
-		in.close();
 	}
 
 	// unused
