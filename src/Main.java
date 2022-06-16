@@ -45,9 +45,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 2 --> lvl 1
 	// 3 --> tutorial
 	// 4 --> 
-	// 2 --> tutorial
-	// 3 --> lvl 1
-	// 4 -->
 	// 5 --> you won (enter name)
 	// 6 --> options
 	// 7 --> winners
@@ -95,6 +92,18 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameBGM.stop();
 			}
 
+		} else if (gameState == 3) {
+			super.paintComponent(g);
+			if (!muteGame) {
+				menuBGM.stop();
+				gameBGM.start();
+				gameBGM.loop(Clip.LOOP_CONTINUOUSLY);
+			} else {
+				menuBGM.stop();
+				gameBGM.stop();
+			}
+			g.drawImage(Images.tutorialBG, bgX, bgY, null);
+			
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
@@ -108,7 +117,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				menuBGM.stop();
 				gameBGM.stop();
 			}
-			g.drawImage(Images.tutorialBG, bgX, bgY, null);
+			g.drawImage(Images.skyBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
 			for (int i = 0; i < winHeight; i += tileSize) {
 				g.drawLine(0, i, winWidth, i);
@@ -116,6 +125,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			for (int i = 0; i < winWidth; i += tileSize) {
 				g.drawLine(i, 0, i, winHeight);
 			}
+			g.drawImage(Images.spike, 0, 0, null);
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(), (int) dog.getY(), null);
 //			for (int i = 0; i < currentGrid.length; i++) {
@@ -244,9 +254,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 		} else if (gameState == 1) {
 			if (mouseX >= 198 && mouseX <= 323 && mouseY >= 146 && mouseY <= 194) {
+				gameState = 3;
+			}
+			else if (mouseX >= 198 && mouseX <= 323 && mouseY >= 248 && mouseY <= 296) {
 				gameState = 2;
 			}
-			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
+			else if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
 			}
 		} else if (gameState == 6) {

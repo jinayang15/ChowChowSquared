@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Enemy extends Rectangle {
 	public static ArrayList<Enemy> enemies = new ArrayList();
+	public static ArrayList<Enemy> onScreenEnemies = new ArrayList();
 	public int hitboxWidth;
 	public int hitboxHeight;
 	public int imageAdjustX = 10;
@@ -17,15 +19,32 @@ public class Enemy extends Rectangle {
 	private int moveX = 5;
 	public static int noCollide = -100;
 	private double verticalDirection = 0;
-	private double horizontalDirection = 1;
-	public int enemyType = 4;
+	private double horizontalDirection = -1;
+	public int enemyType;
+	public static int spikeWidth = 40;
+	public static int spikeHeight = 40;
+	public int coordY;
+	public int coordX;
 
 	public Enemy() {
 		setBounds(-40, -40, Main.imageWidth, Main.imageHeight);
 		setHitbox(20, 20);
-
+		enemyType = 4;
 	}
-
+	public Enemy(int type, int width, int height)
+	{
+		setBounds(-40, -40, Main.imageWidth, Main.imageHeight);
+		setHitbox(width, height);
+		enemyType = type;
+	}
+	public void setCoords(int y, int x) {
+		coordY = y;
+		coordX = x;
+	}
+	public int[] getCoords() {
+		int[] coords = {coordY, coordX};
+		return coords;
+	}
 	public void setHitbox(int width, int height) {
 		hitboxWidth = width;
 		hitboxHeight = height;
@@ -120,9 +139,28 @@ public class Enemy extends Rectangle {
 
 	public void update() {
 		refreshTile();
-
+		moveLeft();
 	}
-
+	public static void loadOnScreenEnemies(int start, Graphics g) {
+		BufferedImage image = null;
+		int startPoint = 0;
+		int enmX, enmY;
+		if (start%2 == 1) {
+			startPoint = 20;
+		}
+		for (int i = 0; i < enemies.size(); i++) {
+			Enemy temp = enemies.get(i);
+			enmX = temp.getCoords()[1];
+			enmY = temp.getCoords()[0];
+			if (enmX >= start && enmX <= start + Main.tileWidth) {
+				start/=2;
+				if (temp.enemyType == 4) {
+					image = Images.spike;
+					g.drawImage(Images.spike, (enmX-start)*Main.imageWidth - startPoint, enmY*Main.imageHeight, null);
+				}
+			}
+		}
+	}
 	// basic mechanics are down
 	// retrieves current verticalDirection
 	// value -1 to 1
@@ -186,10 +224,34 @@ public class Enemy extends Rectangle {
 		if (getHorizontalDirection() == -1) {
 			if (checkBlockBelow()[0] != noCollide) {
 				translate(-moveX, 0);
+				int[] blockCollides = checkTileCollisionLeft();
+				if (checkBlockBelow()[0] == noCollide) {
+					setHorizontalDirection(1);
+					setLocation(tilesX.get(0) * Main.tileSize - imageAdjustX, (int) getY());
+				}
+				else if (blockCollides[1] != noCollide) {
+					setHorizontalDirection(1);
+					setLocation((blockCollides[1] + 1) * Main.tileSize - imageAdjustX, (int) getY());
+				}
 			}
 		}
 	}
-
+	public void moveRight() {
+		if (getHorizontalDirection() == 1) {
+			if (checkBlockBelow()[0] != noCollide) {
+				translate(moveX, 0);
+				int[] blockCollides = checkTileCollisionRight();
+				if (checkBlockBelow()[0] == noCollide) {
+					setHorizontalDirection(-1);
+					setLocation(tilesX.get(tilesX.size()-1)* Main.tileSize - Main.imageWidth + imageAdjustX, (int) getY());
+				}
+				else if (blockCollides[1] != noCollide) {
+					setHorizontalDirection(-1);
+					setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth + imageAdjustX, (int) getY());
+				}
+			}
+		}
+	}
 	public int[] checkBlockAbove() {
 		// {noCollide, noCollide} means no block above
 		int[] blockAbove = { noCollide, noCollide };
