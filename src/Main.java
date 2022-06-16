@@ -116,6 +116,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			for (int i = 0; i < winWidth; i += tileSize) {
 				g.drawLine(i, 0, i, winHeight);
 			}
+			g.drawImage(Images.spike, 0, 0, null);
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(), (int) dog.getY(), null);
 //			for (int i = 0; i < currentGrid.length; i++) {

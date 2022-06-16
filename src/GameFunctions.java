@@ -17,6 +17,11 @@ public class GameFunctions {
 			int[] input = strArrtoIntArr(temp);
 			for (int j = 0; j < Main.levelGrid40[0].length; j++) {
 				Main.levelGrid40[i][j] = input[j];
+				if (Main.levelGrid40[i][j] == 4) {
+					Enemy enmSpike = new Enemy(Main.levelGrid40[i][j], Enemy.spikeWidth, Enemy.spikeHeight);
+					enmSpike.setCoords(i, j);
+					Enemy.enemies.add(enmSpike);
+				}
 			}
 		}
 
@@ -51,11 +56,6 @@ public class GameFunctions {
 			}
 		}
 		return start;
-	}
-	public static void spawnEnemies() {
-		for (int i = 0; i < Enemy.enemies.size(); i++) {
-			
-		}
 	}
 
 	public static void drawTiles(Graphics g, int start) {
