@@ -93,6 +93,18 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 
 		} else if (gameState == 1) {
+			super.paintComponent(g);
+			if (!muteGame) {
+				menuBGM.stop();
+				gameBGM.start();
+				gameBGM.loop(Clip.LOOP_CONTINUOUSLY);
+			} else {
+				menuBGM.stop();
+				gameBGM.stop();
+			}
+			g.drawImage(Images.skyBG, bgX, bgY, null);
+			
+		} else if (gameState == 3) {
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
@@ -241,9 +253,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 		} else if (gameState == 1) {
 			if (mouseX >= 198 && mouseX <= 323 && mouseY >= 146 && mouseY <= 194) {
+				gameState = 3;
+			}
+			else if (mouseX >= 198 && mouseX <= 323 && mouseY >= 248 && mouseY <= 296) {
 				gameState = 2;
 			}
-			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
+			else if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
 			}
 		} else if (gameState == 6) {
