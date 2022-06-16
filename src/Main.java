@@ -50,7 +50,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 7 --> winners
 	// 8 --> you died
 	public static int gameState = 0;
-	Clip menuBGM, gameBGM;
+	Clip menuBGM, gameBGM, dieSFX;
 	public static boolean muteMenu = false;
 	public static boolean muteGame = false;
 
@@ -70,6 +70,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			sound = AudioSystem.getAudioInputStream(new File("gamemusic.wav"));
 			gameBGM = AudioSystem.getClip();
 			gameBGM.open(sound);
+			sound = AudioSystem.getAudioInputStream(new File("die.wav"));
+			dieSFX = AudioSystem.getClip();
+			dieSFX.open(sound);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,6 +86,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public void paintComponent(Graphics g) {
 		if (gameState == 0) {
 			super.paintComponent(g);
+			dieSFX.stop();
 			g.drawImage(Images.menu, 0, 0, null);
 			if (!muteMenu) {
 				menuBGM.start();
@@ -102,13 +106,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				menuBGM.stop();
 				gameBGM.stop();
 			}
-			g.drawImage(Images.tutorialBG, bgX, bgY, null);
+			g.drawImage(Images.skyBG, bgX, bgY, null);
+			g.drawImage(Images.back, 450, 340, null);
 			
 		} else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
 			super.paintComponent(g);
+			dieSFX.stop();
 			if (!muteGame) {
 				menuBGM.stop();
 				gameBGM.start();
@@ -170,9 +176,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 		} else if (gameState == 8) {
 			gameBGM.stop();
+			dieSFX.setFramePosition(0);
+			dieSFX.start();
 			g.drawImage(Images.gameOver, 0, 0, null);
 			g.drawImage(Images.retry, 170, 240, null);
 			g.drawImage(Images.back, 300, 240, null);
+			
+		} else if (gameState == 5) {
+			super.paintComponent(g);
+			g.drawImage(Images.win, 0, 0, null);
 		}
 
 	}
@@ -284,6 +296,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 				gameState = 0;
 			}
+		} else if(gameState == 3) {
+			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
+				gameState = 0;
+			}
+		} else if (gameState == 5) {
+			
 		}
 
 	}
