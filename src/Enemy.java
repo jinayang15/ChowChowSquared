@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Enemy extends Rectangle {
 	public static ArrayList<Enemy> enemies = new ArrayList();
+	public static ArrayList<Enemy> onScreenEnemies = new ArrayList();
 	public int hitboxWidth;
 	public int hitboxHeight;
 	public int imageAdjustX = 10;
@@ -18,17 +20,30 @@ public class Enemy extends Rectangle {
 	public static int noCollide = -100;
 	private double verticalDirection = 0;
 	private double horizontalDirection = -1;
-	public int enemyType = 4;
+	public int enemyType;
+	public static int spikeWidth = 40;
+	public static int spikeHeight = 40;
+	public int coordY;
+	public int coordX;
 
 	public Enemy() {
 		setBounds(-40, -40, Main.imageWidth, Main.imageHeight);
 		setHitbox(20, 20);
-
+		enemyType = 4;
 	}
-	public Enemy(int x, int y)
+	public Enemy(int type, int width, int height)
 	{
-		setBounds(x, y, Main.imageWidth, Main.imageHeight);
-		setHitbox(20, 20);
+		setBounds(-40, -40, Main.imageWidth, Main.imageHeight);
+		setHitbox(width, height);
+		enemyType = type;
+	}
+	public void setCoords(int y, int x) {
+		coordY = y;
+		coordX = x;
+	}
+	public int[] getCoords() {
+		int[] coords = {coordY, coordX};
+		return coords;
 	}
 	public void setHitbox(int width, int height) {
 		hitboxWidth = width;
@@ -126,7 +141,26 @@ public class Enemy extends Rectangle {
 		refreshTile();
 		moveLeft();
 	}
-
+	public static void loadOnScreenEnemies(int start, Graphics g) {
+		BufferedImage image = null;
+		int startPoint = 0;
+		int enmX, enmY;
+		if (start%2 == 1) {
+			startPoint = 20;
+		}
+		for (int i = 0; i < enemies.size(); i++) {
+			Enemy temp = enemies.get(i);
+			enmX = temp.getCoords()[1];
+			enmY = temp.getCoords()[0];
+			if (enmX >= start && enmX <= start + Main.tileWidth) {
+				start/=2;
+				if (temp.enemyType == 4) {
+					image = Images.spike;
+					g.drawImage(Images.spike, (enmX-start)*Main.imageWidth - startPoint, enmY*Main.imageHeight, null);
+				}
+			}
+		}
+	}
 	// basic mechanics are down
 	// retrieves current verticalDirection
 	// value -1 to 1
