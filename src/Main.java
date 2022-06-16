@@ -108,7 +108,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				menuBGM.stop();
 				gameBGM.stop();
 			}
-			g.drawImage(Images.skyBG, bgX, bgY, null);
+			g.drawImage(Images.tutorialBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
 			for (int i = 0; i < winHeight; i += tileSize) {
 				g.drawLine(0, i, winWidth, i);

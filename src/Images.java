@@ -29,6 +29,7 @@ public class Images {
 	public static BufferedImage dogRight1;
 	public static BufferedImage dogLeft1;
 	public static BufferedImage skyBG;
+	public static BufferedImage tutorialBG;
 	public static BufferedImage currentDogImage;
 	public static BufferedImage defaultRightImage;
 	public static BufferedImage defaultLeftImage;
@@ -57,6 +58,7 @@ public class Images {
 		gameOver = ImageIO.read(new File("gameover.png"));
 		pHBug = ImageIO.read(new File("mad.png"));
 		skyBG = ImageIO.read(new File("basiclevelbg.png"));
+		tutorialBG = ImageIO.read(new File("tutorialbg.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));
 		dogLeft1 = ImageIO.read(new File("whitedogleft.png"));
 
