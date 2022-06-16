@@ -35,6 +35,7 @@ public class Images {
 
 	public static BufferedImage dirtTile;
 	public static BufferedImage grassTile;
+	public static BufferedImage spike;
 
 	
 	public static BufferedImage pHDog;
@@ -52,6 +53,7 @@ public class Images {
 		back = ImageIO.read(new File("back.png"));
 		empty = ImageIO.read(new File("empty.png"));
 		retry = ImageIO.read(new File("retry.png"));
+		spike = ImageIO.read(new File("spike.png"));
 		gameMusic = ImageIO.read(new File("gamemusic.png"));
 		menuMusic = ImageIO.read(new File("menumusic.png"));
 		gameOver = ImageIO.read(new File("gameover.png"));
