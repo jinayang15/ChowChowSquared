@@ -17,7 +17,7 @@ public class Enemy extends Rectangle {
 	private int moveX = 5;
 	public static int noCollide = -100;
 	private double verticalDirection = 0;
-	private double horizontalDirection = 1;
+	private double horizontalDirection = -1;
 	public int enemyType = 4;
 
 	public Enemy() {
@@ -25,7 +25,11 @@ public class Enemy extends Rectangle {
 		setHitbox(20, 20);
 
 	}
-
+	public Enemy(int x, int y)
+	{
+		setBounds(x, y, Main.imageWidth, Main.imageHeight);
+		setHitbox(20, 20);
+	}
 	public void setHitbox(int width, int height) {
 		hitboxWidth = width;
 		hitboxHeight = height;
@@ -120,7 +124,7 @@ public class Enemy extends Rectangle {
 
 	public void update() {
 		refreshTile();
-
+		moveLeft();
 	}
 
 	// basic mechanics are down
@@ -186,10 +190,34 @@ public class Enemy extends Rectangle {
 		if (getHorizontalDirection() == -1) {
 			if (checkBlockBelow()[0] != noCollide) {
 				translate(-moveX, 0);
+				int[] blockCollides = checkTileCollisionLeft();
+				if (checkBlockBelow()[0] == noCollide) {
+					setHorizontalDirection(1);
+					setLocation(tilesX.get(0) * Main.tileSize - imageAdjustX, (int) getY());
+				}
+				else if (blockCollides[1] != noCollide) {
+					setHorizontalDirection(1);
+					setLocation((blockCollides[1] + 1) * Main.tileSize - imageAdjustX, (int) getY());
+				}
 			}
 		}
 	}
-
+	public void moveRight() {
+		if (getHorizontalDirection() == 1) {
+			if (checkBlockBelow()[0] != noCollide) {
+				translate(moveX, 0);
+				int[] blockCollides = checkTileCollisionRight();
+				if (checkBlockBelow()[0] == noCollide) {
+					setHorizontalDirection(-1);
+					setLocation(tilesX.get(tilesX.size()-1)* Main.tileSize - Main.imageWidth + imageAdjustX, (int) getY());
+				}
+				else if (blockCollides[1] != noCollide) {
+					setHorizontalDirection(-1);
+					setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth + imageAdjustX, (int) getY());
+				}
+			}
+		}
+	}
 	public int[] checkBlockAbove() {
 		// {noCollide, noCollide} means no block above
 		int[] blockAbove = { noCollide, noCollide };

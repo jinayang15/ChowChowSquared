@@ -68,11 +68,11 @@ public class Character extends Rectangle {
 			tilesY.addAll(copyY);
 		}
 
-		System.out.println("Occupies: ");
-		for (int i = 0; i < tilesX.size(); i++) {
-			System.out.println(tilesY.get(i) + " " + tilesX.get(i));
-		}
-		System.out.println();
+//		System.out.println("Occupies: ");
+//		for (int i = 0; i < tilesX.size(); i++) {
+//			System.out.println(tilesY.get(i) + " " + tilesX.get(i));
+//		}
+//		System.out.println();
 	}
 
 	public ArrayList<Integer> getTilesX(ArrayList<Integer> tilesX) {
