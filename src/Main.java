@@ -45,9 +45,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 2 --> lvl 1
 	// 3 --> tutorial
 	// 4 --> 
-	// 2 --> tutorial
-	// 3 --> lvl 1
-	// 4 -->
 	// 5 --> you won (enter name)
 	// 6 --> options
 	// 7 --> winners
