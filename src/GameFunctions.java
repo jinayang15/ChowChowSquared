@@ -52,6 +52,11 @@ public class GameFunctions {
 		}
 		return start;
 	}
+	public static void spawnEnemies() {
+		for (int i = 0; i < Enemy.enemies.size(); i++) {
+			
+		}
+	}
 
 	public static void drawTiles(Graphics g, int start) {
 		BufferedImage image = null;
