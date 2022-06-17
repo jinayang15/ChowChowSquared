@@ -8,8 +8,10 @@ public class Character extends Rectangle {
 	// Class & Object Variables
 	public int hitboxWidth;
 	public int hitboxHeight;
-	public int imageAdjustX = 10;
-	public int imageAdjustY = 10;
+	public int imageAdjustXLeft;
+	public int imageAdjustXRight;
+	public int imageAdjustYTop;
+	public int imageAdjustYBot;
 	private ArrayList<Integer> tilesX = new ArrayList<Integer>();
 	private ArrayList<Integer> tilesY = new ArrayList<Integer>();
 	private boolean left = false;
@@ -40,15 +42,19 @@ public class Character extends Rectangle {
 	public Character() {
 		setBounds(20, 280, Main.imageWidth, Main.imageHeight);
 		setHitbox(22, 20);
+		setImageAdjust(10, 10, 10, 10);
 	}
 
 	public void setHitbox(int width, int height) {
 		hitboxWidth = width;
 		hitboxHeight = height;
-		imageAdjustX = (Main.imageWidth - hitboxWidth) / 2;
-		imageAdjustY = (Main.imageWidth - hitboxHeight) / 2;
 	}
-
+	public void setImageAdjust(int left, int right, int top, int bot) {
+		imageAdjustXLeft = left;
+		imageAdjustXRight = right;
+		imageAdjustYTop = top;
+		imageAdjustYBot = bot;
+	}
 	public void refreshTile() {
 		int numX, numY;
 		ArrayList<Integer> copyX, copyY;
@@ -76,7 +82,7 @@ public class Character extends Rectangle {
 	}
 
 	public ArrayList<Integer> getTilesX(ArrayList<Integer> tilesX) {
-		int x1 = (int) getX() + imageAdjustX;
+		int x1 = (int) getX() + imageAdjustXLeft;
 		int x2 = x1 + hitboxWidth;
 //		System.out.println("X: " + x1 + " " + x2);
 		int roundx1;
@@ -106,7 +112,7 @@ public class Character extends Rectangle {
 	}
 
 	public ArrayList<Integer> getTilesY(ArrayList<Integer> tilesY) {
-		int y1 = (int) getY() + imageAdjustY;
+		int y1 = (int) getY() + imageAdjustYTop;
 		int y2 = y1 + hitboxHeight;
 		// System.out.println("Y: " + y1 + " " + y2);
 		int roundy1;
@@ -131,10 +137,6 @@ public class Character extends Rectangle {
 			tilesY.add(i / Main.tileSize);
 		}
 		return tilesY;
-	}
-
-	public boolean collisionDetect(Rectangle obj1, Rectangle obj2) {
-		return obj1.intersects(obj2);
 	}
 
 	// updates character model
@@ -279,7 +281,7 @@ public class Character extends Rectangle {
 		int[] blockCollides = checkTileCollisionBelow();
 		if (blockCollides[0] != noCollide && !isJumping()) {
 			setJumpCD(false);
-			setLocation((int) getX(), blockCollides[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
+			setLocation((int) getX(), blockCollides[0] * Main.tileSize - Main.imageHeight + imageAdjustYBot);
 			setVerticalDirection(0);
 			Animations.resetFallAnimation();
 			if (horizontalDirection == 1 && !(isIdleRight() || isIdleLeft())) {
@@ -307,7 +309,7 @@ public class Character extends Rectangle {
 			Animations.updateAnimationJump(this);
 			int[] blockCollides = checkTileCollisionAbove();
 			if (blockCollides[0] != noCollide) {
-				setLocation((int) getX(), (blockCollides[0] + 1) * Main.tileSize - imageAdjustY);
+				setLocation((int) getX(), (blockCollides[0] + 1) * Main.tileSize - imageAdjustYTop);
 				setVerticalDirection(0);
 			} else {
 				verticalDirection += jumpSpeed;
@@ -330,7 +332,7 @@ public class Character extends Rectangle {
 			Animations.updateAnimationRun(this);
 			int[] blockCollides = checkTileCollisionLeft();
 			if (blockCollides[1] != noCollide) {
-				setLocation((blockCollides[1] + 1) * Main.tileSize - imageAdjustX, (int) getY());
+				setLocation((blockCollides[1] + 1) * Main.tileSize - imageAdjustXLeft, (int) getY());
 				Animations.resetRunAnimation();
 				Images.currentDogImage = Images.defaultLeftImage;
 			}
@@ -349,7 +351,7 @@ public class Character extends Rectangle {
 			Animations.updateAnimationRun(this);
 			int[] blockCollides = checkTileCollisionRight();
 			if (blockCollides[1] != noCollide) {
-				setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth + imageAdjustX, (int) getY());
+				setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth + imageAdjustXRight, (int) getY());
 				Animations.resetRunAnimation();
 				Images.currentDogImage = Images.defaultRightImage;
 			} else {
@@ -368,19 +370,12 @@ public class Character extends Rectangle {
 	public void fixPosition() {
 		int[] blockAboveCollide = checkTileCollisionAbove();
 		int[] blockBelowCollide = checkTileCollisionBelow();
-		int[] blockLeftCollide = checkTileCollisionLeft();
-		int[] blockRightCollide = checkTileCollisionRight();
 		if (blockAboveCollide[0] != noCollide && isJumping()) {
-			setLocation((int) getX(), (blockAboveCollide[0] + 1) * Main.tileSize - imageAdjustY);
+			setLocation((int) getX(), (blockAboveCollide[0] + 1) * Main.tileSize - imageAdjustYTop);
 			setVerticalDirection(0);
 		} else if (blockBelowCollide[0] != noCollide && !isJumping()) {
-			setLocation((int) getX(), blockBelowCollide[0] * Main.tileSize - Main.imageHeight + imageAdjustY);
+			setLocation((int) getX(), blockBelowCollide[0] * Main.tileSize - Main.imageHeight + imageAdjustYBot);
 			setVerticalDirection(0);
-		}
-		if (blockLeftCollide[1] != noCollide && !isMovingRight()) {
-			setLocation((blockLeftCollide[1] + 1) * Main.tileSize - imageAdjustX, (int) getY());
-		} else if (blockRightCollide[1] != noCollide && !isMovingLeft()) {
-			setLocation(blockRightCollide[1] * Main.tileSize - Main.imageWidth + imageAdjustX, (int) getY());
 		}
 	}
 
@@ -395,7 +390,7 @@ public class Character extends Rectangle {
 			y = tilesY.get(i);
 			// make sure we are checking within the grid
 			if (y < Main.tileHeight) {
-				if (Main.currentGrid[y][x] > 0) {
+				if (Main.currentGrid[y][x] > 0 && Main.currentGrid[y][x] < 3) {
 					blockAbove[0] = y;
 					blockAbove[1] = x;
 					return blockAbove;
@@ -403,7 +398,7 @@ public class Character extends Rectangle {
 				if (y - 1 >= 0) {
 					// check if the blockAbove is a tile
 					// if it is set blockAbove to the tile coords
-					if (Main.currentGrid[y - 1][x] > 0) {
+					if (Main.currentGrid[y - 1][x] > 0 && Main.currentGrid[y - 1][x] < 3) {
 						if (blockAbove[0] == noCollide || y - 1 > blockAbove[0]) {
 							blockAbove[0] = y - 1;
 							blockAbove[1] = x;
@@ -423,7 +418,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionAbove() {
 		int[] blockCollides = checkBlockAbove();
 		if (blockCollides[0] != noCollide) {
-			if (getY() - imageAdjustY > (blockCollides[0] + 1) * Main.tileSize) {
+			if (getY() - imageAdjustYTop > (blockCollides[0] + 1) * Main.tileSize) {
 				blockCollides[0] = noCollide;
 			}
 		}
@@ -440,7 +435,7 @@ public class Character extends Rectangle {
 			x = tilesX.get(i);
 			y = tilesY.get(i);
 			if (y < Main.tileHeight) {
-				if (Main.currentGrid[y][x] > 0) {
+				if (Main.currentGrid[y][x] > 0 && Main.currentGrid[y][x] < 3) {
 					blockUnder[0] = y;
 					blockUnder[1] = x;
 					return blockUnder;
@@ -449,7 +444,7 @@ public class Character extends Rectangle {
 				if (y + 1 < Main.tileHeight) {
 					// check if the blockUnder is a tile
 					// if it is set blockUnder to the tile coords
-					if (Main.currentGrid[y + 1][x] > 0) {
+					if (Main.currentGrid[y + 1][x] > 0 && Main.currentGrid[y+1][x] < 3) {
 						if (blockUnder[0] == noCollide || y + 1 < blockUnder[0]) {
 							blockUnder[0] = y + 1;
 							blockUnder[1] = x;
@@ -471,7 +466,7 @@ public class Character extends Rectangle {
 		if (blockCollides[0] != noCollide) {
 			if (blockCollides[0] >= Main.tileHeight) {
 				Main.gameState = 8;
-			} else if (getY() + Main.imageHeight - imageAdjustY < blockCollides[0] * Main.tileSize) {
+			} else if (getY() + Main.imageHeight - imageAdjustYBot < blockCollides[0] * Main.tileSize) {
 				blockCollides[0] = noCollide;
 			}
 		}
@@ -491,7 +486,7 @@ public class Character extends Rectangle {
 			if (x + 1 < Main.tileWidth && y < Main.tileHeight) {
 				// check if the blockRight is a tile
 				// if it is set blockRight to the tile coords
-				if (Main.currentGrid[y][x + 1] > 0) {
+				if (Main.currentGrid[y][x + 1] > 0 && Main.currentGrid[y][x + 1] < 3) {
 					if (blockRight[0] == noCollide || x + 1 < blockRight[0]) {
 						blockRight[0] = y;
 						blockRight[1] = x + 1;
@@ -510,7 +505,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionRight() {
 		int[] blockCollides = checkBlockRight();
 		if (blockCollides[1] != noCollide) {
-			if (getX() + imageAdjustX + hitboxWidth < blockCollides[1] * Main.tileSize) {
+			if (getX() + imageAdjustXRight + hitboxWidth < blockCollides[1] * Main.tileSize) {
 				blockCollides[1] = noCollide;
 			}
 		}
@@ -530,7 +525,7 @@ public class Character extends Rectangle {
 			if (x - 1 >= 0 && y < Main.tileHeight) {
 				// check if the blockLeft is a tile
 				// if it is set blockLeft to the tile coords
-				if (Main.currentGrid[y][x - 1] > 0) {
+				if (Main.currentGrid[y][x - 1] > 0 && Main.currentGrid[y][x-1] < 3) {
 					if (blockLeft[0] == noCollide || x - 1 > blockLeft[0]) {
 						blockLeft[0] = y;
 						blockLeft[1] = x - 1;
@@ -549,7 +544,7 @@ public class Character extends Rectangle {
 	public int[] checkTileCollisionLeft() {
 		int[] blockCollides = checkBlockLeft();
 		if (blockCollides[1] != noCollide) {
-			if (getX() - imageAdjustX > (blockCollides[1] + 1) * Main.tileSize) {
+			if (getX() - imageAdjustXLeft > (blockCollides[1] + 1) * Main.tileSize) {
 				blockCollides[1] = noCollide;
 			}
 		}

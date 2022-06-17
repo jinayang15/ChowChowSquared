@@ -25,6 +25,7 @@ public class Images {
 	public static BufferedImage retry;
 	public static BufferedImage icon;
 	public static BufferedImage gameOver;
+	public static BufferedImage win;
 
 	public static BufferedImage dogRight1;
 	public static BufferedImage dogLeft1;
@@ -60,6 +61,7 @@ public class Images {
 		gameMusic = ImageIO.read(new File("gamemusic.png"));
 		menuMusic = ImageIO.read(new File("menumusic.png"));
 		gameOver = ImageIO.read(new File("gameover.png"));
+		win = ImageIO.read(new File("win.png"));
 		pHBug = ImageIO.read(new File("mad.png"));
 		skyBG = ImageIO.read(new File("basiclevelbg.png"));
 		tutorialBG = ImageIO.read(new File("tutorialbg.png"));
