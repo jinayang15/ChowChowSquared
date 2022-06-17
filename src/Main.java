@@ -82,6 +82,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 	public void paintComponent(Graphics g) {
 		if (gameState == 0) {
+			gameBGM.stop();
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
 			if (!muteMenu) {
