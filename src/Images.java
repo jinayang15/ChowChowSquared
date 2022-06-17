@@ -40,13 +40,11 @@ public class Images {
 	public static BufferedImage spike;
 	public static BufferedImage slime;
 
-	
 	public static BufferedImage pHDog;
 	public static BufferedImage pHBug;
 	public static BufferedImage pHTile;
 	public static BufferedImage pHBG;
-	
-	
+
 	public static void importImages() throws IOException {
 		icon = ImageIO.read(new File("icon.png"));
 		menu = ImageIO.read(new File("chowchowmenu.png"));
@@ -71,53 +69,31 @@ public class Images {
 		dirtTile = ImageIO.read(new File("newdirt.png"));
 		grassTile = ImageIO.read(new File("newgrass.png"));
 		defaultRightImage = dogRight1.getSubimage(40, 0, 40, 40);
-		defaultLeftImage = dogLeft1.getSubimage(440,0,40,40);
+		defaultLeftImage = dogLeft1.getSubimage(440, 0, 40, 40);
 		for (int i = 0; i < rightIdleDog1.length; i++) {
-			rightIdleDog1[i] = dogRight1.getSubimage(i*40,0,40, 40);
+			rightIdleDog1[i] = dogRight1.getSubimage(i * 40, 0, 40, 40);
 		}
 		for (int i = 0; i < rightRunDog1.length; i++) {
-			rightRunDog1[i] = dogRight1.getSubimage((i+7)*40, 40, 40, 40);
+			rightRunDog1[i] = dogRight1.getSubimage((i + 7) * 40, 40, 40, 40);
 		}
 		for (int i = 0; i < rightJumpDog1.length; i++) {
-			rightJumpDog1[i] = dogRight1.getSubimage((i+7)*40, 0, 40, 40);
+			rightJumpDog1[i] = dogRight1.getSubimage((i + 7) * 40, 0, 40, 40);
 		}
 		for (int i = 0; i < rightFallDog1.length; i++) {
-			rightFallDog1[i] = dogRight1.getSubimage((i+9)*40, 0, 40, 40);
+			rightFallDog1[i] = dogRight1.getSubimage((i + 9) * 40, 0, 40, 40);
 		}
 		for (int i = 0; i < leftIdleDog1.length; i++) {
-			leftIdleDog1[i] = dogLeft1.getSubimage((i+11)*40,0,40,40);
+			leftIdleDog1[i] = dogLeft1.getSubimage((i + 11) * 40, 0, 40, 40);
 		}
 		for (int i = 0; i < leftRunDog1.length; i++) {
-			leftRunDog1[i] = dogLeft1.getSubimage(i*40, 40, 40, 40);
+			leftRunDog1[i] = dogLeft1.getSubimage(i * 40, 40, 40, 40);
 		}
 		for (int i = 0; i < leftJumpDog1.length; i++) {
-			leftJumpDog1[i] = dogLeft1.getSubimage((i+4)*40, 0, 40, 40);
+			leftJumpDog1[i] = dogLeft1.getSubimage((i + 4) * 40, 0, 40, 40);
 		}
 		for (int i = 0; i < leftFallDog1.length; i++) {
-			leftFallDog1[i] = dogLeft1.getSubimage((i+1)*40, 0, 40, 40);
+			leftFallDog1[i] = dogLeft1.getSubimage((i + 1) * 40, 0, 40, 40);
 		}
-		
-//		for (int i = 0; i < leftRunDog1.length; i++) {
-//			leftRunDog1[i] = dogLeft1.getSubimage(i*40, 40, 40, 40);
-//		}
-//		leftJumpDog1[0] = dogLeft1.getSubimage(2*40, 40, 40, 40);
-//		for (int i = 3; i >= 0; i--) {
-//			leftJumpDog1[i] = dogLeft1.getSubimage(i*40, 0, 40, 40);
-//		}
-//		for (int i = 0;i < rightWalkDog1.length; i++) {
-//			rightWalkDog1[i] = grabImage(i+7,2,dogRight1);
-//		}
-//		for (int i = 0; i < rightWalkDog1.length; i++) {
-//			lefttWalkDog1[i] = grabImage(i,2,dogLeft1);
-//		}
-//		rightJumpDog1[0] = dogRight1.getSubimage(10*40, 40, 40, 40);
-		
-//		for (int i = 0; i < newDirtTiles.length; i++) {
-//			for (int j = 0; i < 4; j++) {
-//				newDirtTiles[i] = ImageIO.read(new File("newgrass" + (i+1) + "_" + (j+1) + ".png"));
-//			}
-//		}
-
 	}
 
 }

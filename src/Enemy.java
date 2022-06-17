@@ -170,10 +170,6 @@ public class Enemy extends Rectangle {
 					temp.setBounds((enmX-start)*Main.imageWidth - startPoint, enmY*Main.imageHeight, Main.imageWidth, Main.imageHeight);
 					temp.setImageAdjust(0,0,20,0);
 					g.drawImage(Images.spike, (enmX-start)*Main.imageWidth - startPoint, enmY*Main.imageHeight, null);
-					
-					g.setColor(new Color(255, 255, 255));
-					g.drawRect((int) temp.getX() + temp.imageAdjustXLeft, (int) temp.getY() + temp.imageAdjustYTop, temp.hitboxWidth,
-							temp.hitboxHeight);
 				}
 			}
 		}

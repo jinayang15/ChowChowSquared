@@ -49,12 +49,14 @@ public class Character extends Rectangle {
 		hitboxWidth = width;
 		hitboxHeight = height;
 	}
+
 	public void setImageAdjust(int left, int right, int top, int bot) {
 		imageAdjustXLeft = left;
 		imageAdjustXRight = right;
 		imageAdjustYTop = top;
 		imageAdjustYBot = bot;
 	}
+
 	public void refreshTile() {
 		int numX, numY;
 		ArrayList<Integer> copyX, copyY;
@@ -152,16 +154,34 @@ public class Character extends Rectangle {
 		moveRight();
 		refreshTile();
 		fixPosition();
+		checkDeath();
 		// animations
 		chanceIdle();
 		idleRight();
 		idleLeft();
-		// checkDeath();
+
 	}
 
 	public void checkDeath() {
-		if (getY() + Main.imageHeight >= 400) {
-			Main.gameState = 8;
+		int charX = (int) (getX() + imageAdjustXLeft);
+		int charY = (int) (getY() + imageAdjustYTop);
+		int enmX, enmY;
+
+		for (int i = 0; i < Enemy.enemies.size(); i++) {
+			Enemy temp = Enemy.enemies.get(i);
+			if (temp.getX() != -40) {
+				enmX = (int) (temp.getX() + temp.imageAdjustXLeft);
+				enmY = (int) (temp.getY() + temp.imageAdjustYTop);
+				if ((charX >= enmX && charX <= enmX + temp.hitboxWidth)
+						|| (charX + hitboxWidth >= enmX && charX + hitboxWidth <= enmX + temp.hitboxWidth)) {
+					if ((charY >= enmY && charY <= enmY + temp.hitboxHeight)
+							|| (charY + hitboxHeight >= enmY && charY + hitboxHeight <= enmY + temp.hitboxHeight)) {
+						Main.gameState = 8;
+						break;
+					}
+				}
+
+			}
 		}
 	}
 
@@ -444,7 +464,7 @@ public class Character extends Rectangle {
 				if (y + 1 < Main.tileHeight) {
 					// check if the blockUnder is a tile
 					// if it is set blockUnder to the tile coords
-					if (Main.currentGrid[y + 1][x] > 0 && Main.currentGrid[y+1][x] < 3) {
+					if (Main.currentGrid[y + 1][x] > 0 && Main.currentGrid[y + 1][x] < 3) {
 						if (blockUnder[0] == noCollide || y + 1 < blockUnder[0]) {
 							blockUnder[0] = y + 1;
 							blockUnder[1] = x;
@@ -525,7 +545,7 @@ public class Character extends Rectangle {
 			if (x - 1 >= 0 && y < Main.tileHeight) {
 				// check if the blockLeft is a tile
 				// if it is set blockLeft to the tile coords
-				if (Main.currentGrid[y][x - 1] > 0 && Main.currentGrid[y][x-1] < 3) {
+				if (Main.currentGrid[y][x - 1] > 0 && Main.currentGrid[y][x - 1] < 3) {
 					if (blockLeft[0] == noCollide || x - 1 > blockLeft[0]) {
 						blockLeft[0] = y;
 						blockLeft[1] = x - 1;

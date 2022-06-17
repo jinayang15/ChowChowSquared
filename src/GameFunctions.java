@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameFunctions {
@@ -82,6 +83,7 @@ public class GameFunctions {
 		Main.bgX = 0;
 		Main.bgY = 0;
 		Main.currentGrid = new int[Main.tileHeight][Main.tileWidth + 2];
-		
+		Enemy.enemies = new ArrayList();
+		Enemy.onScreenEnemies = new ArrayList();
 	}
 }
