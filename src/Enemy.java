@@ -6,6 +6,8 @@ import java.util.Collections;
 public class Enemy extends Rectangle {
 	public static ArrayList<Enemy> enemies = new ArrayList();
 	public static ArrayList<Enemy> onScreenEnemies = new ArrayList();
+	public static int spikeNum = 4;
+	public static int slimeNum = 3;
 	public int hitboxWidth;
 	public int hitboxHeight;
 	public int imageAdjustXLeft;
@@ -30,13 +32,12 @@ public class Enemy extends Rectangle {
 	public BufferedImage enmImage;
 
 	public Enemy() {
-		setBounds(-40, -40, Main.imageWidth, Main.imageHeight);
+		setBounds(noCollide, noCollide, Main.imageWidth, Main.imageHeight);
 		setHitbox(20, 20);
-		enemyType = 4;
 	}
 	public Enemy(int type, int width, int height)
 	{
-		setBounds(-40, -40, Main.imageWidth, Main.imageHeight);
+		setBounds(noCollide, noCollide, Main.imageWidth, Main.imageHeight);
 		setHitbox(width, height);
 		enemyType = type;
 	}
@@ -165,7 +166,7 @@ public class Enemy extends Rectangle {
 				enemies.remove(i);
 			}
 			else if (enmX >= start && enmX <= start + Main.tileWidth) {
-				if (temp.enemyType == 4) {
+				if (temp.enemyType == spikeNum) {
 					image = Images.spike;
 					temp.setBounds((enmX-start)*Main.imageWidth - startPoint, enmY*Main.imageHeight, Main.imageWidth, Main.imageHeight);
 					temp.setImageAdjust(0,0,20,0);

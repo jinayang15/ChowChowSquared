@@ -18,7 +18,7 @@ public class GameFunctions {
 			int[] input = strArrtoIntArr(temp);
 			for (int j = 0; j < Main.levelGrid40[0].length; j++) {
 				Main.levelGrid40[i][j] = input[j];
-				if (Main.levelGrid40[i][j] == 4) {
+				if (Main.levelGrid40[i][j] == Enemy.spikeNum) {
 					Enemy enmSpike = new Enemy(Main.levelGrid40[i][j], Enemy.spikeWidth, Enemy.spikeHeight);
 					enmSpike.setCoords(i, j);
 					Enemy.enemies.add(enmSpike);

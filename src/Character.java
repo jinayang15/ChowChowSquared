@@ -169,7 +169,7 @@ public class Character extends Rectangle {
 
 		for (int i = 0; i < Enemy.enemies.size(); i++) {
 			Enemy temp = Enemy.enemies.get(i);
-			if (temp.getX() != -40) {
+			if (temp.getX() != noCollide) {
 				enmX = (int) (temp.getX() + temp.imageAdjustXLeft);
 				enmY = (int) (temp.getY() + temp.imageAdjustYTop);
 				if ((charX >= enmX && charX <= enmX + temp.hitboxWidth)

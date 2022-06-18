@@ -118,12 +118,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.skyBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
 			g.setColor(new Color(0,0,0));
-			for (int i = 0; i < winHeight; i += tileSize) {
-				g.drawLine(0, i, winWidth, i);
-			}
-			for (int i = 0; i < winWidth; i += tileSize) {
-				g.drawLine(i, 0, i, winHeight);
-			}
+//			for (int i = 0; i < winHeight; i += tileSize) {
+//				g.drawLine(0, i, winWidth, i);
+//			}
+//			for (int i = 0; i < winWidth; i += tileSize) {
+//				g.drawLine(i, 0, i, winHeight);
+//			}
 			Enemy.loadOnScreenEnemies(g, GameFunctions.genCurrentGrid());
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(), (int) dog.getY(), null);
@@ -137,9 +137,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 //			g.setColor(new Color(0, 0, 255));
 //			g.drawRect((int) dog.getX(), (int) dog.getY(), imageWidth, imageHeight);
 			// hitbox
-			g.setColor(new Color(255, 255, 255));
-			g.drawRect((int) dog.getX() + dog.imageAdjustXLeft, (int) dog.getY() + dog.imageAdjustYTop, dog.hitboxWidth,
-					dog.hitboxHeight);
+//			g.setColor(new Color(255, 255, 255));
+//			g.drawRect((int) dog.getX() + dog.imageAdjustXLeft, (int) dog.getY() + dog.imageAdjustYTop, dog.hitboxWidth,
+//					dog.hitboxHeight);
 		} else if (gameState == 3) {
 			currentLvl = "40tutorial.txt";
 			try {
@@ -310,7 +310,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		} else if (gameState == 8) {
 			GameFunctions.restartGame();
 			if (mouseX >= 170 && mouseX <= 220 && mouseY >= 240 && mouseY <= 287) {
-				if (currentLvl.equals("40lvl1.txt") || currentLvl.equals("enemies.txt")) {
+				if (currentLvl.equals("40lvl1.txt") || currentLvl.equals("enemies.txt") || currentLvl.equals("pipesandstuff.txt")) {
 					gameState = 2;
 				}
 				else if (currentLvl.equals("40tutorial.txt")) {
