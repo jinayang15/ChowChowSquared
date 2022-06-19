@@ -39,12 +39,6 @@ public class Images {
 	public static BufferedImage grassTile;
 	public static BufferedImage spike;
 	public static BufferedImage slime;
-
-	public static BufferedImage pHDog;
-	public static BufferedImage pHBug;
-	public static BufferedImage pHTile;
-	public static BufferedImage pHBG;
-
 	public static void importImages() throws IOException {
 		icon = ImageIO.read(new File("icon.png"));
 		menu = ImageIO.read(new File("chowchowmenu.png"));
@@ -60,7 +54,6 @@ public class Images {
 		menuMusic = ImageIO.read(new File("menumusic.png"));
 		gameOver = ImageIO.read(new File("gameover.png"));
 		win = ImageIO.read(new File("win.png"));
-		pHBug = ImageIO.read(new File("mad.png"));
 		skyBG = ImageIO.read(new File("basiclevelbg.png"));
 		tutorialBG = ImageIO.read(new File("tutorialbg.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));

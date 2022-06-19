@@ -26,7 +26,7 @@ public class Character extends Rectangle {
 	private boolean jump = false;
 	private boolean jumpCD = false;
 	// how high the character will jump
-	private static int gravity = 30;
+	private static int gravity = 20;
 	// verticalDirection determines whether the character is jumping up or falling
 	// down (only vertical)
 	// -1 max jump -> 1 max fall
@@ -34,8 +34,8 @@ public class Character extends Rectangle {
 	// -1 = left -> 1 = right
 	private int horizontalDirection = 1;
 	// how fast the character will jump or fall
-	private static double jumpSpeed = 0.2;
-	private static double fallSpeed = 0.03;
+	private static double jumpSpeed = 0.075;
+	private static double fallSpeed = 0.075;
 
 	// Class Methods
 	// will add comments for the changes later
@@ -167,8 +167,8 @@ public class Character extends Rectangle {
 		int charY = (int) (getY() + imageAdjustYTop);
 		int enmX, enmY;
 
-		for (int i = 0; i < Enemy.enemies.size(); i++) {
-			Enemy temp = Enemy.enemies.get(i);
+		for (int i = 0; i < Enemy.onScreenEnemies.size(); i++) {
+			Enemy temp = Enemy.onScreenEnemies.get(i);
 			if (temp.getX() != noCollide) {
 				enmX = (int) (temp.getX() + temp.imageAdjustXLeft);
 				enmY = (int) (temp.getY() + temp.imageAdjustYTop);
@@ -271,7 +271,7 @@ public class Character extends Rectangle {
 		if (!isIdleRight() && !isIdleLeft()) {
 			if (!isJumping() && !isFalling()) {
 				if (!isMovingLeft() && !isMovingRight()) {
-					double chance = Math.random() * 100;
+					double chance = Math.random() * 200;
 					if (chance <= 1) {
 						if (getHorizontalDirection() == 1) {
 							setIdleRight(true);
@@ -382,6 +382,7 @@ public class Character extends Rectangle {
 				if (Main.bgX > -(Main.levelWidth - Main.winWidth) && getX() >= Main.winWidth / 2 - Main.tileSize / 2) {
 					Main.bgX -= Main.tileSize;
 					setLocation(Main.winWidth / 2 - Main.tileSize / 2, (int) getY());
+					Enemy.shiftEnemies();
 				}
 			}
 		}
@@ -410,7 +411,7 @@ public class Character extends Rectangle {
 			y = tilesY.get(i);
 			// make sure we are checking within the grid
 			if (y < Main.tileHeight) {
-				if (Main.currentGrid[y][x] > 0 && Main.currentGrid[y][x] < 3) {
+				if (Main.currentGrid[y][x] > '0' && Main.currentGrid[y][x] < '3') {
 					blockAbove[0] = y;
 					blockAbove[1] = x;
 					return blockAbove;
@@ -418,7 +419,7 @@ public class Character extends Rectangle {
 				if (y - 1 >= 0) {
 					// check if the blockAbove is a tile
 					// if it is set blockAbove to the tile coords
-					if (Main.currentGrid[y - 1][x] > 0 && Main.currentGrid[y - 1][x] < 3) {
+					if (Main.currentGrid[y - 1][x] > '0' && Main.currentGrid[y - 1][x] < '3') {
 						if (blockAbove[0] == noCollide || y - 1 > blockAbove[0]) {
 							blockAbove[0] = y - 1;
 							blockAbove[1] = x;
@@ -455,7 +456,7 @@ public class Character extends Rectangle {
 			x = tilesX.get(i);
 			y = tilesY.get(i);
 			if (y < Main.tileHeight) {
-				if (Main.currentGrid[y][x] > 0 && Main.currentGrid[y][x] < 3) {
+				if (Main.currentGrid[y][x] > '0' && Main.currentGrid[y][x] < '3') {
 					blockUnder[0] = y;
 					blockUnder[1] = x;
 					return blockUnder;
@@ -464,7 +465,7 @@ public class Character extends Rectangle {
 				if (y + 1 < Main.tileHeight) {
 					// check if the blockUnder is a tile
 					// if it is set blockUnder to the tile coords
-					if (Main.currentGrid[y + 1][x] > 0 && Main.currentGrid[y + 1][x] < 3) {
+					if (Main.currentGrid[y + 1][x] > '0' && Main.currentGrid[y + 1][x] < '3') {
 						if (blockUnder[0] == noCollide || y + 1 < blockUnder[0]) {
 							blockUnder[0] = y + 1;
 							blockUnder[1] = x;
@@ -506,7 +507,7 @@ public class Character extends Rectangle {
 			if (x + 1 < Main.tileWidth && y < Main.tileHeight) {
 				// check if the blockRight is a tile
 				// if it is set blockRight to the tile coords
-				if (Main.currentGrid[y][x + 1] > 0 && Main.currentGrid[y][x + 1] < 3) {
+				if (Main.currentGrid[y][x + 1] > '0' && Main.currentGrid[y][x + 1] < '3') {
 					if (blockRight[0] == noCollide || x + 1 < blockRight[0]) {
 						blockRight[0] = y;
 						blockRight[1] = x + 1;
@@ -545,7 +546,7 @@ public class Character extends Rectangle {
 			if (x - 1 >= 0 && y < Main.tileHeight) {
 				// check if the blockLeft is a tile
 				// if it is set blockLeft to the tile coords
-				if (Main.currentGrid[y][x - 1] > 0 && Main.currentGrid[y][x - 1] < 3) {
+				if (Main.currentGrid[y][x - 1] > '0' && Main.currentGrid[y][x - 1] < '3') {
 					if (blockLeft[0] == noCollide || x - 1 > blockLeft[0]) {
 						blockLeft[0] = y;
 						blockLeft[1] = x - 1;

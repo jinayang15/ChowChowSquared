@@ -26,9 +26,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static final int levelTileWidth = levelWidth / tileSize;
 	public static final int fps = 30;
 	// keeps track of the tiles onscreen
-	public static int[][] levelGrid40 = new int[tileHeight / 2][levelTileWidth / 2];
-	public static int[][] levelGrid20 = new int[tileHeight][levelTileWidth];
-	public static int[][] currentGrid = new int[tileHeight][tileWidth + 2];
+	public static char[][] levelGrid40 = new char[tileHeight / 2][levelTileWidth / 2];
+	public static char[][] levelGrid20 = new char[tileHeight][levelTileWidth];
+	public static char[][] currentGrid = new char[tileHeight][tileWidth + 2];
 	public static String currentLvl;
 	public static int imageWidth = 40;
 	public static int imageHeight = 40;
@@ -141,7 +141,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 //			g.drawRect((int) dog.getX() + dog.imageAdjustXLeft, (int) dog.getY() + dog.imageAdjustYTop, dog.hitboxWidth,
 //					dog.hitboxHeight);
 		} else if (gameState == 3) {
-			currentLvl = "40tutorial.txt";
+			currentLvl = "enemies.txt";
 			try {
 				in = new Scanner(new File(currentLvl));
 				GameFunctions.load40Grid(in);
@@ -161,13 +161,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 			g.drawImage(Images.tutorialBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
-			for (int i = 0; i < currentGrid.length; i++) {
-				for (int k = 0; k < currentGrid[0].length; k++) {
-					System.out.print(currentGrid[i][k]);
-				}
-				System.out.println();
-			}
-			System.out.println();
 			g.drawImage(Images.currentDogImage, (int) dog.getX(), (int) dog.getY(), null);
 		} else if (gameState == 6) {
 			super.paintComponent(g);

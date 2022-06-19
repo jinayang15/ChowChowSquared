@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameFunctions {
-	public static int[] strArrtoIntArr(String[] input) {
-		int[] out = new int[input.length];
+	public static char[] strArrtoCharArr(String[] input) {
+		char[] out = new char[input.length];
 		for (int i = 0; i < out.length; i++) {
-			out[i] = Integer.parseInt(input[i]);
+			out[i] = input[i].charAt(0);
 		}
 		return out;
 	}
@@ -15,13 +15,20 @@ public class GameFunctions {
 	public static void load40Grid(Scanner sc) {
 		for (int i = 0; i < Main.levelGrid40.length; i++) {
 			String[] temp = Main.in.nextLine().split(" ");
-			int[] input = strArrtoIntArr(temp);
+			char[] input = strArrtoCharArr(temp);
 			for (int j = 0; j < Main.levelGrid40[0].length; j++) {
 				Main.levelGrid40[i][j] = input[j];
-				if (Main.levelGrid40[i][j] == Enemy.spikeNum) {
-					Enemy enmSpike = new Enemy(Main.levelGrid40[i][j], Enemy.spikeWidth, Enemy.spikeHeight);
+				if (Main.levelGrid40[i][j] == Enemy.spikeChar) {
+					Enemy enmSpike = new Enemy(Enemy.spikeChar, Enemy.spikeWidth, Enemy.spikeHeight);
 					enmSpike.setCoords(i, j);
+					enmSpike.setImage(Images.spike);
 					Enemy.enemies.add(enmSpike);
+				}
+				else if (Main.levelGrid40[i][j] == Enemy.slimeChar) {
+					Enemy enmSlime = new Enemy(Enemy.slimeChar, Enemy.slimeWidth, Enemy.slimeHeight);
+					enmSlime.setCoords(i,j);
+					enmSlime.setImage(Images.slime);
+					Enemy.enemies.add(enmSlime);
 				}
 			}
 		}
@@ -69,9 +76,9 @@ public class GameFunctions {
 		for (int i = 0; i < Main.tileHeight / 2; i++) {
 			for (int j = start; j < start + Main.tileWidth/2+1; j++) {
 				image = null;
-				if (Main.levelGrid40[i][j] == 1) {
+				if (Main.levelGrid40[i][j] == '1') {
 					image = Images.grassTile;
-				} else if (Main.levelGrid40[i][j] == 2) {
+				} else if (Main.levelGrid40[i][j] == '2') {
 					image = Images.dirtTile;
 				}
 				g.drawImage(image, (j - start)*40 - startPoint, i * 40, null);
@@ -82,8 +89,8 @@ public class GameFunctions {
 		Main.dog = new Character();
 		Main.bgX = 0;
 		Main.bgY = 0;
-		Main.currentGrid = new int[Main.tileHeight][Main.tileWidth + 2];
-		Enemy.enemies = new ArrayList();
-		Enemy.onScreenEnemies = new ArrayList();
+		Main.currentGrid = new char[Main.tileHeight][Main.tileWidth + 2];
+		Enemy.enemies = new ArrayList<Enemy>();
+		Enemy.onScreenEnemies = new ArrayList<Enemy>();
 	}
 }
