@@ -94,5 +94,6 @@ public class GameFunctions {
 		Main.currentGrid = new char[Main.tileHeight][Main.tileWidth + 2];
 		Enemy.enemies = new ArrayList<Enemy>();
 		Enemy.onScreenEnemies = new ArrayList<Enemy>();
+		Enemy.removedEnemies = new ArrayList<Enemy>();
 	}
 }
