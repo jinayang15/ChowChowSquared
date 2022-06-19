@@ -384,7 +384,7 @@ public class Character extends Rectangle {
 					setLocation(Main.winWidth / 2 - Main.tileSize / 2, (int) getY());
 					Enemy.shiftEnemies();
 				}
-				else if (Main.bgX < -(Main.levelWidth - Main.winWidth) && getX() >= 375) {
+				else if (Main.bgX <= -(Main.levelWidth - Main.winWidth) && getX() >= 375) {
 					Main.gameState = 5;
 				}
 			}
