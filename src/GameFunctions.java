@@ -24,12 +24,11 @@ public class GameFunctions {
 					enmSpike.setImage(Images.spike);
 					enmSpike.setImageAdjust(0, 0, 20, 0);
 					Enemy.enemies.add(enmSpike);
-				}
-				else if (Main.levelGrid40[i][j] == Enemy.slimeChar) {
+				} else if (Main.levelGrid40[i][j] == Enemy.slimeChar) {
 					Enemy enmSlime = new Enemy(Enemy.slimeChar, Enemy.slimeWidth, Enemy.slimeHeight);
-					enmSlime.setCoords(i,j);
+					enmSlime.setCoords(i, j);
 					enmSlime.setImage(Images.slime);
-					enmSlime.setImageAdjust(8, 8, 8, 8);
+					enmSlime.setImageAdjust(9, 9, 9, 9);
 					Enemy.enemies.add(enmSlime);
 				}
 			}
@@ -56,9 +55,9 @@ public class GameFunctions {
 			start = Math.abs(Main.bgX / Main.tileSize) - 1;
 		}
 		if (start + Main.tileWidth + 2 >= Main.levelTileWidth) {
-			end = Main.levelTileWidth-1;
+			end = Main.levelTileWidth - 1;
 		} else {
-			end = start + Main.tileWidth+1;
+			end = start + Main.tileWidth + 1;
 		}
 		for (int i = 0; i < Main.tileHeight; i++) {
 			for (int j = start; j <= end; j++) {
@@ -70,23 +69,34 @@ public class GameFunctions {
 
 	public static void drawTiles(Graphics g, int start) {
 		BufferedImage image = null;
+		char value;
 		int startPoint = 0;
-		if (start%2 == 1) {
+		if (start % 2 == 1) {
 			startPoint = 20;
 		}
-		start/=2;
+		start /= 2;
 		for (int i = 0; i < Main.tileHeight / 2; i++) {
-			for (int j = start; j < start + Main.tileWidth/2+1; j++) {
+			for (int j = start; j < start + Main.tileWidth / 2 + 1; j++) {
 				image = null;
-				if (Main.levelGrid40[i][j] == '1') {
+				value = Main.levelGrid40[i][j];
+				if (value == '1') {
 					image = Images.grassTile;
-				} else if (Main.levelGrid40[i][j] == '2') {
+				} else if (value == '2') {
 					image = Images.dirtTile;
+				} else if (value >= '3' && Main.levelGrid40[i][j] <= '8') {
+					image = Images.pipes[value - '3'];
+				} else if (value == '9') {
+					image = Images.flagpole[0];
+				} else if (value == '!') {
+					image = Images.flagpole[1];
+				} else if (value == '@') {
+					image = Images.flagpole[2];
 				}
-				g.drawImage(image, (j - start)*40 - startPoint, i * 40, null);
+				g.drawImage(image, (j - start) * 40 - startPoint, i * 40, null);
 			}
 		}
 	}
+
 	public static void restartGame() {
 		Main.dog = new Character();
 		Main.bgX = 0;

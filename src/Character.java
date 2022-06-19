@@ -414,7 +414,7 @@ public class Character extends Rectangle {
 			y = tilesY.get(i);
 			// make sure we are checking within the grid
 			if (y < Main.tileHeight) {
-				if (Main.currentGrid[y][x] > '0' && Main.currentGrid[y][x] <= '9') {
+				if (Main.currentGrid[y][x] > '0' && Main.currentGrid[y][x] <= '8') {
 					blockAbove[0] = y;
 					blockAbove[1] = x;
 					return blockAbove;
@@ -422,7 +422,7 @@ public class Character extends Rectangle {
 				if (y - 1 >= 0) {
 					// check if the blockAbove is a tile
 					// if it is set blockAbove to the tile coords
-					if (Main.currentGrid[y - 1][x] > '0' && Main.currentGrid[y - 1][x] <= '9') {
+					if (Main.currentGrid[y - 1][x] > '0' && Main.currentGrid[y - 1][x] <= '8') {
 						if (blockAbove[0] == noCollide || y - 1 > blockAbove[0]) {
 							blockAbove[0] = y - 1;
 							blockAbove[1] = x;
@@ -459,7 +459,7 @@ public class Character extends Rectangle {
 			x = tilesX.get(i);
 			y = tilesY.get(i);
 			if (y < Main.tileHeight) {
-				if (Main.currentGrid[y][x] > '0' && Main.currentGrid[y][x] <= '9') {
+				if (Main.currentGrid[y][x] > '0' && Main.currentGrid[y][x] <= '8') {
 					blockUnder[0] = y;
 					blockUnder[1] = x;
 					return blockUnder;
@@ -468,7 +468,7 @@ public class Character extends Rectangle {
 				if (y + 1 < Main.tileHeight) {
 					// check if the blockUnder is a tile
 					// if it is set blockUnder to the tile coords
-					if (Main.currentGrid[y + 1][x] > '0' && Main.currentGrid[y + 1][x] <= '9') {
+					if (Main.currentGrid[y + 1][x] > '0' && Main.currentGrid[y + 1][x] <= '8') {
 						if (blockUnder[0] == noCollide || y + 1 < blockUnder[0]) {
 							blockUnder[0] = y + 1;
 							blockUnder[1] = x;
@@ -510,7 +510,7 @@ public class Character extends Rectangle {
 			if (x + 1 < Main.tileWidth && y < Main.tileHeight) {
 				// check if the blockRight is a tile
 				// if it is set blockRight to the tile coords
-				if (Main.currentGrid[y][x + 1] > '0' && Main.currentGrid[y][x + 1] <= '9') {
+				if (Main.currentGrid[y][x + 1] > '0' && Main.currentGrid[y][x + 1] <= '8') {
 					if (blockRight[0] == noCollide || x + 1 < blockRight[0]) {
 						blockRight[0] = y;
 						blockRight[1] = x + 1;
@@ -549,7 +549,7 @@ public class Character extends Rectangle {
 			if (x - 1 >= 0 && y < Main.tileHeight) {
 				// check if the blockLeft is a tile
 				// if it is set blockLeft to the tile coords
-				if (Main.currentGrid[y][x - 1] > '0' && Main.currentGrid[y][x - 1] <= '9') {
+				if (Main.currentGrid[y][x - 1] > '0' && Main.currentGrid[y][x - 1] <= '8') {
 					if (blockLeft[0] == noCollide || x - 1 > blockLeft[0]) {
 						blockLeft[0] = y;
 						blockLeft[1] = x - 1;

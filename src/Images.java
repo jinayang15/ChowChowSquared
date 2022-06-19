@@ -13,6 +13,8 @@ public class Images {
 	public static final BufferedImage[] leftRunDog1 = new BufferedImage[6];
 	public static final BufferedImage[] leftJumpDog1 = new BufferedImage[2];
 	public static final BufferedImage[] leftFallDog1 = new BufferedImage[3];
+	public static final BufferedImage[] pipes = new BufferedImage[6];
+	public static final BufferedImage[] flagpole = new BufferedImage[3];
 	public static final BufferedImage[] win = new BufferedImage[5];
 
 	public static BufferedImage menu;
@@ -88,6 +90,12 @@ public class Images {
 		}
 		for (int i = 0; i < win.length; i++) {
 			win[i] = ImageIO.read(new File("win" + i + ".png"));		
+		}
+		for (int i = 1; i <= pipes.length; i++) {
+			pipes[i-1] = ImageIO.read(new File("pipe_" + i + ".png"));
+		}
+		for (int i = 1; i <= flagpole.length; i++) {
+			flagpole[i-1] = ImageIO.read(new File("flagpole_" + i + ".png"));
 		}
 	}
 

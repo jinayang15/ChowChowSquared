@@ -99,7 +99,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
-			currentLvl = "enemies.txt";
+			currentLvl = "pipesandstuff.txt";
 			try {
 				in = new Scanner(new File(currentLvl));
 				GameFunctions.load40Grid(in);
@@ -143,7 +143,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 //			g.drawRect((int) dog.getX() + dog.imageAdjustXLeft, (int) dog.getY() + dog.imageAdjustYTop, dog.hitboxWidth,
 //					dog.hitboxHeight);
 		} else if (gameState == 3) {
-			currentLvl = "enemies.txt";
+			currentLvl = "40tutorial.txt";
 			try {
 				in = new Scanner(new File(currentLvl));
 				GameFunctions.load40Grid(in);

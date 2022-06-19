@@ -30,8 +30,8 @@ public class Enemy extends Rectangle {
 	public int enemyType;
 	public static int spikeWidth = 40;
 	public static int spikeHeight = 20;
-	public static int slimeWidth = 24;
-	public static int slimeHeight = 24;
+	public static int slimeWidth = 22;
+	public static int slimeHeight = 22;
 	public int coordY;
 	public int coordX;
 	public BufferedImage enmImage;
@@ -222,19 +222,6 @@ public class Enemy extends Rectangle {
 		}
 	}
 
-	// basic mechanics are down
-	// retrieves current verticalDirection
-	// value -1 to 1
-	public double getVerticalDirection() {
-		return verticalDirection;
-	}
-
-	// sets verticalDirection to specific value
-	// default 0
-	public void setVerticalDirection(int num) {
-		verticalDirection = num;
-	}
-
 	public double getHorizontalDirection() {
 		return horizontalDirection;
 	}
@@ -245,42 +232,6 @@ public class Enemy extends Rectangle {
 		horizontalDirection = num;
 	}
 
-	public boolean isMovingUp() {
-		return up;
-	}
-
-	// set moving left
-	public void setMovingUp(boolean bool) {
-		up = bool;
-	}
-
-	// same as other two
-	public boolean isMovingDown() {
-		return down;
-	}
-
-	public void setMovingDown(boolean bool) {
-		down = bool;
-	}
-
-	public boolean isMovingLeft() {
-		return left;
-	}
-
-	// set moving left
-	public void setMovingLeft(boolean bool) {
-		left = bool;
-	}
-
-	// same as other two
-	public boolean isMovingRight() {
-		return right;
-	}
-
-	public void setMovingRight(boolean bool) {
-		right = bool;
-	}
-
 	public void moveLeft() {
 		if (getHorizontalDirection() == -1) {
 			int[] blockUnder = checkBlockBelow();
@@ -289,14 +240,21 @@ public class Enemy extends Rectangle {
 				translate(-moveX, 0);
 				if (getX() >= 0) {
 					if (blockLeft[1] != noCollide) {
+						setHorizontalDirection(1);
 						setLocation((blockLeft[1] + 1) * Main.tileSize - imageAdjustXLeft, (int) getY());
+						System.out.println("Coords: " + coordY + " " + coordX);
+						System.out.println("Left1: " + getX() + " " + getY());
 					} else if (Main.currentGrid[blockUnder[0]][blockUnder[1]] == '0') {
 						setHorizontalDirection(1);
-						setLocation((blockUnder[1]+1) * Main.tileSize - imageAdjustXLeft, (int) getY());
+						setLocation((blockUnder[1] + 1) * Main.tileSize - imageAdjustXLeft, (int) getY());
+						System.out.println("Coords: " + coordY + " " + coordX);
+						System.out.println("Left2: " + getX() + " " + getY());
 					} else if (blockUnder[1] - 1 >= 0 && Main.currentGrid[blockUnder[0]][blockUnder[1] - 1] == '0') {
 						if (getX() - imageAdjustXLeft <= blockUnder[1] * Main.tileSize) {
 							setHorizontalDirection(1);
 							setLocation(blockUnder[1] * Main.tileSize - imageAdjustXLeft, (int) getY());
+							System.out.println("Coords: " + coordY + " " + coordX);
+							System.out.println("Left3: " + getX() + " " + getY());
 						}
 					}
 				}
@@ -314,16 +272,21 @@ public class Enemy extends Rectangle {
 					if (blockRight[1] != noCollide) {
 						setHorizontalDirection(-1);
 						setLocation(blockRight[1] * Main.tileSize - Main.imageWidth + imageAdjustXRight, (int) getY());
+//						System.out.println("Coords: " + coordY + " " + coordX);
+//						System.out.println("Right1: " + getX() + " " + getY());
 					} else if (Main.currentGrid[blockUnder[0]][blockUnder[1]] == '0') {
 						setHorizontalDirection(-1);
-						setLocation(blockUnder[1] * Main.tileSize - hitboxWidth - imageAdjustXLeft,
-								(int) getY());
+						setLocation(blockUnder[1] * Main.tileSize - hitboxWidth - imageAdjustXLeft, (int) getY());
+//						System.out.println("Coords: " + coordY + " " + coordX);
+//						System.out.println("Right2: " + getX() + " " + getY());
 					} else if (blockUnder[1] + 1 < Main.tileWidth
 							&& Main.currentGrid[blockUnder[0]][blockUnder[1] + 1] == '0') {
 						if (getX() + hitboxWidth + imageAdjustXLeft >= (blockUnder[1] + 1) * Main.tileSize) {
 							setHorizontalDirection(-1);
 							setLocation((blockUnder[1] + 1) * Main.tileSize - hitboxWidth - imageAdjustXLeft,
 									(int) getY());
+//							System.out.println("Coords: " + coordY + " " + coordX);
+//							System.out.println("Right3: " + getX() + " " + getY());
 						}
 					}
 				}
