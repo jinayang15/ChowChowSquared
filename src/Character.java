@@ -19,7 +19,7 @@ public class Character extends Rectangle {
 	private boolean idleLeft = false;
 	private boolean idleRight = false;
 	// pixels moved left and right
-	private static int moveX = 5;
+	private static int moveX = 7;
 	public static int noCollide = -100;
 	// jump = true, character is jumping
 	// jump = false, character is not jumping
