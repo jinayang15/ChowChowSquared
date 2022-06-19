@@ -377,12 +377,15 @@ public class Character extends Rectangle {
 			} else {
 				// screen scrolls if the character is moving right:
 				// - if it is not the last screen
-				// - if it is gonna move past the middle of the screen
+				// - if it is going to move past the middle of the screen
 				// keeps the character in the middle of the screen until the last screen
 				if (Main.bgX > -(Main.levelWidth - Main.winWidth) && getX() >= Main.winWidth / 2 - Main.tileSize / 2) {
 					Main.bgX -= Main.tileSize;
 					setLocation(Main.winWidth / 2 - Main.tileSize / 2, (int) getY());
 					Enemy.shiftEnemies();
+				}
+				else if (Main.bgX < -(Main.levelWidth - Main.winWidth) && getX() >= 375) {
+					Main.gameState = 5;
 				}
 			}
 		}

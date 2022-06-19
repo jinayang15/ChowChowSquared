@@ -12,6 +12,8 @@ public class Animations {
 	public static int fallRightIndex = 0;
 	public static int fallLeftIndex = Images.leftFallDog1.length - 1;
 	public static int fallTick, fallSpeed = 10;
+	public static int fadeIndex = 0;
+	public static int fadeSpeed, fadeTick = 10;
 
 	// the update methods loops through the image arrays at a set speed
 	public static void updateAnimationIdle(Character dog) {
@@ -123,5 +125,14 @@ public class Animations {
 		fallLeftIndex = Images.leftFallDog1.length - 1;
 		fallTick = 0;
 		fallSpeed = 10;
+	}
+	
+	public static void fade() {
+		fadeTick++;
+		if (fadeTick >= fadeSpeed) {
+			fadeTick = 0;
+			fadeIndex++;
+		}
+		
 	}
 }
