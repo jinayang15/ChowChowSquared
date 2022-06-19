@@ -25,6 +25,7 @@ public class Images {
 	public static BufferedImage empty;
 	public static BufferedImage gameMusic;
 	public static BufferedImage menuMusic;
+	public static BufferedImage gameSFX;
 	public static BufferedImage retry;
 	public static BufferedImage icon;
 	public static BufferedImage gameOver;
@@ -54,6 +55,7 @@ public class Images {
 		slime = ImageIO.read(new File("slime.png"));
 		gameMusic = ImageIO.read(new File("gamemusic.png"));
 		menuMusic = ImageIO.read(new File("menumusic.png"));
+		gameSFX = ImageIO.read(new File("muteSFX.png"));
 		gameOver = ImageIO.read(new File("gameover.png"));
 		skyBG = ImageIO.read(new File("basiclevelbg.png"));
 		tutorialBG = ImageIO.read(new File("tutorialbg.png"));
