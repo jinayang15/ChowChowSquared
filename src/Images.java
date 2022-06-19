@@ -13,6 +13,7 @@ public class Images {
 	public static final BufferedImage[] leftRunDog1 = new BufferedImage[6];
 	public static final BufferedImage[] leftJumpDog1 = new BufferedImage[2];
 	public static final BufferedImage[] leftFallDog1 = new BufferedImage[3];
+	public static final BufferedImage[] win = new BufferedImage[5];
 
 	public static BufferedImage menu;
 	public static BufferedImage level;
@@ -25,7 +26,6 @@ public class Images {
 	public static BufferedImage retry;
 	public static BufferedImage icon;
 	public static BufferedImage gameOver;
-	public static BufferedImage win;
 
 	public static BufferedImage dogRight1;
 	public static BufferedImage dogLeft1;
@@ -53,7 +53,6 @@ public class Images {
 		gameMusic = ImageIO.read(new File("gamemusic.png"));
 		menuMusic = ImageIO.read(new File("menumusic.png"));
 		gameOver = ImageIO.read(new File("gameover.png"));
-		win = ImageIO.read(new File("win.png"));
 		skyBG = ImageIO.read(new File("basiclevelbg.png"));
 		tutorialBG = ImageIO.read(new File("tutorialbg.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));
@@ -86,6 +85,9 @@ public class Images {
 		}
 		for (int i = 0; i < leftFallDog1.length; i++) {
 			leftFallDog1[i] = dogLeft1.getSubimage((i + 1) * 40, 0, 40, 40);
+		}
+		for (int i = 0; i < win.length; i++) {
+			win[i] = ImageIO.read(new File("win" + i + ".png"));		
 		}
 	}
 

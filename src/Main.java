@@ -44,8 +44,8 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 1 --> level select
 	// 2 --> lvl 1
 	// 3 --> tutorial
-	// 4 -->
-	// 5 --> you won (enter name)
+	// 4 --> enter name
+	// 5 --> you won 
 	// 6 --> options
 	// 7 --> winners
 	// 8 --> you died
@@ -53,6 +53,8 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	Clip menuBGM, gameBGM;
 	public static boolean muteMenu = false;
 	public static boolean muteGame = false;
+	public static JTextField jt = new JTextField("Enter Name: ", 30);
+	public static String winner;
 
 	public Main() {
 		setPreferredSize(new Dimension(winWidth, winHeight));
@@ -162,6 +164,15 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.tutorialBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
 			g.drawImage(Images.currentDogImage, (int) dog.getX(), (int) dog.getY(), null);
+		} else if ( gameState == 4) {
+			g.drawImage(Images.win[4], 0, 0, null);
+					
+			
+		} else if ( gameState == 5) {
+			Animations.fade();
+			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
+			gameState = 4;
+			
 		} else if (gameState == 6) {
 			super.paintComponent(g);
 			g.drawImage(Images.options, 0, 0, null);
@@ -188,6 +199,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			super.paintComponent(g);
 			g.drawImage(Images.winners, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
+			g.drawString(winner, 200, 200);
 
 		} else if (gameState == 8) {
 			gameBGM.stop();
@@ -250,6 +262,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				GameFunctions.restartGame();
 				gameState = 1;
 			}
+		}
+		
+		if (gameState == 4 && e.getKeyCode() == 10) {
+			winner = jt.getText();
+			System.out.println(winner);
 		}
 	}
 
@@ -327,6 +344,13 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
+		try {
+			if (gameState == 4) {
+			panel.add(jt);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
 
 //		for (int i = 0; i < levelGrid20.length; i++) {
 //			for (int k = 0; k < levelGrid20[0].length; k++) {
