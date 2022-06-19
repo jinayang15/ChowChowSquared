@@ -22,12 +22,14 @@ public class GameFunctions {
 					Enemy enmSpike = new Enemy(Enemy.spikeChar, Enemy.spikeWidth, Enemy.spikeHeight);
 					enmSpike.setCoords(i, j);
 					enmSpike.setImage(Images.spike);
+					enmSpike.setImageAdjust(0, 0, 20, 0);
 					Enemy.enemies.add(enmSpike);
 				}
 				else if (Main.levelGrid40[i][j] == Enemy.slimeChar) {
 					Enemy enmSlime = new Enemy(Enemy.slimeChar, Enemy.slimeWidth, Enemy.slimeHeight);
 					enmSlime.setCoords(i,j);
 					enmSlime.setImage(Images.slime);
+					enmSlime.setImageAdjust(8, 8, 8, 8);
 					Enemy.enemies.add(enmSlime);
 				}
 			}

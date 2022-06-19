@@ -28,8 +28,8 @@ public class Enemy extends Rectangle {
 	public int enemyType;
 	public static int spikeWidth = 40;
 	public static int spikeHeight = 20;
-	public static int slimeWidth = 40;
-	public static int slimeHeight = 40;
+	public static int slimeWidth = 24;
+	public static int slimeHeight = 24;
 	public int coordY;
 	public int coordX;
 	public BufferedImage enmImage;
@@ -155,11 +155,6 @@ public class Enemy extends Rectangle {
 		return tilesY;
 	}
 
-	public void update() {
-		refreshTile();
-		moveLeft();
-	}
-
 	public static void loadOnScreenEnemies(Graphics g, int start) {
 		int startPoint = 0;
 		int enmX, enmY;
@@ -168,12 +163,12 @@ public class Enemy extends Rectangle {
 		}
 		start /= 2;
 		for (int i = 0; i < enemies.size(); i++) {
-			Enemy temp = enemies.get(i);
+			Enemy temp = (Enemy) enemies.get(i).clone();
 			temp.inArr = -1;
 			enmX = temp.getCoords()[1];
 			enmY = temp.getCoords()[0];
-			temp.setBounds((enmX - start) * Main.imageWidth - startPoint - temp.imageAdjustXRight,
-					enmY * Main.imageHeight - temp.imageAdjustYBot, Main.imageWidth, Main.imageHeight);
+			temp.setBounds((enmX - start) * Main.imageWidth - startPoint + temp.imageAdjustXLeft,
+					enmY * Main.imageHeight + temp.imageAdjustYBot, Main.imageWidth, Main.imageHeight);
 			for (int k = 0; k < onScreenEnemies.size(); k++) {
 				Enemy compare = onScreenEnemies.get(k);
 				if (compare.getCoords()[0] == enmY && compare.getCoords()[1] == enmX) {
@@ -183,28 +178,42 @@ public class Enemy extends Rectangle {
 			}
 			if (temp.inArr != -1 && onScreenEnemies.get(temp.inArr).getX() < 0) {
 				onScreenEnemies.remove(temp.inArr);
-			}
-			else if (temp.getX() >= 0 && temp.getX() <= Main.winWidth ) {
-				if (temp.inArr == -1) {
+			} else if (temp.inArr == -1) {
+				if (temp.getX() >= 0 && temp.getX() <= Main.winWidth) {
 					onScreenEnemies.add(temp);
-					if (temp.enemyType == spikeChar) {
-						temp.setImageAdjust(0, 0, 20, 0);
-					} else if (temp.enemyType == slimeChar) {
-						temp.setImageAdjust(0, 0, 0, 0);
-					}
-				} 
+				}
 			}
 
 		}
 		for (int i = 0; i < onScreenEnemies.size(); i++) {
-			Enemy temp = onScreenEnemies.get(i);
-			g.drawImage(temp.enmImage,(int) temp.getX(), (int) temp.getY(), null);
+			Enemy draw = onScreenEnemies.get(i);
+			g.drawImage(draw.enmImage, (int) draw.getX(), (int) draw.getY(), null);
+			g.setColor(new Color(0, 0, 255));
+			g.drawRect((int) draw.getX(), (int) draw.getY(), Main.imageWidth, Main.imageHeight);
 			g.setColor(new Color(255, 255, 255));
-			g.drawRect((int) temp.getX(), (int) temp.getY(), 40, 40);
+			g.drawRect((int) draw.getX() + draw.imageAdjustXLeft, (int) draw.getY() + draw.imageAdjustYTop,
+					draw.hitboxWidth, draw.hitboxHeight);
 		}
 	}
+
+	public static void moveEnemies() {
+		for (Enemy enm : onScreenEnemies) {
+			if (enm.enemyType == slimeChar) {
+				enm.refreshTile();
+				System.out.println("Start2: " + enm.getX() + " " + enm.getY());
+				enm.moveLeft();
+				System.out.println("Left: " + enm.getX() + " " + enm.getY());
+				enm.refreshTile();
+				enm.moveRight();
+				System.out.println("Right: " + enm.getX() + " " + enm.getY());
+				enm.refreshTile();
+				//enm.fixPosition();
+			}
+		}
+	}
+
 	public static void shiftEnemies() {
-		for (Enemy enm: onScreenEnemies) {
+		for (Enemy enm : onScreenEnemies) {
 			enm.translate(-Main.tileSize, 0);
 		}
 	}
@@ -270,15 +279,14 @@ public class Enemy extends Rectangle {
 
 	public void moveLeft() {
 		if (getHorizontalDirection() == -1) {
-			if (checkBlockBelow()[0] != noCollide) {
+			int[] blockUnder = checkBlockBelow();
+			if (blockUnder[0] != noCollide) {
 				translate(-moveX, 0);
-				int[] blockCollides = checkTileCollisionLeft();
-				if (checkBlockBelow()[0] == noCollide) {
-					setHorizontalDirection(1);
-					setLocation(tilesX.get(0) * Main.tileSize - imageAdjustXLeft, (int) getY());
-				} else if (blockCollides[1] != noCollide) {
-					setHorizontalDirection(1);
-					setLocation((blockCollides[1] + 1) * Main.tileSize - imageAdjustXLeft, (int) getY());
+				if (blockUnder[1] - 1 >= 0 && Main.currentGrid[blockUnder[0]][blockUnder[1]-1] == '0') {
+					if (getX() - imageAdjustXLeft <= blockUnder[1] * Main.tileSize) {
+						setHorizontalDirection(1);
+						setLocation(blockUnder[1] * Main.tileSize - imageAdjustXLeft, (int) getY());
+					}
 				}
 			}
 		}
@@ -286,21 +294,38 @@ public class Enemy extends Rectangle {
 
 	public void moveRight() {
 		if (getHorizontalDirection() == 1) {
-			if (checkBlockBelow()[0] != noCollide) {
+			int[] blockUnder = checkBlockBelow();
+			if (blockUnder[0] != noCollide) {
 				translate(moveX, 0);
-				int[] blockCollides = checkTileCollisionRight();
-				if (checkBlockBelow()[0] == noCollide) {
-					setHorizontalDirection(-1);
-					setLocation(tilesX.get(tilesX.size() - 1) * Main.tileSize - Main.imageWidth + imageAdjustXRight,
-							(int) getY());
-				} else if (blockCollides[1] != noCollide) {
-					setHorizontalDirection(-1);
-					setLocation(blockCollides[1] * Main.tileSize - Main.imageWidth + imageAdjustXRight, (int) getY());
+				if (blockUnder[1] + 1 < Main.tileWidth && Main.currentGrid[blockUnder[0]][blockUnder[1]+1] == '0') {
+					if (getX() + hitboxWidth + imageAdjustXLeft >= (blockUnder[1]+1) * Main.tileSize ) {
+						setHorizontalDirection(-1);
+						setLocation((blockUnder[1]+1) * Main.tileSize - hitboxWidth - imageAdjustXLeft, (int) getY());
+					}
 				}
 			}
 		}
 	}
-
+	
+	public void fixPosition() {
+		int[] blockLeft = checkTileCollisionLeft();
+		int[] blockRight = checkTileCollisionRight();
+		if (checkBlockBelow()[0] == noCollide) {
+			setHorizontalDirection(1);
+			setLocation((checkBlockBelow()[1]+1) * Main.tileSize - imageAdjustXLeft, (int) getY());
+		} else if (blockLeft[1] != noCollide) {
+			setHorizontalDirection(1);
+			setLocation((blockLeft[1] + 1) * Main.tileSize - imageAdjustXLeft, (int) getY());
+		}
+		if (checkBlockBelow()[0] == noCollide) {
+			setHorizontalDirection(-1);
+			setLocation((checkBlockBelow()[1]) * Main.tileSize - Main.imageWidth + imageAdjustXRight,
+					(int) getY());
+		} else if (blockRight[1] != noCollide) {
+			setHorizontalDirection(-1);
+			setLocation(blockRight[1] * Main.tileSize - Main.imageWidth + imageAdjustXRight, (int) getY());
+		}
+	}
 	public int[] checkBlockAbove() {
 		// {noCollide, noCollide} means no block above
 		int[] blockAbove = { noCollide, noCollide };
@@ -310,7 +335,7 @@ public class Enemy extends Rectangle {
 			x = tilesX.get(i);
 			y = tilesY.get(i);
 			// make sure we are checking within the grid
-			if (Main.currentGrid[y][x] > 0) {
+			if (Main.currentGrid[y][x] > '0' && Main.currentGrid[y][x] <= '9') {
 				blockAbove[0] = y;
 				blockAbove[1] = x;
 				return blockAbove;
@@ -318,7 +343,7 @@ public class Enemy extends Rectangle {
 			if (y - 1 >= 0) {
 				// check if the blockAbove is a tile
 				// if it is set blockAbove to the tile coords
-				if (Main.currentGrid[y - 1][x] > 0) {
+				if (Main.currentGrid[y - 1][x] > '0' && Main.currentGrid[y - 1][x] <= '9') {
 					if (blockAbove[0] == noCollide || y - 1 > blockAbove[0]) {
 						blockAbove[0] = y - 1;
 						blockAbove[1] = x;
@@ -352,7 +377,7 @@ public class Enemy extends Rectangle {
 		for (int i = 0; i < tilesX.size(); i++) {
 			x = tilesX.get(i);
 			y = tilesY.get(i);
-			if (Main.currentGrid[y][x] > 0) {
+			if (Main.currentGrid[y][x] > '0' && Main.currentGrid[y][x] <= '9') {
 				blockUnder[0] = y;
 				blockUnder[1] = x;
 				return blockUnder;
@@ -361,7 +386,7 @@ public class Enemy extends Rectangle {
 			if (y + 1 < Main.tileHeight) {
 				// check if the blockUnder is a tile
 				// if it is set blockUnder to the tile coords
-				if (Main.currentGrid[y + 1][x] > 0) {
+				if (Main.currentGrid[y + 1][x] > '0' && Main.currentGrid[y + 1][x] <= '9') {
 					if (blockUnder[0] == noCollide || y + 1 < blockUnder[0]) {
 						blockUnder[0] = y + 1;
 						blockUnder[1] = x;
@@ -400,7 +425,7 @@ public class Enemy extends Rectangle {
 			if (x + 1 < Main.tileWidth && y < Main.tileHeight) {
 				// check if the blockRight is a tile
 				// if it is set blockRight to the tile coords
-				if (Main.currentGrid[y][x + 1] > 0) {
+				if (Main.currentGrid[y][x + 1] > '0' && Main.currentGrid[y][x + 1] <= '9') {
 					if (blockRight[0] == noCollide || x + 1 < blockRight[0]) {
 						blockRight[0] = y;
 						blockRight[1] = x + 1;
@@ -439,7 +464,7 @@ public class Enemy extends Rectangle {
 			if (x - 1 >= 0 && y < Main.tileHeight) {
 				// check if the blockLeft is a tile
 				// if it is set blockLeft to the tile coords
-				if (Main.currentGrid[y][x - 1] > 0) {
+				if (Main.currentGrid[y][x - 1] > '0' && Main.currentGrid[y][x - 1] <= '9') {
 					if (blockLeft[0] == noCollide || x - 1 > blockLeft[0]) {
 						blockLeft[0] = y;
 						blockLeft[1] = x - 1;
