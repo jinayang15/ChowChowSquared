@@ -9,7 +9,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
-import javax.swing.JButton;
+
 // Game: Chow Chow Squared
 // By: Jina Yang and Vicky Li
 // A mini platformer game where the objective is for Biscuit to find Cookie who is lost!
