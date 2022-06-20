@@ -2,8 +2,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+// General Game Functions
+//**Not explaining the math..
 public class GameFunctions {
+	// converts string arr to char arr
+	// for the grids
 	public static char[] strArrtoCharArr(String[] input) {
 		char[] out = new char[input.length];
 		for (int i = 0; i < out.length; i++) {
@@ -11,13 +14,16 @@ public class GameFunctions {
 		}
 		return out;
 	}
-
+	
+	// loads in the 40x40 tiles level grid
 	public static void load40Grid(Scanner sc) {
-		for (int i = 0; i < Main.levelGrid40.length; i++) {
+		for (int i = 0; i < Main.levelGrid40.length; i++){
+			// reading input
 			String[] temp = Main.in.nextLine().split(" ");
 			char[] input = strArrtoCharArr(temp);
 			for (int j = 0; j < Main.levelGrid40[0].length; j++) {
 				Main.levelGrid40[i][j] = input[j];
+				// adding in enemies
 				if (Main.levelGrid40[i][j] == Enemy.spikeChar) {
 					Enemy enmSpike = new Enemy(Enemy.spikeChar, Enemy.spikeWidth, Enemy.spikeHeight);
 					enmSpike.setCoords(i, j);
@@ -35,7 +41,7 @@ public class GameFunctions {
 		}
 
 	}
-
+	// translates 40x40 tiles level grid to 20x20 tiles level grid
 	public static void load20Grid() {
 		for (int i = 0; i < Main.levelGrid40.length; i++) {
 			for (int j = 0; j < Main.levelGrid40[0].length; j++) {
@@ -46,7 +52,7 @@ public class GameFunctions {
 			}
 		}
 	}
-
+	// generate current window grid
 	public static int genCurrentGrid() {
 		int start = 0, end = 0;
 		if (Math.abs(Main.bgX / Main.tileSize) == 0) {
@@ -66,7 +72,7 @@ public class GameFunctions {
 		}
 		return start;
 	}
-
+	// draws tiles on current window
 	public static void drawTiles(Graphics g, int start) {
 		BufferedImage image = null;
 		char value;
@@ -96,7 +102,7 @@ public class GameFunctions {
 			}
 		}
 	}
-
+	// resets game 
 	public static void restartGame() {
 		Main.dog = new Character();
 		Main.bgX = 0;

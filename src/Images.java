@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class Images {
-	// anything starting with "pH" is a placeholder, not final
+	// Image Arrays for animations and multiple tiles
+	// Images for backgrounds, buttons, etc.
 	public static final BufferedImage[] rightIdleDog1 = new BufferedImage[2];
 	public static final BufferedImage[] rightRunDog1 = new BufferedImage[6];
 	public static final BufferedImage[] rightJumpDog1 = new BufferedImage[2];
@@ -42,6 +43,7 @@ public class Images {
 	public static BufferedImage grassTile;
 	public static BufferedImage spike;
 	public static BufferedImage slime;
+	// imports all images
 	public static void importImages() throws IOException {
 		icon = ImageIO.read(new File("icon.png"));
 		menu = ImageIO.read(new File("chowchowmenu.png"));

@@ -1,21 +1,31 @@
-
+// Animates stuff to make it look cool
 public class Animations {
+	// Idle Animation Variables
+	// - index keeps track of image
+	// - tick keeps track of current tick
+	// - speed determines when tick refreshes
 	public static int idleLeftIndex = 1;
 	public static int idleRightIndex = 0;
 	public static int idleTick, idleSpeed = 30;
+	// Run Animation Variables
 	public static int runLeftIndex = Images.leftRunDog1.length - 1;
 	public static int runRightIndex = 0;
 	public static int runTick, runSpeed = 5;
+	// Jump Animation Variables
 	public static int jumpRightIndex = 0;
 	public static int jumpLeftIndex = Images.leftJumpDog1.length - 1;
 	public static int jumpTick, jumpSpeed = 3;
+	// Fall Animation Variables
 	public static int fallRightIndex = 0;
 	public static int fallLeftIndex = Images.leftFallDog1.length - 1;
 	public static int fallTick, fallSpeed = 10;
+	// Winner Fade-in Variables
 	public static int fadeIndex = 0;
 	public static int fadeSpeed, fadeTick = 500;
 
 	// the update methods loops through the image arrays at a set speed
+	// idleTick measures current tick and only refreshes when it reaches the set
+	// idleSpeed. When the speed is reached, the next image is queued up
 	public static void updateAnimationIdle(Character dog) {
 		if (!dog.isJumping() && !dog.isFalling()) {
 			if (!dog.isMovingLeft() && !dog.isMovingRight()) {
@@ -41,12 +51,14 @@ public class Animations {
 			}
 		}
 	}
+	// resets idle Variables
 	public static void stopIdle(Character dog) {
 		dog.setIdleRight(false);
 		dog.setIdleLeft(false);
 		Animations.idleTick = 0;
 	}
-
+	
+	// same thing
 	public static void updateAnimationRun(Character dog) {
 		if (!dog.isJumping() && !dog.isFalling()) {
 			runTick++;
@@ -68,13 +80,13 @@ public class Animations {
 			}
 		}
 	}
+	// resets run variables
 	public static void resetRunAnimation() {
 		runLeftIndex = Images.leftRunDog1.length - 1;
 		runRightIndex = 0;
 		runTick = 0;
-		runSpeed = 5;
 	}
-
+	// same thing
 	public static void updateAnimationJump(Character dog) {
 		jumpTick++;
 		if (jumpTick >= jumpSpeed) {
@@ -94,13 +106,14 @@ public class Animations {
 			}
 		}
 	}
+	// same thing
 	public static void resetJumpAnimation() {
 		jumpRightIndex = 0;
 		jumpLeftIndex = Images.leftJumpDog1.length - 1;
 		jumpTick = 0;
 		jumpSpeed = 3;
 	}
-
+	// same thing
 	public static void updateAnimationFall(Character dog) {
 		fallTick++;
 		if (fallTick >= fallSpeed) {
@@ -120,13 +133,14 @@ public class Animations {
 			}
 		}
 	}
+	// same thing
 	public static void resetFallAnimation() {
 		fallRightIndex = 0;
 		fallLeftIndex = Images.leftFallDog1.length - 1;
 		fallTick = 0;
 		fallSpeed = 10;
 	}
-	
+	// same thing
 	public static void fade() {
 		fadeTick++;
 		if (fadeTick >= fadeSpeed) {
