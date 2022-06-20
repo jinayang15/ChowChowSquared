@@ -200,28 +200,17 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		// Enter Name
 		else if (gameState == 4) {
 			g.drawImage(Images.win[4], 0, 0, null);
-<<<<<<< HEAD
-=======
 		}
 		// Win Screen
 		else if ( gameState == 5) {
+			Animations.fade();
+			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
 			gameBGM.stop();
 			if (!muteGame && !winBGM.isRunning() && played == 0) {
 				winBGM.setFramePosition(0);
 				winBGM.start();
 				played++;
 			}
-			Animations.fade();
-			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
-			jt.setBounds(155, 200, 200, 40);
-			this.add(jt);
-			jt.setPreferredSize(new Dimension(250, 35));
-		}
-		// Win Screen
-		else if ( gameState == 5) {
-			Animations.fade();
-			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
 		}
 		// Options Screen
 		 else if (gameState == 6) {
