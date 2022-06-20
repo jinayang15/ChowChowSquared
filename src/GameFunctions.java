@@ -1,7 +1,9 @@
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 // General Game Functions
 //**Not explaining the math..
 public class GameFunctions {
@@ -14,10 +16,10 @@ public class GameFunctions {
 		}
 		return out;
 	}
-	
+
 	// loads in the 40x40 tiles level grid
 	public static void load40Grid(Scanner sc) {
-		for (int i = 0; i < Main.levelGrid40.length; i++){
+		for (int i = 0; i < Main.levelGrid40.length; i++) {
 			// reading input
 			String[] temp = Main.in.nextLine().split(" ");
 			char[] input = strArrtoCharArr(temp);
@@ -41,6 +43,7 @@ public class GameFunctions {
 		}
 
 	}
+
 	// translates 40x40 tiles level grid to 20x20 tiles level grid
 	public static void load20Grid() {
 		for (int i = 0; i < Main.levelGrid40.length; i++) {
@@ -52,6 +55,7 @@ public class GameFunctions {
 			}
 		}
 	}
+
 	// generate current window grid
 	public static int genCurrentGrid() {
 		int start = 0, end = 0;
@@ -72,6 +76,7 @@ public class GameFunctions {
 		}
 		return start;
 	}
+
 	// draws tiles on current window
 	public static void drawTiles(Graphics g, int start) {
 		BufferedImage image = null;
@@ -102,7 +107,42 @@ public class GameFunctions {
 			}
 		}
 	}
-	// resets game 
+
+	public static void hallOfFamePages() {
+		int page = 0;
+		int namePos = 0;
+		String line;
+		try {
+			Main.in = new Scanner(new File("halloffame.txt"));
+			while (Main.in.hasNextLine()) {
+				if (namePos == 0) {
+					Main.pagesHOF.add(new String[Main.namesPerPage]);
+				}
+				if (namePos < 10) {
+					line = Main.in.nextLine();
+					if (!inHallOfFame(line)) {
+						Main.pagesHOF.get(page)[namePos] = line;
+						Main.namesHOF.add(line);
+					}
+					namePos++;
+				} else {
+					namePos = 0;
+					page++;
+				}
+			}
+		} catch (Exception e) {
+		}
+	}
+	public static boolean inHallOfFame(String name) {
+		for (String s: Main.namesHOF) {
+			if (s.equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// resets game
 	public static void restartGame() {
 		Main.dog = new Character();
 		Main.bgX = 0;

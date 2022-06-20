@@ -27,6 +27,7 @@ public class Images {
 	public static BufferedImage gameMusic;
 	public static BufferedImage menuMusic;
 	public static BufferedImage gameSFX;
+	public static BufferedImage enterName;
 	public static BufferedImage retry;
 	public static BufferedImage icon;
 	public static BufferedImage gameOver;
@@ -59,6 +60,7 @@ public class Images {
 		menuMusic = ImageIO.read(new File("menumusic.png"));
 		gameSFX = ImageIO.read(new File("muteSFX.png"));
 		gameOver = ImageIO.read(new File("gameover.png"));
+		enterName = ImageIO.read(new File("entername.png"));
 		skyBG = ImageIO.read(new File("basiclevelbg.png"));
 		tutorialBG = ImageIO.read(new File("tutorialbg.png"));
 		dogRight1 = ImageIO.read(new File("whitedogright.png"));
