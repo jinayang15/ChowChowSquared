@@ -144,6 +144,16 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
+			if (!muteMenu) {
+				dieSFX.stop();
+				gameBGM.stop();
+				menuBGM.start();
+				menuBGM.loop(Clip.LOOP_CONTINUOUSLY);
+			} else {
+				dieSFX.stop();
+				menuBGM.stop();
+				gameBGM.stop();
+			}
 		}
 		// Level One
 		else if (gameState == 2) {
