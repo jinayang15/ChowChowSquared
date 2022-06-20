@@ -1,3 +1,5 @@
+import java.awt.Graphics;
+
 // Animates stuff to make it look cool
 public class Animations {
 	// Idle Animation Variables
@@ -21,7 +23,7 @@ public class Animations {
 	public static int fallTick, fallSpeed = 10;
 	// Winner Fade-in Variables
 	public static int fadeIndex = 0;
-	public static int fadeTick, fadeSpeed = 500;
+	public static int fadeTick = 10, fadeSpeed = 10;
 
 	// the update methods loops through the image arrays at a set speed
 	// idleTick measures current tick and only refreshes when it reaches the set
@@ -141,13 +143,14 @@ public class Animations {
 		fallSpeed = 10;
 	}
 	// same thing
-	public static void fade() {
+	public static void fade(Graphics g) {
 		fadeTick++;
 		if (fadeTick >= fadeSpeed) {
+			g.drawImage(Images.win[0], 0, 0, null);
 			fadeTick = 0;
 			fadeIndex++;
 		}
-		if (fadeIndex >= Images.win.length) {
+		if (fadeIndex >= 15) {
 			Main.gameState = 4;
 		}	
 	}

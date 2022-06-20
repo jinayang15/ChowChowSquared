@@ -77,8 +77,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static boolean muteSFX = false;
 	// to see if a clip has been played or not
 	public static int played = 0;
-	// TextField
-	JTextField jt = new JTextField("Enter Name: ", 15);
 	// Winner
 	public static String winner;
 	
@@ -140,7 +138,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		// Level One
 		else if (gameState == 2) {
 			// change current level
-			currentLvl = "40lvl1.txt";
+			currentLvl = "completelvl1.txt";
 			try {
 				// scan current level text file
 				in = new Scanner(new File(currentLvl));
@@ -199,12 +197,10 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 		// Enter Name
 		else if (gameState == 4) {
-			g.drawImage(Images.win[4], 0, 0, null);
 		}
 		// Win Screen
-		else if ( gameState == 5) {
-			Animations.fade();
-			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
+		else if (gameState == 5) {
+			Animations.fade(g);
 			gameBGM.stop();
 			if (!muteGame && !winBGM.isRunning() && played == 0) {
 				winBGM.setFramePosition(0);
