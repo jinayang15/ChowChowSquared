@@ -9,16 +9,12 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
-<<<<<<< HEAD
 import javax.swing.JButton;
 // Game: Chow Chow Squared
 // By: Jina Yang and Vicky Li
 // A mini platformer game where the objective is for Biscuit to find Cookie who is lost!
 // Be careful of spikes and slimes that get in your way! You don't want to touch them
 // Controls: W/Space, A, S, D
-=======
-
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
 public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
 	// Main Variables
 	// Frames per Second
@@ -79,7 +75,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static boolean muteMenu = false;
 	public static boolean muteGame = false;
 	public static boolean muteSFX = false;
-<<<<<<< HEAD
 	// TextField
 	JTextField jt = new JTextField("Enter Name: ", 15);
 	// Winner
@@ -88,14 +83,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	JButton button;
 	// why do u need array list? we have text file no?
 	public ArrayList<String> winners = new ArrayList<String>();
-=======
 	public static String name;
-	
-	
-
-	
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
-
 	public Main() {
 		// Set Up JPanel
 		setPreferredSize(new Dimension(winWidth, winHeight));
@@ -146,17 +134,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		else if (gameState == 1) {
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
-<<<<<<< HEAD
-
 		}
 		// Level One
 		else if (gameState == 2) {
 			// change current level
-			currentLvl = "enemies.txt";
-=======
-		} else if (gameState == 2) {
 			currentLvl = "completelvl1.txt";
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
 			try {
 				// scan current level text file
 				in = new Scanner(new File(currentLvl));
@@ -216,18 +198,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		// Enter Name
 		else if (gameState == 4) {
 			g.drawImage(Images.win[4], 0, 0, null);
-<<<<<<< HEAD
-
 		}
 		// Win Screen
-		else if (gameState == 5) {
-=======
-			
-		} else if ( gameState == 5) {
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
+		else if ( gameState == 5) {
 			Animations.fade();
 			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
-<<<<<<< HEAD
 			jt.setBounds(155, 200, 200, 40);
 			this.add(jt);
 			jt.setPreferredSize(new Dimension(250, 35));
@@ -243,12 +218,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			this.add(button);
 		}
 		// Options Screen
-		else if (gameState == 6) {
-=======
-			
-			
-		} else if (gameState == 6) {
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
+		 else if (gameState == 6) {
 			super.paintComponent(g);
 			g.drawImage(Images.options, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
@@ -364,16 +334,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameState = 1;
 			}
 		}
-<<<<<<< HEAD
 		// ?????????
-		if (gameState == 0 && e.getKeyCode() == 10) {
-			winner = jt.getText();
-			System.out.println(winner);
-=======
-		
 		if (gameState == 4 && e.getKeyCode()==10) {
 			gameState = 7;
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
 		}
 	}
 	public void keyReleased(KeyEvent e) {
@@ -437,28 +400,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
 			}
-<<<<<<< HEAD
 		}
 		// Game Over
 		else if (gameState == 8) {
-=======
-			if (mouseX >= 290 && mouseX <= 315 && mouseY >= 330 && mouseY <= 340) {
-				//next page of hall of fame
-			}
-			if (mouseX >= 170 && mouseX <= 195 && mouseY >= 330 && mouseY <= 340) {
-				// previous page of hall of fame
-			}
-			
-		} else if (gameState == 8) {
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
 			GameFunctions.restartGame();
 			if (mouseX >= 170 && mouseX <= 220 && mouseY >= 240 && mouseY <= 287) {
-<<<<<<< HEAD
-				if (currentLvl.equals("40lvl1.txt") || currentLvl.equals("enemies.txt")
-						|| currentLvl.equals("pipesandstuff.txt")) {
-=======
 				if (currentLvl.equals("40lvl1.txt") || currentLvl.equals("enemies.txt") || currentLvl.equals("completelvl1.txt")) {
->>>>>>> branch 'main' of https://github.com/jinayang15/ICS3UCulminating
 					gameState = 2;
 				} else if (currentLvl.equals("40tutorial.txt")) {
 					gameState = 3;
