@@ -9,7 +9,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
-import javax.swing.JButton;
 
 public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
 	
@@ -56,10 +55,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static boolean muteMenu = false;
 	public static boolean muteGame = false;
 	public static boolean muteSFX = false;
-	JTextField jt = new JTextField("Enter Name: ", 15);
-	public static String winner;
-	JButton button;
-	public ArrayList<String> winners = new ArrayList<String>();
+	public static String name;
+	
+	
+
+	
 
 	public Main() {
 		setPreferredSize(new Dimension(winWidth, winHeight));
@@ -67,6 +67,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		this.setFocusable(true);
 		addKeyListener(this);
 		addMouseListener(this);
+		
 		try {
 			// imports all images
 			Images.importImages();
@@ -109,7 +110,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
-			currentLvl = "enemies.txt";
+			currentLvl = "completelvl1.txt";
 			try {
 				in = new Scanner(new File(currentLvl));
 				GameFunctions.load40Grid(in);
@@ -180,24 +181,10 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.currentDogImage, (int) dog.getX(), (int) dog.getY(), null);
 		} else if ( gameState == 4) {
 			g.drawImage(Images.win[4], 0, 0, null);
-					
 			
 		} else if ( gameState == 5) {
 			Animations.fade();
 			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
-				jt.setBounds(155, 200, 200, 40);
-				this.add(jt);
-				jt.setPreferredSize(new Dimension (250, 35));
-				button = new JButton("enter");
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						winner = jt.getText().substring(12);
-						System.out.println(winner);
-						winners.add(winner);
-						jt.setEnabled(false);
-					}
-				});
-				this.add(button);
 			
 			
 		} else if (gameState == 6) {
@@ -234,7 +221,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			super.paintComponent(g);
 			g.drawImage(Images.winners, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
-			g.drawString(winner, 200, 200);
 
 		} else if (gameState == 8) {
 			gameBGM.stop();
@@ -303,9 +289,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 		}
 		
-		if (gameState == 0 && e.getKeyCode() == 10) {
-			winner = jt.getText();
-			System.out.println(winner);
+		if (gameState == 4 && e.getKeyCode()==10) {
+			name = jt.getText().substring(12);
+			winners.add(name);
+			jt.setEnabled(false);
+			System.out.println(name);
+			gameState = 7;
 		}
 	}
 
@@ -359,6 +348,13 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
 			}
+			if (mouseX >= 290 && mouseX <= 315 && mouseY >= 330 && mouseY <= 340) {
+				//next page of hall of fame
+			}
+			if (mouseX >= 170 && mouseX <= 195 && mouseY >= 330 && mouseY <= 340) {
+				// previous page of hall of fame
+			}
+			
 		} else if (gameState == 8) {
 			GameFunctions.restartGame();
 			if (mouseX >= 170 && mouseX <= 220 && mouseY >= 240 && mouseY <= 287) {
