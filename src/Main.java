@@ -1,6 +1,7 @@
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.*;
 
@@ -8,6 +9,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
+import javax.swing.JButton;
 
 public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
 	
@@ -50,11 +52,14 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 7 --> winners
 	// 8 --> you died
 	public static int gameState = 0;
-	Clip menuBGM, gameBGM;
+	Clip menuBGM, gameBGM, dieSFX;
 	public static boolean muteMenu = false;
 	public static boolean muteGame = false;
-	public static JTextField jt = new JTextField("Enter Name: ", 30);
+	public static boolean muteSFX = false;
+	JTextField jt = new JTextField("Enter Name: ", 15);
 	public static String winner;
+	JButton button;
+	public ArrayList<String> winners = new ArrayList<String>();
 
 	public Main() {
 		setPreferredSize(new Dimension(winWidth, winHeight));
@@ -72,6 +77,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			sound = AudioSystem.getAudioInputStream(new File("gamemusic.wav"));
 			gameBGM = AudioSystem.getClip();
 			gameBGM.open(sound);
+			sound = AudioSystem.getAudioInputStream(new File("die.wav"));
+			dieSFX = AudioSystem.getClip();
+			dieSFX.open(sound);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,9 +96,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
 			if (!muteMenu) {
+				dieSFX.stop();
 				menuBGM.start();
 				menuBGM.loop(Clip.LOOP_CONTINUOUSLY);
 			} else {
+				dieSFX.stop();
 				menuBGM.stop();
 				gameBGM.stop();
 			}
@@ -110,10 +120,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 			super.paintComponent(g);
 			if (!muteGame) {
+				dieSFX.stop();
 				menuBGM.stop();
 				gameBGM.start();
 				gameBGM.loop(Clip.LOOP_CONTINUOUSLY);
 			} else {
+				dieSFX.stop();
 				menuBGM.stop();
 				gameBGM.stop();
 			}
@@ -154,12 +166,14 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 			super.paintComponent(g);
 			if (!muteGame) {
+				dieSFX.stop();
 				menuBGM.stop();
 				gameBGM.start();
 				gameBGM.loop(Clip.LOOP_CONTINUOUSLY);
 			} else {
 				menuBGM.stop();
 				gameBGM.stop();
+				dieSFX.stop();
 			}
 			g.drawImage(Images.tutorialBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
@@ -171,7 +185,20 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		} else if ( gameState == 5) {
 			Animations.fade();
 			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
-			gameState = 4;
+				jt.setBounds(155, 200, 200, 40);
+				this.add(jt);
+				jt.setPreferredSize(new Dimension (250, 35));
+				button = new JButton("enter");
+				button.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						winner = jt.getText().substring(12);
+						System.out.println(winner);
+						winners.add(winner);
+						jt.setEnabled(false);
+					}
+				});
+				this.add(button);
+			
 			
 		} else if (gameState == 6) {
 			super.paintComponent(g);
@@ -179,6 +206,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.back, 450, 340, null);
 			g.drawImage(Images.menuMusic, 100, 160, null);
 			g.drawImage(Images.gameMusic, 100, 215, null);
+			g.drawImage(Images.gameSFX, 100, 270, null);
 			if (!muteMenu) {
 				menuBGM.start();
 				g.drawImage(Images.empty, 330, 144, null);
@@ -194,6 +222,13 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameBGM.stop();
 				g.drawImage(Images.back, 330, 200, null);
 			}
+			if (muteSFX) {
+				dieSFX.stop();
+				g.drawImage(Images.back, 330, 260, null);
+			}
+			if (!muteSFX) {
+				g.drawImage(Images.empty, 330, 260, null);
+			}
 
 		} else if (gameState == 7) {
 			super.paintComponent(g);
@@ -203,6 +238,10 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 		} else if (gameState == 8) {
 			gameBGM.stop();
+			if (!muteSFX && !dieSFX.isRunning()) {
+				dieSFX.setFramePosition(0);
+				dieSFX.start();
+			}
 			g.drawImage(Images.gameOver, 0, 0, null);
 			g.drawImage(Images.retry, 170, 240, null);
 			g.drawImage(Images.back, 300, 240, null);
@@ -264,7 +303,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 		}
 		
-		if (gameState == 4 && e.getKeyCode() == 10) {
+		if (gameState == 0 && e.getKeyCode() == 10) {
 			winner = jt.getText();
 			System.out.println(winner);
 		}
@@ -313,6 +352,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			if (mouseX >= 330 && mouseX <= 380 && mouseY >= 200 && mouseY <= 247) {
 				muteGame = !muteGame;
 			}
+			if (mouseX >= 330 && mouseX <= 380 && mouseY >= 260 && mouseY <= 300) {
+				muteSFX = !muteSFX;
+			}
 		} else if (gameState == 7) {
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
@@ -344,14 +386,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
-		try {
-			if (gameState == 4) {
-			panel.add(jt);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
-
+		
 //		for (int i = 0; i < levelGrid20.length; i++) {
 //			for (int k = 0; k < levelGrid20[0].length; k++) {
 //				System.out.print(levelGrid20[i][k]);
