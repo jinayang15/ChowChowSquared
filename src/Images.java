@@ -45,6 +45,7 @@ public class Images {
 	public static BufferedImage slime;
 	// imports all images
 	public static void importImages() throws IOException {
+		// Method Body
 		icon = ImageIO.read(new File("icon.png"));
 		menu = ImageIO.read(new File("chowchowmenu.png"));
 		level = ImageIO.read(new File("level.png"));

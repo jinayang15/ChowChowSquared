@@ -19,25 +19,30 @@ public class GameFunctions {
 
 	// loads in the 40x40 tiles level grid
 	public static void load40Grid(Scanner sc) {
+		// Local Variables
+		String[] temp;
+		char[] input;
+		Enemy enm;
+		// Method Body
 		for (int i = 0; i < Main.levelGrid40.length; i++) {
 			// reading input
-			String[] temp = Main.in.nextLine().split(" ");
-			char[] input = strArrtoCharArr(temp);
+			temp = Main.in.nextLine().split(" ");
+			input = strArrtoCharArr(temp);
 			for (int j = 0; j < Main.levelGrid40[0].length; j++) {
 				Main.levelGrid40[i][j] = input[j];
 				// adding in enemies
 				if (Main.levelGrid40[i][j] == Enemy.spikeChar) {
-					Enemy enmSpike = new Enemy(Enemy.spikeChar, Enemy.spikeWidth, Enemy.spikeHeight);
-					enmSpike.setCoords(i, j);
-					enmSpike.setImage(Images.spike);
-					enmSpike.setImageAdjust(0, 0, 20, 0);
-					Enemy.enemies.add(enmSpike);
+					enm = new Enemy(Enemy.spikeChar, Enemy.spikeWidth, Enemy.spikeHeight);
+					enm.setCoords(i, j);
+					enm.setImage(Images.spike);
+					enm.setImageAdjust(0, 0, 20, 0);
+					Enemy.enemies.add(enm);
 				} else if (Main.levelGrid40[i][j] == Enemy.slimeChar) {
-					Enemy enmSlime = new Enemy(Enemy.slimeChar, Enemy.slimeWidth, Enemy.slimeHeight);
-					enmSlime.setCoords(i, j);
-					enmSlime.setImage(Images.slime);
-					enmSlime.setImageAdjust(9, 9, 9, 9);
-					Enemy.enemies.add(enmSlime);
+					enm = new Enemy(Enemy.slimeChar, Enemy.slimeWidth, Enemy.slimeHeight);
+					enm.setCoords(i, j);
+					enm.setImage(Images.slime);
+					enm.setImageAdjust(9, 9, 9, 9);
+					Enemy.enemies.add(enm);
 				}
 			}
 		}
@@ -46,6 +51,7 @@ public class GameFunctions {
 
 	// translates 40x40 tiles level grid to 20x20 tiles level grid
 	public static void load20Grid() {
+		// Method Body
 		for (int i = 0; i < Main.levelGrid40.length; i++) {
 			for (int j = 0; j < Main.levelGrid40[0].length; j++) {
 				Main.levelGrid20[i * 2][j * 2] = Main.levelGrid40[i][j];
@@ -58,7 +64,10 @@ public class GameFunctions {
 
 	// generate current window grid
 	public static int genCurrentGrid() {
+		// Local Variables
 		int start = 0, end = 0;
+
+		// Method Body
 		if (Math.abs(Main.bgX / Main.tileSize) == 0) {
 			start = 0;
 		} else {
@@ -79,6 +88,7 @@ public class GameFunctions {
 
 	// draws tiles on current window
 	public static void drawTiles(Graphics g, int start) {
+		// Local Variables
 		BufferedImage image = null;
 		char value;
 		int startPoint = 0;
@@ -86,6 +96,8 @@ public class GameFunctions {
 			startPoint = 20;
 		}
 		start /= 2;
+
+		// Method Body
 		for (int i = 0; i < Main.tileHeight / 2; i++) {
 			for (int j = start; j < start + Main.tileWidth / 2 + 1; j++) {
 				image = null;
@@ -108,38 +120,39 @@ public class GameFunctions {
 		}
 	}
 
+	// Generate the pages of the Hall of Fame
 	public static void hallOfFamePages() {
+		// Local Variables
+		// current page
 		int page = 0;
+		// the nth name
 		int namePos = 0;
+		// line from halloffame.txt
 		String line;
+
+		// Method Body
 		try {
 			Main.in = new Scanner(new File("halloffame.txt"));
 			while (Main.in.hasNextLine()) {
+				// if it is the first line of the page, add in the new page
 				if (namePos == 0) {
 					Main.pagesHOF.add(new String[Main.namesPerPage]);
 				}
+				// if it isnt the first line add it to the pages array
 				if (namePos < 10) {
 					line = Main.in.nextLine();
-					if (!inHallOfFame(line)) {
-						Main.pagesHOF.get(page)[namePos] = line;
-						Main.namesHOF.add(line);
-					}
+					Main.pagesHOF.get(page)[namePos] = line;
 					namePos++;
-				} else {
+					
+				}
+				// otherwise reset for next page
+				else {
 					namePos = 0;
 					page++;
 				}
 			}
 		} catch (Exception e) {
 		}
-	}
-	public static boolean inHallOfFame(String name) {
-		for (String s: Main.namesHOF) {
-			if (s.equals(name)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	// resets game

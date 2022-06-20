@@ -84,8 +84,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static int played = 0;
 	// Winner
 	public static String winner = "";
-	// Hall of Fame Names
-	public static ArrayList<String> namesHOF = new ArrayList<String>();
 	// Hall of Fame Pages
 	public static ArrayList<String[]> pagesHOF = new ArrayList<String[]>();
 	// Pages Variables

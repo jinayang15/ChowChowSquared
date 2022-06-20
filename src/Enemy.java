@@ -50,7 +50,7 @@ public class Enemy extends Rectangle {
 	public int coordX;
 	// image
 	public BufferedImage enmImage;
-	// default enemy
+	// default enemy constructor
 	public Enemy() {
 		setBounds(noCollide, noCollide, Main.imageWidth, Main.imageHeight);
 		setHitbox(20, 20);
@@ -89,8 +89,10 @@ public class Enemy extends Rectangle {
 	}
 	// same
 	public void refreshTile() {
+		// Local Variables
 		int numX, numY;
 		ArrayList<Integer> copyX, copyY;
+		// Method Body
 		tilesX = new ArrayList<Integer>();
 		tilesY = new ArrayList<Integer>();
 		tilesX = getTilesX(tilesX);
@@ -109,11 +111,13 @@ public class Enemy extends Rectangle {
 	}
 	// same
 	public ArrayList<Integer> getTilesX(ArrayList<Integer> tilesX) {
+		// Local Variables
 		int x1 = (int) getX() + imageAdjustLeft;
 		int x2 = x1 + hitboxWidth;
 		int roundx1;
 		int roundx2;
-
+		
+		// Method Body
 		if (x1 % Main.tileSize != 0) {
 			roundx1 = x1 - x1 % Main.tileSize;
 		} else {
@@ -138,10 +142,12 @@ public class Enemy extends Rectangle {
 	}
 	// same
 	public ArrayList<Integer> getTilesY(ArrayList<Integer> tilesY) {
+		// Local Variables
 		int y1 = (int) getY() + imageAdjustTop;
 		int y2 = y1 + hitboxHeight;
 		int roundy1;
 		int roundy2;
+		// Method Body
 		if (y1 % Main.tileSize != 0) {
 			roundy1 = y1 - Math.abs(y1 % Main.tileSize);
 		} else {
@@ -165,15 +171,18 @@ public class Enemy extends Rectangle {
 	}
 	// loads the onscreen enemies
 	public static void loadOnScreenEnemies(Graphics g, int start) {
+		// Local Variables
 		int startPoint = 0;
 		int enmX, enmY;
+		Enemy temp, draw;
+		// Method Body
 		if (start % 2 == 1) {
 			startPoint = 20;
 		}
 		start /= 2;
 		for (int i = 0; i < enemies.size(); i++) {
 			// check if enemies should be onscreen
-			Enemy temp = (Enemy) enemies.get(i).clone();
+			temp = (Enemy) enemies.get(i).clone();
 			temp.onScreenIndex = -1;
 			enmX = temp.getCoords()[1];
 			enmY = temp.getCoords()[0];
@@ -196,14 +205,17 @@ public class Enemy extends Rectangle {
 		}
 		// draw all onscreen enemies
 		for (int i = 0; i < onScreenEnemies.size(); i++) {
-			Enemy draw = onScreenEnemies.get(i);
+			draw = onScreenEnemies.get(i);
 			g.drawImage(draw.enmImage, (int) draw.getX(), (int) draw.getY(), null);
 		}
 	}
 	// check if enemy is in the current list (onScreenEnemies or removed)
 	public static int enmInArr(int enmY, int enmX, ArrayList<Enemy> arr) {
+		// Local Variables
+		Enemy compare;
+		// Method Body
 		for (int k = 0; k < arr.size(); k++) {
-			Enemy compare = arr.get(k);
+			compare = arr.get(k);
 			if (compare.getCoords()[0] == enmY && compare.getCoords()[1] == enmX) {
 				// index it is at
 				return k;
