@@ -1,5 +1,5 @@
-Jina
-Vicky
+Jina Yang - developer
+Vicky Li - developer
 three
 four
 five
@@ -10,3 +10,4 @@ nine
 ten
 eleven
 twelve
+HIADFAWE

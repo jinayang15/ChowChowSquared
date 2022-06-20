@@ -263,7 +263,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.winners, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 			g.setColor(new Color(0, 0, 0));
-			Font font = new Font("Monospaced", Font.PLAIN, 12);
+			Font font = new Font("Monospaced", Font.BOLD, 12);
 			g.setFont(font);
 			if (pagesHOF.size() > 0) {
 				for (int i = 0; i < namesPerPage; i++) {
