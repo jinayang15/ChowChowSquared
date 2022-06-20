@@ -10,16 +10,16 @@ import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
 
 public class Main extends JPanel implements Runnable, KeyListener, MouseListener {
-
+	
+	
+	// Main Variables
 	public static final int levelWidth = 6760;
-	public static int prevBGX = -40;
 	public static int bgX = 0;
 	public static int bgY = 0;
 	public static int mouseX;
 	public static int mouseY;
 	public static final int winWidth = 520;
 	public static final int winHeight = 400;
-	// 13 x 10 tiles
 	public static final int tileSize = 20;
 	public static final int tileWidth = winWidth / tileSize;
 	public static final int tileHeight = winHeight / tileSize;
@@ -99,7 +99,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.level, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
 		} else if (gameState == 2) {
-			currentLvl = "pipesandstuff.txt";
+			currentLvl = "enemies.txt";
 			try {
 				in = new Scanner(new File(currentLvl));
 				GameFunctions.load40Grid(in);
@@ -120,12 +120,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			g.drawImage(Images.skyBG, bgX, bgY, null);
 			GameFunctions.drawTiles(g, GameFunctions.genCurrentGrid());
 			g.setColor(new Color(0,0,0));
-//			for (int i = 0; i < winHeight; i += tileSize) {
-//				g.drawLine(0, i, winWidth, i);
-//			}
-//			for (int i = 0; i < winWidth; i += tileSize) {
-//				g.drawLine(i, 0, i, winHeight);
-//			}
+			for (int i = 0; i < winHeight; i += tileSize) {
+				g.drawLine(0, i, winWidth, i);
+			}
+			for (int i = 0; i < winWidth; i += tileSize) {
+				g.drawLine(i, 0, i, winHeight);
+			}
 			Enemy.loadOnScreenEnemies(g, GameFunctions.genCurrentGrid());
 			// g.drawImage(Images.pHBug, (int)bug.getX(), (int)bug.getY(), null);
 			g.drawImage(Images.currentDogImage, (int) dog.getX(), (int) dog.getY(), null);

@@ -19,13 +19,8 @@ public class Enemy extends Rectangle {
 	public int imageAdjustYBot;
 	private ArrayList<Integer> tilesX = new ArrayList<Integer>();
 	private ArrayList<Integer> tilesY = new ArrayList<Integer>();
-	private boolean left = false;
-	private boolean right = false;
-	private boolean up = false;
-	private boolean down = false;
 	private int moveX = 5;
 	public static int noCollide = -100;
-	private double verticalDirection = 0;
 	private double horizontalDirection = -1;
 	public int enemyType;
 	public static int spikeWidth = 40;
@@ -186,11 +181,11 @@ public class Enemy extends Rectangle {
 		for (int i = 0; i < onScreenEnemies.size(); i++) {
 			Enemy draw = onScreenEnemies.get(i);
 			g.drawImage(draw.enmImage, (int) draw.getX(), (int) draw.getY(), null);
-//			g.setColor(new Color(0, 0, 255));
-//			g.drawRect((int) draw.getX(), (int) draw.getY(), Main.imageWidth, Main.imageHeight);
-//			g.setColor(new Color(255, 255, 255));
-//			g.drawRect((int) draw.getX() + draw.imageAdjustXLeft, (int) draw.getY() + draw.imageAdjustYTop,
-//					draw.hitboxWidth, draw.hitboxHeight);
+			g.setColor(new Color(0, 0, 255));
+			g.drawRect((int) draw.getX(), (int) draw.getY(), Main.imageWidth, Main.imageHeight);
+			g.setColor(new Color(255, 255, 255));
+			g.drawRect((int) draw.getX() + draw.imageAdjustXLeft, (int) draw.getY() + draw.imageAdjustYTop,
+					draw.hitboxWidth, draw.hitboxHeight);
 		}
 	}
 
@@ -205,20 +200,44 @@ public class Enemy extends Rectangle {
 	}
 
 	public static void moveEnemies() {
-		for (Enemy enm : onScreenEnemies) {
-			if (enm.enemyType == slimeChar) {
+		Enemy enm;
+		for (int i = 0; i < onScreenEnemies.size(); i++) {
+			enm = onScreenEnemies.get(i);
+			if (enm.enemyType == slimeChar && enm.getX() + enm.hitboxWidth >= 0) {
 				enm.refreshTile();
-				enm.moveLeft();
-				enm.refreshTile();
-				enm.moveRight();
-				enm.refreshTile();
+				if (enm.getHorizontalDirection() == -1) {
+					enm.moveLeft();
+					enm.refreshTile();
+				} else if (enm.getHorizontalDirection() == 1) {
+					enm.moveRight();
+					enm.refreshTile();
+				}
+
 			}
 		}
 	}
 
 	public static void shiftEnemies() {
-		for (Enemy enm : onScreenEnemies) {
+		Enemy enm;
+		for (int i = 0; i < onScreenEnemies.size(); i++) {
+			enm = onScreenEnemies.get(i);
 			enm.translate(-Main.tileSize, 0);
+			if (enm.enemyType == slimeChar) {
+				int[] blockUnder = enm.checkBlockBelow();
+				if (blockUnder[1] - 1 >= 0 && Main.currentGrid[blockUnder[0]][blockUnder[1] - 1] == '0') {
+					if (enm.getX() - enm.imageAdjustXLeft <= blockUnder[1] * Main.tileSize) {
+						enm.setHorizontalDirection((int) (enm.getHorizontalDirection() * -1));
+						enm.setLocation(blockUnder[1] * Main.tileSize - enm.imageAdjustXLeft, (int) enm.getY());
+					}
+				} else if (blockUnder[1] + 1 >= 0 && blockUnder[1] + 1 < Main.tileWidth
+						&& Main.currentGrid[blockUnder[0]][blockUnder[1] + 1] == '0') {
+					if (enm.getX() + enm.hitboxWidth + enm.imageAdjustXLeft >= blockUnder[1] * Main.tileSize) {
+						enm.setHorizontalDirection((int) (enm.getHorizontalDirection() * -1));
+						enm.setLocation(blockUnder[1] * Main.tileSize - enm.hitboxWidth - enm.imageAdjustXLeft,
+								(int) enm.getY());
+					}
+				}
+			}
 		}
 	}
 
@@ -233,29 +252,18 @@ public class Enemy extends Rectangle {
 	}
 
 	public void moveLeft() {
-		if (getHorizontalDirection() == -1) {
-			int[] blockUnder = checkBlockBelow();
-			int[] blockLeft = checkTileCollisionLeft();
-			if (blockUnder[0] != noCollide) {
-				translate(-moveX, 0);
-				if (getX() >= 0) {
-					if (blockLeft[1] != noCollide) {
+		int[] blockUnder = checkBlockBelow();
+		int[] blockLeft = checkTileCollisionLeft();
+		if (blockUnder[0] != noCollide) {
+			translate(-moveX, 0);
+			if (getX() >= 0) {
+				if (blockLeft[1] != noCollide) {
+					setHorizontalDirection(1);
+					setLocation((blockLeft[1] + 1) * Main.tileSize - imageAdjustXLeft, (int) getY());
+				} else if (blockUnder[1] - 1 >= 0 && Main.currentGrid[blockUnder[0]][blockUnder[1] - 1] == '0') {
+					if (getX() - imageAdjustXLeft <= blockUnder[1] * Main.tileSize) {
 						setHorizontalDirection(1);
-						setLocation((blockLeft[1] + 1) * Main.tileSize - imageAdjustXLeft, (int) getY());
-						System.out.println("Coords: " + coordY + " " + coordX);
-						System.out.println("Left1: " + getX() + " " + getY());
-					} else if (Main.currentGrid[blockUnder[0]][blockUnder[1]] == '0') {
-						setHorizontalDirection(1);
-						setLocation((blockUnder[1] + 1) * Main.tileSize - imageAdjustXLeft, (int) getY());
-						System.out.println("Coords: " + coordY + " " + coordX);
-						System.out.println("Left2: " + getX() + " " + getY());
-					} else if (blockUnder[1] - 1 >= 0 && Main.currentGrid[blockUnder[0]][blockUnder[1] - 1] == '0') {
-						if (getX() - imageAdjustXLeft <= blockUnder[1] * Main.tileSize) {
-							setHorizontalDirection(1);
-							setLocation(blockUnder[1] * Main.tileSize - imageAdjustXLeft, (int) getY());
-							System.out.println("Coords: " + coordY + " " + coordX);
-							System.out.println("Left3: " + getX() + " " + getY());
-						}
+						setLocation(blockUnder[1] * Main.tileSize - imageAdjustXLeft, (int) getY());
 					}
 				}
 			}
@@ -263,31 +271,19 @@ public class Enemy extends Rectangle {
 	}
 
 	public void moveRight() {
-		if (getHorizontalDirection() == 1) {
-			int[] blockUnder = checkBlockBelow();
-			int[] blockRight = checkTileCollisionRight();
-			if (blockUnder[0] != noCollide) {
-				translate(moveX, 0);
-				if (getX() >= 0) {
-					if (blockRight[1] != noCollide) {
+		int[] blockUnder = checkBlockBelow();
+		int[] blockRight = checkTileCollisionRight();
+		if (blockUnder[0] != noCollide) {
+			translate(moveX, 0);
+			if (getX() >= 0) {
+				if (blockRight[1] != noCollide) {
+					setHorizontalDirection(-1);
+					setLocation(blockRight[1] * Main.tileSize - Main.imageWidth + imageAdjustXRight, (int) getY());
+				} else if (blockUnder[1] + 1 < Main.tileWidth
+						&& Main.currentGrid[blockUnder[0]][blockUnder[1] + 1] == '0') {
+					if (getX() + hitboxWidth + imageAdjustXLeft >= (blockUnder[1] + 1) * Main.tileSize) {
 						setHorizontalDirection(-1);
-						setLocation(blockRight[1] * Main.tileSize - Main.imageWidth + imageAdjustXRight, (int) getY());
-//						System.out.println("Coords: " + coordY + " " + coordX);
-//						System.out.println("Right1: " + getX() + " " + getY());
-					} else if (Main.currentGrid[blockUnder[0]][blockUnder[1]] == '0') {
-						setHorizontalDirection(-1);
-						setLocation(blockUnder[1] * Main.tileSize - hitboxWidth - imageAdjustXLeft, (int) getY());
-//						System.out.println("Coords: " + coordY + " " + coordX);
-//						System.out.println("Right2: " + getX() + " " + getY());
-					} else if (blockUnder[1] + 1 < Main.tileWidth
-							&& Main.currentGrid[blockUnder[0]][blockUnder[1] + 1] == '0') {
-						if (getX() + hitboxWidth + imageAdjustXLeft >= (blockUnder[1] + 1) * Main.tileSize) {
-							setHorizontalDirection(-1);
-							setLocation((blockUnder[1] + 1) * Main.tileSize - hitboxWidth - imageAdjustXLeft,
-									(int) getY());
-//							System.out.println("Coords: " + coordY + " " + coordX);
-//							System.out.println("Right3: " + getX() + " " + getY());
-						}
+						setLocation((blockUnder[1] + 1) * Main.tileSize - hitboxWidth - imageAdjustXLeft, (int) getY());
 					}
 				}
 			}
