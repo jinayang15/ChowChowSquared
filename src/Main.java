@@ -354,7 +354,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		} else if (gameState == 8) {
 			GameFunctions.restartGame();
 			if (mouseX >= 170 && mouseX <= 220 && mouseY >= 240 && mouseY <= 287) {
-				if (currentLvl.equals("40lvl1.txt") || currentLvl.equals("enemies.txt") || currentLvl.equals("pipesandstuff.txt")) {
+				if (currentLvl.equals("40lvl1.txt") || currentLvl.equals("enemies.txt") || currentLvl.equals("completelvl1.txt")) {
 					gameState = 2;
 				}
 				else if (currentLvl.equals("40tutorial.txt")) {
