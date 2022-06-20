@@ -290,10 +290,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 		
 		if (gameState == 4 && e.getKeyCode()==10) {
-			name = jt.getText().substring(12);
-			winners.add(name);
-			jt.setEnabled(false);
-			System.out.println(name);
 			gameState = 7;
 		}
 	}
