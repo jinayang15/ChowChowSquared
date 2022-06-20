@@ -75,15 +75,13 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static boolean muteMenu = false;
 	public static boolean muteGame = false;
 	public static boolean muteSFX = false;
+	// to see if a clip has been played or not
+	public static int played = 0;
 	// TextField
 	JTextField jt = new JTextField("Enter Name: ", 15);
 	// Winner
 	public static String winner;
-	// ???????????????????
-	JButton button;
-	// why do u need array list? we have text file no?
-	public ArrayList<String> winners = new ArrayList<String>();
-	public static String name;
+	
 	public Main() {
 		// Set Up JPanel
 		setPreferredSize(new Dimension(winWidth, winHeight));
@@ -206,16 +204,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			jt.setBounds(155, 200, 200, 40);
 			this.add(jt);
 			jt.setPreferredSize(new Dimension(250, 35));
-			button = new JButton("enter");
-			button.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					winner = jt.getText().substring(12);
-					System.out.println(winner);
-					winners.add(winner);
-					jt.setEnabled(false);
-				}
-			});
-			this.add(button);
 		}
 		// Options Screen
 		 else if (gameState == 6) {
@@ -259,9 +247,10 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		// Game Over
 		else if (gameState == 8) {
 			gameBGM.stop();
-			if (!muteSFX && !dieSFX.isRunning()) {
+			if (!muteSFX && !dieSFX.isRunning() && played == 0) {
 				dieSFX.setFramePosition(0);
 				dieSFX.start();
+				played++;
 			}
 			g.drawImage(Images.gameOver, 0, 0, null);
 			g.drawImage(Images.retry, 170, 240, null);
@@ -334,10 +323,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameState = 1;
 			}
 		}
-		// ?????????
-		if (gameState == 4 && e.getKeyCode()==10) {
-			gameState = 7;
-		}
 	}
 	public void keyReleased(KeyEvent e) {
 		// Stop Moving Left
@@ -407,12 +392,14 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			if (mouseX >= 170 && mouseX <= 220 && mouseY >= 240 && mouseY <= 287) {
 				if (currentLvl.equals("40lvl1.txt") || currentLvl.equals("enemies.txt") || currentLvl.equals("completelvl1.txt")) {
 					gameState = 2;
+					played = 0;
 				} else if (currentLvl.equals("40tutorial.txt")) {
 					gameState = 3;
+					played = 0;
 				}
 			} else if (mouseX >= 300 && mouseX <= 350 && mouseY >= 240 && mouseY <= 287) {
-
 				gameState = 0;
+				played = 0;
 			}
 		}
 
