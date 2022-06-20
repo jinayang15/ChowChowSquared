@@ -182,7 +182,7 @@ public class Enemy extends Rectangle {
 			temp.onScreenIndex = enmInArr(enmY, enmX, onScreenEnemies);
 			temp.removedIndex = enmInArr(enmY, enmX, removedEnemies);
 			// remove from onScreen if its off screen
-			if (temp.onScreenIndex != -1 && onScreenEnemies.get(temp.onScreenIndex).getX() + temp.hitboxWidth < 0) {
+			if (temp.onScreenIndex != -1 && onScreenEnemies.get(temp.onScreenIndex).getX() + Main.imageWidth < 0) {
 				removedEnemies.add(onScreenEnemies.get(temp.onScreenIndex));
 				onScreenEnemies.remove(temp.onScreenIndex);
 			}
@@ -236,8 +236,20 @@ public class Enemy extends Rectangle {
 			enm = onScreenEnemies.get(i);
 			enm.translate(-Main.tileSize, 0);
 			if (enm.enemyType == slimeChar) {
-				// adjust if the enemy gets shifted into the air or over the edge of platforms
+				// adjust if the enemy gets shifted over the edge of platforms or into blocks
 				int[] blockUnder = enm.checkBlockBelow();
+				int[] blockLeft = enm.checkTileCollisionLeft();
+				int[] blockRight = enm.checkTileCollisionRight();
+				// into blocks left right
+				if (blockLeft[1] != noCollide && blockLeft[1] >= 0) {
+					enm.setHorizontalDirection(1);
+					enm.setLocation((blockLeft[1] + 1) * Main.tileSize - enm.imageAdjustLeft, (int) enm.getY());
+				}
+				if (blockRight[1] != noCollide) {
+					enm.setHorizontalDirection(-1);
+					enm.setLocation(blockRight[1] * Main.tileSize - Main.imageWidth + enm.imageAdjustRight, (int) enm.getY());
+				} 
+				// edge of block
 				if (blockUnder[1] - 1 >= 0 && Main.currentGrid[blockUnder[0]][blockUnder[1] - 1] == '0') {
 					if (enm.getX() - enm.imageAdjustLeft <= blockUnder[1] * Main.tileSize) {
 						enm.setHorizontalDirection((int) (enm.getHorizontalDirection() * -1));
