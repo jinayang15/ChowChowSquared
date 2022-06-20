@@ -68,9 +68,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 6 --> options
 	// 7 --> winners
 	// 8 --> you died
-	public static int gameState = 0;
+	public static int gameState = 5;
 	// Music + DeathSFX
-	Clip menuBGM, gameBGM, dieSFX;
+	Clip menuBGM, gameBGM, dieSFX, winBGM;
 	// Mute Music/Sound
 	public static boolean muteMenu = false;
 	public static boolean muteGame = false;
@@ -103,6 +103,9 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			sound = AudioSystem.getAudioInputStream(new File("die.wav"));
 			dieSFX = AudioSystem.getClip();
 			dieSFX.open(sound);
+			sound = AudioSystem.getAudioInputStream(new File("victory.wav"));
+			winBGM = AudioSystem.getClip(); 
+			winBGM.open(sound);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,6 +117,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public void paintComponent(Graphics g) {
 		// Menu
 		if (gameState == 0) {
+			winBGM.stop();
 			gameBGM.stop();
 			super.paintComponent(g);
 			g.drawImage(Images.menu, 0, 0, null);
@@ -199,6 +203,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 		// Win Screen
 		else if ( gameState == 5) {
+			gameBGM.stop();
+			if (!muteGame && !winBGM.isRunning() && played == 0) {
+				winBGM.setFramePosition(0);
+				winBGM.start();
+				played++;
+			}
 			Animations.fade();
 			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
 			jt.setBounds(155, 200, 200, 40);
@@ -239,6 +249,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 		// Hall of Fame
 		else if (gameState == 7) {
+			winBGM.stop();
 			super.paintComponent(g);
 			g.drawImage(Images.winners, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
