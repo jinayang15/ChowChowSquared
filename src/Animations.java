@@ -21,7 +21,7 @@ public class Animations {
 	public static int fallTick, fallSpeed = 10;
 	// Winner Fade-in Variables
 	public static int fadeIndex = 0;
-	public static int fadeSpeed, fadeTick = 500;
+	public static int fadeTick, fadeSpeed = 500;
 
 	// the update methods loops through the image arrays at a set speed
 	// idleTick measures current tick and only refreshes when it reaches the set
@@ -148,7 +148,7 @@ public class Animations {
 			fadeIndex++;
 		}
 		if (fadeIndex >= Images.win.length) {
-			fadeIndex = 0;
+			Main.gameState = 4;
 		}	
 	}
 }

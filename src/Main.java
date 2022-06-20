@@ -138,7 +138,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		// Level One
 		else if (gameState == 2) {
 			// change current level
-			currentLvl = "completelvl1.txt";
+			currentLvl = "40lvl1.txt";
 			try {
 				// scan current level text file
 				in = new Scanner(new File(currentLvl));
@@ -198,11 +198,6 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		// Enter Name
 		else if (gameState == 4) {
 			g.drawImage(Images.win[4], 0, 0, null);
-		}
-		// Win Screen
-		else if ( gameState == 5) {
-			Animations.fade();
-			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
 			jt.setBounds(155, 200, 200, 40);
 			this.add(jt);
 			jt.setPreferredSize(new Dimension(250, 35));
@@ -216,6 +211,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				}
 			});
 			this.add(button);
+		}
+		// Win Screen
+		else if ( gameState == 5) {
+			Animations.fade();
+			g.drawImage(Images.win[Animations.fadeIndex], 0, 0, null);
 		}
 		// Options Screen
 		 else if (gameState == 6) {
