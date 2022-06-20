@@ -29,7 +29,7 @@ public class Character extends Rectangle {
 	private boolean idleLeft = false;
 	private boolean idleRight = false;
 	// # of Pixels moved left or right
-	private static int moveX = 7;
+	private static int moveX = 6;
 	// arbitrary number represents air block/no collision with solid block
 	public static int noCollide = -100;
 	// Jumping boolean

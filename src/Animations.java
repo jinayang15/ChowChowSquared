@@ -23,7 +23,7 @@ public class Animations {
 	public static int fallTick, fallSpeed = 10;
 	// Winner Fade-in Variables
 	public static int fadeIndex = 0;
-	public static int fadeTick = 10, fadeSpeed = 10;
+	public static int fadeTick = 8, fadeSpeed = 8;
 
 	// the update methods loops through the image arrays at a set speed
 	// idleTick measures current tick and only refreshes when it reaches the set
