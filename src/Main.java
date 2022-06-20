@@ -12,7 +12,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
-import javax.swing.JButton;
 
 // Game: Chow Chow Squared
 // By: Jina Yang and Vicky Li
@@ -209,10 +208,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		// Enter Name
 		else if (gameState == 4) {
 			g.drawImage(Images.win[4], 0, 0, null);
+			g.drawImage(Images.enterName, 130, 215, null);
 			g.setColor(new Color(255, 255, 255));
-			Font font = new Font("SansSerif", Font.BOLD, 36);
+			Font font = new Font("SansSerif", Font.BOLD, 20);
 			g.setFont(font);
-			g.drawString(winner, 140, 240);
+			g.drawString(winner, 280, 227);
 		}
 		// Win Screen
 		else if (gameState == 5) {
