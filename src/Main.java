@@ -1,6 +1,9 @@
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.*;
@@ -10,6 +13,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.*;
 import javax.swing.JButton;
+
 // Game: Chow Chow Squared
 // By: Jina Yang and Vicky Li
 // A mini platformer game where the objective is for Biscuit to find Cookie who is lost!
@@ -37,12 +41,13 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	public static final int tileHeight = winHeight / tileSize;
 	// Amount of Tiles that make up the Level Width
 	public static final int levelTileWidth = levelWidth / tileSize;
+	// Scanner & PrintWriter
+	public static Scanner in;
+	public static PrintWriter out;
 	// Keeps track of Tiles
-	// - Scanner
 	// - 40x40 tile grid of the level
 	// - 20x20 tile grid of the level
 	// - 20x20 tile grid of the window
-	public static Scanner in;
 	public static char[][] levelGrid40 = new char[tileHeight / 2][levelTileWidth / 2];
 	public static char[][] levelGrid20 = new char[tileHeight][levelTileWidth];
 	public static char[][] currentGrid = new char[tileHeight][tileWidth + 2];
@@ -78,16 +83,24 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// to see if a clip has been played or not
 	public static int played = 0;
 	// Winner
-	public static String winner;
-	
+	public static String winner = "";
+	// Hall of Fame Names
+	public static ArrayList<String> namesHOF = new ArrayList<String>();
+	// Hall of Fame Pages
+	public static ArrayList<String[]> pagesHOF = new ArrayList<String[]>();
+	// Pages Variables
+	public static int namesPerPage = 10;
+	public static int currentPage = 0;
+
 	public Main() {
+		// Constructor Body
 		// Set Up JPanel
 		setPreferredSize(new Dimension(winWidth, winHeight));
 		setBackground(new Color(255, 255, 255));
 		this.setFocusable(true);
 		addKeyListener(this);
 		addMouseListener(this);
-		
+
 		try {
 			// imports all images
 			Images.importImages();
@@ -102,7 +115,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			dieSFX = AudioSystem.getClip();
 			dieSFX.open(sound);
 			sound = AudioSystem.getAudioInputStream(new File("victory.wav"));
-			winBGM = AudioSystem.getClip(); 
+			winBGM = AudioSystem.getClip();
 			winBGM.open(sound);
 
 		} catch (Exception e) {
@@ -197,6 +210,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		}
 		// Enter Name
 		else if (gameState == 4) {
+			g.drawImage(Images.win[4], 0, 0, null);
+			g.setColor(new Color(255, 255, 255));
+			Font font = new Font("SansSerif", Font.BOLD, 36);
+			g.setFont(font);
+			g.drawString(winner, 140, 240);
 		}
 		// Win Screen
 		else if (gameState == 5) {
@@ -209,7 +227,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			}
 		}
 		// Options Screen
-		 else if (gameState == 6) {
+		else if (gameState == 6) {
 			super.paintComponent(g);
 			g.drawImage(Images.options, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
@@ -246,7 +264,16 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			super.paintComponent(g);
 			g.drawImage(Images.winners, 0, 0, null);
 			g.drawImage(Images.back, 450, 340, null);
-
+			g.setColor(new Color(0, 0, 0));
+			Font font = new Font("Monospaced", Font.PLAIN, 12);
+			g.setFont(font);
+			if (pagesHOF.size() > 0) {
+				for (int i = 0; i < namesPerPage; i++) {
+					if (pagesHOF.get(currentPage)[i] != null) {
+						g.drawString(pagesHOF.get(currentPage)[i], 180, i * 20 + 130);
+					}
+				}
+			}
 		}
 		// Game Over
 		else if (gameState == 8) {
@@ -327,7 +354,40 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameState = 1;
 			}
 		}
+		if (gameState == 4) {
+			if (e.getKeyCode() == 10) {
+				try {
+					in = new Scanner(new File("halloffame.txt"));
+					ArrayList<String> names = new ArrayList<String>();
+					String line;
+					while (in.hasNextLine()) {
+						line = in.nextLine();
+						names.add(line);
+					}
+					in.close();
+					names.add(winner);
+					out = new PrintWriter(new FileWriter("halloffame.txt"));
+					for (String s : names) {
+						out.println(s);
+					}
+					out.close();
+					winner = "";
+					GameFunctions.restartGame();
+					GameFunctions.hallOfFamePages();
+					gameState = 7;
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+			}
+			if (e.getKeyCode() == 8 && winner.length() > 0) {
+				winner = winner.substring(0, winner.length() - 1);
+			} else if (e.getKeyCode() != 8  && e.getKeyCode() != 16 && winner.length() < 11) {
+				winner += e.getKeyChar();
+			}
+		}
 	}
+
 	public void keyReleased(KeyEvent e) {
 		// Stop Moving Left
 		if (e.getKeyChar() == 'a') {
@@ -357,6 +417,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameState = 6;
 			} else if (mouseX >= 187 && mouseX <= 323 && mouseY >= 279 && mouseY <= 328) {
 				gameState = 7;
+				GameFunctions.hallOfFamePages();
 			}
 		}
 		// Level Select
@@ -373,14 +434,11 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		else if (gameState == 6) {
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
-			}
-			if (mouseX >= 330 && mouseX <= 380 && mouseY >= 144 && mouseY <= 187) {
+			} else if (mouseX >= 330 && mouseX <= 380 && mouseY >= 144 && mouseY <= 187) {
 				muteMenu = !muteMenu;
-			}
-			if (mouseX >= 330 && mouseX <= 380 && mouseY >= 200 && mouseY <= 247) {
+			} else if (mouseX >= 330 && mouseX <= 380 && mouseY >= 200 && mouseY <= 247) {
 				muteGame = !muteGame;
-			}
-			if (mouseX >= 330 && mouseX <= 380 && mouseY >= 260 && mouseY <= 300) {
+			} else if (mouseX >= 330 && mouseX <= 380 && mouseY >= 260 && mouseY <= 300) {
 				muteSFX = !muteSFX;
 			}
 		}
@@ -388,13 +446,23 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 		else if (gameState == 7) {
 			if (mouseX >= 450 && mouseX <= 500 && mouseY >= 340 && mouseY <= 387) {
 				gameState = 0;
+				currentPage = 0;
+			} else if (mouseX >= 169 && mouseX <= 196 && mouseY >= 330 && mouseY <= 344) {
+				if (currentPage > 0) {
+					currentPage--;
+				}
+			} else if (mouseX >= 291 && mouseX <= 317 && mouseY >= 330 && mouseY <= 344) {
+				if (currentPage < pagesHOF.size() - 1) {
+					currentPage++;
+				}
 			}
 		}
 		// Game Over
 		else if (gameState == 8) {
 			GameFunctions.restartGame();
 			if (mouseX >= 170 && mouseX <= 220 && mouseY >= 240 && mouseY <= 287) {
-				if (currentLvl.equals("40lvl1.txt") || currentLvl.equals("enemies.txt") || currentLvl.equals("completelvl1.txt")) {
+				if (currentLvl.equals("40lvl1.txt") || currentLvl.equals("enemies.txt")
+						|| currentLvl.equals("completelvl1.txt")) {
 					gameState = 2;
 					played = 0;
 				} else if (currentLvl.equals("40tutorial.txt")) {

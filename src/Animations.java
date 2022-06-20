@@ -150,7 +150,9 @@ public class Animations {
 			fadeTick = 0;
 			fadeIndex++;
 		}
-		if (fadeIndex >= 15) {
+		if (fadeIndex >= 20) {
+			fadeIndex = 0;
+			fadeTick = fadeSpeed;
 			Main.gameState = 4;
 		}	
 	}
