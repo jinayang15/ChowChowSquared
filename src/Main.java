@@ -318,52 +318,54 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 	// basic key controls jump, left, right
 	public void keyPressed(KeyEvent e) {
-		// Jump
-		if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
-			// Check for jump cooldown
-			if (!dog.getJumpCD()) {
-				// Dog has to be:
-				// - not jumping already
-				// - on the ground
-				if (!dog.isJumping() && dog.checkBlockBelow()[0] != Character.noCollide) {
-					dog.setJumping(true);
-					dog.setVerticalDirection(-1);
-					dog.setJumpCD(true);
+		if (gameState == 2 || gameState == 3) {
+			// Jump
+			if (e.getKeyChar() == ' ' || e.getKeyChar() == 'w') {
+				// Check for jump cooldown
+				if (!dog.getJumpCD()) {
+					// Dog has to be:
+					// - not jumping already
+					// - on the ground
+					if (!dog.isJumping() && dog.checkBlockBelow()[0] != Character.noCollide) {
+						dog.setJumping(true);
+						dog.setVerticalDirection(-1);
+						dog.setJumpCD(true);
+					}
+				}
+			}
+			// Move Left
+			if (e.getKeyChar() == 'a') {
+				// Check for input delay
+				if (System.currentTimeMillis() - lastLeftPress > inputDelay) {
+					dog.setMovingLeft(true);
+					dog.moveLeft();
+					dog.setHorizontalDirection(-1);
+					Images.currentDogImage = Images.leftIdleDog1[0];
+					lastLeftPress = System.currentTimeMillis();
+				}
+
+			}
+			// Move Right
+			if (e.getKeyChar() == 'd') {
+				// Check for input delay
+				if (System.currentTimeMillis() - lastRightPress > inputDelay) {
+					dog.setMovingRight(true);
+					dog.moveRight();
+					dog.setHorizontalDirection(1);
+					Images.currentDogImage = Images.rightIdleDog1[1];
+					lastRightPress = System.currentTimeMillis();
+				}
+			}
+			// To exit tutorial
+			if (e.getKeyChar() == 'x') {
+				if (gameState == 3) {
+					GameFunctions.restartGame();
+					gameState = 1;
 				}
 			}
 		}
-		// Move Left
-		if (e.getKeyChar() == 'a') {
-			// Check for input delay
-			if (System.currentTimeMillis() - lastLeftPress > inputDelay) {
-				dog.setMovingLeft(true);
-				dog.moveLeft();
-				dog.setHorizontalDirection(-1);
-				Images.currentDogImage = Images.leftIdleDog1[0];
-				lastLeftPress = System.currentTimeMillis();
-			}
-
-		}
-		// Move Right
-		if (e.getKeyChar() == 'd') {
-			// Check for input delay
-			if (System.currentTimeMillis() - lastRightPress > inputDelay) {
-				dog.setMovingRight(true);
-				dog.moveRight();
-				dog.setHorizontalDirection(1);
-				Images.currentDogImage = Images.rightIdleDog1[1];
-				lastRightPress = System.currentTimeMillis();
-			}
-		}
-		// To exit tutorial
-		if (e.getKeyChar() == 'x') {
-			if (gameState == 3) {
-				GameFunctions.restartGame();
-				gameState = 1;
-			}
-		}
 		// Enter name
-		if (gameState == 4) {
+		else if (gameState == 4) {
 			// When you press enter
 			if (e.getKeyCode() == 10) {
 				try {
@@ -391,7 +393,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 			// if you backspace or type stuff
 			if (e.getKeyCode() == 8 && winner.length() > 0) {
 				winner = winner.substring(0, winner.length() - 1);
-			} else if (e.getKeyCode() != 8  && e.getKeyCode() != 16 && winner.length() < 11) {
+			} else if (e.getKeyCode() != 8 && e.getKeyCode() != 16 && winner.length() < 11) {
 				winner += e.getKeyChar();
 			}
 		}
