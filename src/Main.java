@@ -72,7 +72,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 6 --> options
 	// 7 --> winners
 	// 8 --> you died
-	public static int gameState = 0;
+	public static int gameState = 5;
 	// Music + DeathSFX
 	Clip menuBGM, gameBGM, dieSFX, winBGM;
 	// Mute Music/Sound
@@ -362,18 +362,18 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				gameState = 1;
 			}
 		}
+		// Enter name
 		if (gameState == 4) {
+			// When you press enter
 			if (e.getKeyCode() == 10) {
 				try {
 					in = new Scanner(new File("halloffame.txt"));
 					ArrayList<String> names = new ArrayList<String>();
-					String line;
 					while (in.hasNextLine()) {
-						line = in.nextLine();
-						names.add(line);
+						names.add(in.nextLine());
 					}
-					in.close();
 					names.add(winner);
+					in.close();
 					out = new PrintWriter(new FileWriter("halloffame.txt"));
 					for (String s : names) {
 						out.println(s);
@@ -388,6 +388,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 				}
 
 			}
+			// if you backspace or type stuff
 			if (e.getKeyCode() == 8 && winner.length() > 0) {
 				winner = winner.substring(0, winner.length() - 1);
 			} else if (e.getKeyCode() != 8  && e.getKeyCode() != 16 && winner.length() < 11) {
@@ -487,7 +488,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 
 	public static void main(String[] args) throws FileNotFoundException {
 		// JFrame Stuff
-		JFrame frame = new JFrame();
+		JFrame frame = new JFrame("Chow Chow Squared");
 		Main panel = new Main();
 		frame.add(panel);
 		frame.pack();
