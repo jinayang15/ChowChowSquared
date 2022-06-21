@@ -372,12 +372,12 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 					while (in.hasNextLine()) {
 						names.add(in.nextLine());
 					}
-					names.add(winner);
 					in.close();
 					out = new PrintWriter(new FileWriter("halloffame.txt"));
 					for (String s : names) {
 						out.println(s);
 					}
+					out.print(winner);
 					out.close();
 					winner = "";
 					GameFunctions.restartGame();
