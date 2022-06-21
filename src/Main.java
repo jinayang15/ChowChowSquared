@@ -72,7 +72,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 	// 6 --> options
 	// 7 --> winners
 	// 8 --> you died
-	public static int gameState = 5;
+	public static int gameState = 0;
 	// Music + DeathSFX
 	Clip menuBGM, gameBGM, dieSFX, winBGM;
 	// Mute Music/Sound
@@ -377,7 +377,7 @@ public class Main extends JPanel implements Runnable, KeyListener, MouseListener
 					for (String s : names) {
 						out.println(s);
 					}
-					out.print(winner);
+					out.print(winner.trim());
 					out.close();
 					winner = "";
 					GameFunctions.restartGame();
